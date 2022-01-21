@@ -17,7 +17,7 @@
     <div
       class="bg-white max-w-[500px]  md:max-w-[600px]  m-auto rounded-xl py-6 px-4 font-ibmplex"
     >
-      <form action="">
+      <form @submit.prevent="submitForm">
         <stack class="max-w-[500px] mx-auto" :gap="1">
           <h2 class="font-bold text-4xl">Login to your account</h2>
           <v-input
@@ -26,6 +26,7 @@
             full
             styleType="white"
             label="Email Address"
+            :value="formReactive.email"
           ></v-input>
           <v-input
             type="password"
@@ -34,6 +35,7 @@
             styleType="white"
             label="Password"
             iconClick
+            :value="formReactive.password"
           ></v-input>
           <v-button full type="pry">Login</v-button>
         </stack>
@@ -58,6 +60,21 @@ import Stack from "../components/UI/stack.vue";
 import UnionSvg from "../components/svgs/union-svg.vue";
 import CircleExclude from "../components/svgs/circle-exclude.vue";
 import VInput from "../components/forms/v-input.vue";
+import useFormRequest from "../composables/useFormRequest.js"
+import { reactive } from "@vue/reactivity";
+let formReactive = reactive(
+  {
+    email: {
+      value: null,
+      error: null,
+    },
+    password: {
+      value: null,
+      error: null,
+    }
+  }
+)
+let {submitForm, form, loading} = useFormRequest(formReactive)
 </script>
 
 <style scoped></style>

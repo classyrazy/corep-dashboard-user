@@ -27,7 +27,7 @@
       <div
         class="bg-white max-w-[500px] md:max-w-[600px] m-auto rounded-xl py-6 px-4 font-ibmplex"
       >
-        <form action="">
+        <form @submit.prevent="submitForm">
           <stack class="max-w-[500px] mx-auto" :gap="1">
             <h2 class="font-bold text-4xl">Create your account</h2>
             <v-input
@@ -35,6 +35,7 @@
               full
               styleType="white"
               label="Full Name"
+              :value="formReactive.fullname"
             ></v-input>
             <v-input
               type="email"
@@ -42,12 +43,14 @@
               full
               styleType="white"
               label="Email Address"
+              :value="formReactive.email"
             ></v-input>
             <v-input
               placeholder="Enter Phone Number"
               full
               styleType="white"
               label="Phone Number"
+              :value="formReactive.phoneNumber"
             ></v-input>
             <v-input
               type="password"
@@ -56,6 +59,7 @@
               styleType="white"
               label="Password"
               iconClick
+              :value="formReactive.password"
             ></v-input>
             <v-input
               type="password"
@@ -64,9 +68,10 @@
               styleType="white"
               label="Confirm Password"
               iconClick
+              :value="formReactive.confirmPassword"
             ></v-input>
             <label for="termsAgreement">
-              <input type="checkbox" id="termsAgreement" />
+              <input type="checkbox" id="termsAgreement" v-model="formReactive.agreement"/>
               To register with us please tick to agree to our <br /><a href="#"
                 ><span class="text-pry">Terms and Conditions</span></a
               >
@@ -108,6 +113,37 @@ import Stack from "../components/UI/stack.vue";
 import UnionSvg from "../components/svgs/union-svg.vue";
 import CircleExclude from "../components/svgs/circle-exclude.vue";
 import VInput from "../components/forms/v-input.vue";
+import { reactive } from "@vue/reactivity";
+import useFormRequest from "../composables/useFormRequest.js"
+let formReactive = reactive(
+  {
+    fullname: {
+      value: null,
+      error: null,
+    },
+    email: {
+      value: null,
+      error: null,
+    },
+    phoneNumber: {
+      value: null,
+      error: null,
+    },
+    password: {
+      value: null,
+      error: null,
+    },
+    confirmPassword: {
+      value: null,
+      error: null,
+    },
+    agreement: {
+      value: false,
+      error: null,
+    },
+  }
+)
+let {submitForm, form, loading} = useFormRequest(formReactive)
 </script>
 
 <style scoped></style>
