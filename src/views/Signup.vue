@@ -92,7 +92,7 @@
     </div>
     <div class="text-center text-white my-5 md:my-8 font-ibmplex">
       <p>
-        Already have account?<span class="opacity-70 underline"
+        Already have account?<span class="opacity-70 underline ml-1"
           ><a href="/">login</a></span
         >
       </p>

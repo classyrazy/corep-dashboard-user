@@ -54,7 +54,7 @@
     </div>
     <div class="text-center text-white m-0 md:my-8 font-ibmplex">
       <p>
-        Don't have an account?<span class="opacity-70 underline"
+        Don't have an account?<span class="opacity-70 underline ml-1"
           ><a href="/signup">Signup</a></span
         >
       </p>
