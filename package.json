@@ -7,7 +7,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vuelidate/core": "^2.0.0-alpha.34",
+    "@vuelidate/validators": "^2.0.0-alpha.26",
     "axios": "^0.25.0",
+    "mosha-vue-toastify": "^1.0.23",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12"
   },

@@ -10,7 +10,7 @@
         class="inline-block"
       />
       <component
-        v-if="_icon" 
+        v-if="_icon"
         @click="iconClicked"
         :is="_icon"
         :size="22"
@@ -22,6 +22,9 @@
         ]"
       ></component>
     </div>
+    <p v-if="value.error" class="font-ibimplex mt-2 text-xs text-red-600">
+      {{ value.error }}
+    </p>
   </div>
 </template>
 
