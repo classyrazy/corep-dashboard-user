@@ -4,12 +4,11 @@ export default async function () {
   try {
     let req = new Graph().service("User/getLoggedInUser");
     data = await (await req.get()).getData();
-    console.log(data);
   } catch (error) {
     console.log(error);
-  }
-  if (!data) {
-    return "/login";
+    if (error.getMsg() === "You are not logged in" && error.getData() === null) {
+      return "/login";
+    }
   }
   console.log("Hello from loggedIn.ts", data);
 }

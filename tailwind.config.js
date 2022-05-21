@@ -51,6 +51,7 @@ module.exports = {
         "db-white": "#ffffff",
         "db-white-light": "#F9F9F9",
         "db-white-dark": "#eeeeee",
+        "db-white-darker": "#eeeeee",
         sec: "#F9B700",
       },
       fontFamily: {

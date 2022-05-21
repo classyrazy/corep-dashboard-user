@@ -28,7 +28,10 @@
                     </router-link>
                 </div>
             </header>
+            <div class="">
             <h1 class="dark:text-white text-4xl text-db-pry-dark font-bold">Hello {{slotProps.userStore.username}}</h1>
+            <start-app-todo-list class="mt-4"></start-app-todo-list>
+            </div>
         </div>
     </db-content>
 </template>
@@ -40,6 +43,7 @@ import BellIcon from '../components/icons/bell-icon.vue'
 import SearchIcon from '../components/icons/search-icon.vue'
 import VInput from '../components/forms/v-input.vue'
 import '@/assets/css/tailwind.css'
+import StartAppTodoList from '~~/components/UI/dashboard/start-app-todo-list.vue'
 
 
 definePageMeta({

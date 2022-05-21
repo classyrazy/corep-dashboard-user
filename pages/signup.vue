@@ -18,7 +18,7 @@
                         <v-input placeholder="Classydev" class="text-sm rounded-lg" type="text" size="small" full
                             styleType="white" label="Username" :value="formReactive.username"></v-input>
                         <v-drop-down class="w-full text-sm" label="Select your school" placeholder="Search for school"
-                            :data="schools" v-if="schools" @chosen="setSchool" :error="formReactive.school.error">
+                            :data="schools" v-if="schools" @chosen="setSchool" :error="formReactive.id.error">
                         </v-drop-down>
                         <v-input type="text" placeholder="Enter School Email addresss" full styleType="white"
                             class="text-sm rounded-lg" size="small" label="Email Address" :value="formReactive.email">
@@ -80,7 +80,7 @@ let formReactive = reactive({
         value: null,
         error: null,
     },
-    school: {
+    id: {
         value: null,
         error: null
     }
@@ -122,11 +122,11 @@ let validate = () => {
     else {
         formReactive.email.error = null;
     }
-    if (formReactive.school.value == null) {
-        formReactive.school.error = true;
+    if (formReactive.id.value == null) {
+        formReactive.id.error = true;
     }
     else {
-        formReactive.school.error = null;
+        formReactive.id.error = null;
     }
     if (formReactive.password.value == null || formReactive.email.value.trim() == "") {
         formReactive.password.error = "Password is required";
@@ -136,7 +136,7 @@ let validate = () => {
     else {
         formReactive.password.error = null;
     }
-    if (formReactive.username.error == null && formReactive.email.error == null && formReactive.password.error == null && formReactive.school.error == null) {
+    if (formReactive.username.error == null && formReactive.email.error == null && formReactive.password.error == null && formReactive.id.error == null) {
         return true;
     }
     return false;
@@ -152,14 +152,7 @@ async function requestSchools() {
 }
 console.log({ schools })
 function setSchool(schoolChosen) {
-    formReactive.school.value = schoolChosen
-}
-let schoolValidatePatterns = {
-    unilag: /^[a-zA-Z0-9]{3,}$/,
-}
-
-function validateSchoolEmailAddress(){
-
+    formReactive.id.value = schoolChosen
 }
 
 
