@@ -10,6 +10,7 @@
     "autoprefixer": "^10.4.4",
     "nuxt": "npm:nuxt3@latest",
     "postcss": "^8.4.12",
+    "sass": "^1.52.1",
     "tailwindcss": "^3.0.23"
   },
   "dependencies": {
@@ -17,6 +18,7 @@
     "@pinia/nuxt": "^0.1.8",
     "click-outside-vue3": "^4.0.1",
     "mosha-vue-toastify": "^1.0.23",
-    "pinia": "^2.0.13"
+    "pinia": "^2.0.13",
+    "vue-modally-v3": "^0.0.7"
   }
 }

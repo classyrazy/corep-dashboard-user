@@ -1,16 +1,18 @@
 <template>
-    <div :class="store.darkMode? 'dark': ''">
+    <div :class="store.darkMode ? 'dark' : ''">
         <div class="dark:bg-db-pry bg-db-white-dark db-con flex w-full">
             <div class="relative w-full lg:max-w-[18rem] md:max-w-[4rem] z-10">
                 <d-board-side-bar class=" dark:bg-db-pry-dark bg-db-white-light h-screen overflow-y-auto top-0">
                 </d-board-side-bar>
                 <button @click="store.changeMode" class="bg-red-400">Change Modee</button>
-            {{store}}
+                {{ store }}
             </div>
             <slot></slot>
 
         </div>
     </div>
+    <modal-root></modal-root>
+
 </template>
 
 <script setup lang="ts">

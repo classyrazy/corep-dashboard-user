@@ -11,6 +11,7 @@ import DbContent from '../components/UI/db-content.vue'
 import '@/assets/css/tailwind.css'
 
 
+
 definePageMeta({
     layout: 'd-board',
     middleware: 'logged-in'

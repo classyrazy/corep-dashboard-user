@@ -2,14 +2,25 @@
     <div class="grid grid-auto grid-cols-3 gap-4 max-w-[1000px]" v-if="startAppLevel">
         <start-app-todo :bg-color="startAppTodo.bgColor" :todo-text="startAppTodo.todoText"
             :description="startAppTodo.description" :icon="startAppTodo.icon" :link="startAppTodo.link"
-            v-for="startAppTodo in computedTodoArray" :completed="startAppTodo.completed"></start-app-todo>
+            v-for="startAppTodo in computedTodoArray" :completed="startAppTodo.completed" :key="startAppTodo.id"
+            @click="handleTodoClick(startAppTodo.id, startAppTodo.modal, startAppTodo.link)">
+        </start-app-todo>
+
+
     </div>
 </template>
 
 <script setup lang="ts">
 import StartAppTodo from './start-app-todo.vue';
-import AddCourseOfStudyIcon from '~~/components/icons/add-course-of-study-icon.vue';
-import AddTimeTableIcon from '~~/components/icons/add-time-table-icon.vue';
+import AddCourseOfStudyIcon from '../../icons/add-course-of-study-icon.vue';
+import AddTimeTableIcon from '../../icons/add-time-table-icon.vue';
+import { useModal } from "vue-modally-v3";
+import AddCourseOfStudyModal from "../modals/add-course-of-study-modal.vue"
+import { useUserStore } from '../../../store/user'
+
+
+let store = useUserStore()
+let darkMode = computed(() => store.darkMode)
 
 let startTodoArray = reactive([
     {
@@ -19,7 +30,7 @@ let startTodoArray = reactive([
         todoText: 'Add your course of study',
         description: 'Add your course of study and your current level',
         icon: AddCourseOfStudyIcon,
-        link: '/add-course'
+        modal: AddCourseOfStudyModal
     },
     {
         id: 2,
@@ -28,7 +39,8 @@ let startTodoArray = reactive([
         todoText: 'Get Started as a Course rep',
         description: 'Create your class timetable to allow other students to get updates',
         icon: AddTimeTableIcon,
-        link: '/add-time-table'
+        link: '/add-time-table',
+        modal: AddCourseOfStudyModal
     },
     {
         id: 3,
@@ -37,7 +49,8 @@ let startTodoArray = reactive([
         todoText: 'Add your course of study',
         description: 'Add your course of study and your current level',
         icon: AddCourseOfStudyIcon,
-        link: '/add-course'
+        link: '/add-course',
+        modal: AddCourseOfStudyModal
     }
 ])
 
@@ -49,9 +62,8 @@ let props = withDefaults(defineProps<Props>(), {
     startAppLevel: 'add-course-and-level'
 
 });
-let testLevel = "subscribe-courses"
 let startAppTodoLevelNum = computed(() => {
-    switch (testLevel) {
+    switch (props.startAppLevel) {
         case 'add-course-and-level':
             return 1;
         case 'add-time-table':
@@ -73,6 +85,34 @@ let computedTodoArray = computed(() => {
     }
 });
 
+let handleTodoClick = async (todoId: number, componentPassed, link) => {
+    let modalColor = darkMode.value ? '#2A3343' : 'white'
+
+    if(!link){
+        await useModal(componentPassed, {
+        options: {
+            background: modalColor,
+            width: 1000,
+            blur: false,
+        },props: {
+            darkMode: darkMode.value
+        }
+    })
+    }
+}
+// async function openIntroMobile() {
+//     await useModal(CitiesModal, {
+//         options: {
+//             background: '#EDEDED',
+//             width: 1000,
+//             blur: false,
+//         },
+//         props: {
+//             city: formHandlers.countrySelectedMobile,
+//             country: foundCity
+//         }
+//     })
+// }
 </script>
 
 <style scoped>

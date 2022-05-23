@@ -1,7 +1,7 @@
 <template>
     <!-- <router-link :to="link"> -->
         <div class="dark:bg-db-white-light bg-db-white-dark dark:border-db-white-dark border-2  rounded-md p-4 flex justify-center items-center"
-            :class="completed ? '' : 'cursor-pointer'" @click="handleTodoClick()">
+            :class="completed ? '' : 'cursor-pointer'">
             <div class="h">
                 <div class="cicle circle-bg-color rounded-full flex justify-center mr-2">
                     <component :is="icon" :size="20" class="m-auto" v-if="!completed"></component>
