@@ -1,7 +1,6 @@
 <template>
-    <div v-if="showTab">
-        {{selectedTitle.title}}
-        <slot></slot>
+    <div v-if="showTab" class="">
+        <slot :faculty-id="selectedTitle.id"></slot>
     </div>
 </template>
 
@@ -16,16 +15,25 @@ console.log(props.title)
 
 let selectedTitle = inject('tabs')
 let showTab = computed(() => {
-    return selectedTitle.title.value === props.title
+    return selectedTitle.value.title === props.title
 })
-console.log(selectedTitle.title.value)
-console.log(selectedTitle.title.value === props.title)
+// console.log(selectedTitle.title.value)
+// console.log(selectedTitle.value === props.title)
+// emit('chosenFaculty', selectedTitle.value.id)
+// watch(() => selectedTitle.value.id, () => {
+//     emit('chosenFaculty', selectedTitle.value.id)
+// })
 
-console.log(unref(selectedTitle.title))
+// watchEffect(() => {
+//     // if (selectedTitle.value.title === props.title) {
+//         console.log("Emittting value")
+//         emit('chosenFaculty',selectedTitle.value.id)
+//     // }
+// })
+console.log(selectedTitle.value)
 
 
 </script>
 
 <style scoped>
-
 </style>

@@ -86,7 +86,8 @@ let computedTodoArray = computed(() => {
 });
 
 let handleTodoClick = async (todoId: number, componentPassed, link) => {
-    let modalColor = darkMode.value ? '#2A3343' : 'white'
+    let modalColor = darkMode.value ? '#212939' : 'white'
+    // 2A3343
 
     if(!link){
         await useModal(componentPassed, {
