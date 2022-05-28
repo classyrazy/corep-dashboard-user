@@ -11,16 +11,18 @@
             <div class="bg-sec w-full h-[1px]"></div>
         </div>
         <div class="courses-part mt-4">
-            <tabs-wrapper :dark-mode="darkMode" @chosen-faculty="handleChosenFaculty">
+            <tabs-wrapper :dark-mode="darkMode" @chosen-faculty="handleChosenFaculty"
+                @search-course="handleSeachCourses">
                 <tab v-for="faculty in faculties" :title="faculty.name" :key="faculty.id" v-slot="slotProps"
                     class=" styled_scrollbar rounded-lg mt-4 dark:bg-db-pry mx-4 h-[400px] max-h-[500px] overflow-y-auto">
-                    <course-of-study-list-modal-view :course-of-studies="courseOfStudies" class="">
+                    <course-of-study-list-modal-view :course-of-studies="computedCourseOfStudies" class=""
+                        @chosen-course-of-study="handleChosenCourseOfStudy">
                     </course-of-study-list-modal-view>
                 </tab>
             </tabs-wrapper>
         </div>
         <div class="flex justify-end m-8">
-            <v-button type="pry" :loading="loading" class="text-right">Done</v-button>
+            <v-button type="pry" :loading="loading" class="text-right" @click="handleSubmitCourseChosen">Done</v-button>
         </div>
     </div>
 </template>
@@ -39,8 +41,12 @@ interface Props {
 }
 
 let props = defineProps<Props>();
+
+let modalSubmitData = ref(null)
+
 let faculties = ref(null)
 let courseOfStudies = ref(null)
+
 async function getFaculties() {
     try {
         let req = new Graph()
@@ -55,16 +61,6 @@ async function getFaculties() {
 async function handleChosenFaculty(facultyIdpassed) {
     console.log("hello World", facultyIdpassed)
     let id = facultyIdpassed
-    // try {
-    //     let req = new Graph()
-    //         .service("Department/getAllDepartmentsByFaculty")
-    //         // .selectAll("id", "name", "department", "faculty", "sub_department")
-    //     courseOfStudies.value = (await req.post({id})).getData();
-    //     console.log(courseOfStudies.value)
-    // } catch (error) {
-    //     console.log(error);
-    // }
-
     let { submitData, loading, data } = useFormRequest(
         "Department/getAllDepartmentsByFaculty",
         null,
@@ -81,6 +77,9 @@ async function handleChosenFaculty(facultyIdpassed) {
     );
     submitData()
 }
+let computedCourseOfStudies = computed(() => {
+    return courseOfStudies.value
+})
 onBeforeMount(() => {
     getFaculties()
 })
@@ -88,6 +87,24 @@ onMounted(() => {
     // getFaculties()
     console.log('mounted')
 })
+function handleChosenCourseOfStudy(courseObj) {
+    modalSubmitData.value = courseObj
+}
+function handleSeachCourses(searchValue) {
+    console.log(searchValue)
+    console.log(courseOfStudies.value)
+    if (searchValue) {
+        console.log(courseOfStudies.value)
+        let newFormedArray = [...courseOfStudies.value].filter(course => course.name.toLowerCase().includes(searchValue.toLowerCase()))
+        courseOfStudies.value = newFormedArray
+    }else{
+        courseOfStudies.value = courseOfStudies.value
+    }
+    console.log(courseOfStudies.value)
+}
+function handleSubmitCourseChosen() {
+    console.log(modalSubmitData.value)
+}
 let colors = {
     scrollthumb: props.darkMode ? '#BBB9B6' : 'rgb(100 116 139/.5)',
     scrollbar: props.darkMode ? '#212939' : 'transparent',

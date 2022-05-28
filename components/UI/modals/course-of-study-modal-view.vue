@@ -1,5 +1,5 @@
 <template>
-    <div class="dark:border-db-white-dark border-[1px] min-w-[150px] mt-4 rounded-md px-4 py-2 font-inter">
+    <div class="dark:border-db-white-dark border-[1px] min-w-[150px] mt-4 rounded-md px-4 py-2 font-inter cursor-pointer" :class="active? 'dark:border-sec border-sec':''">
         <div class="template-sub-department" v-if="parentDepartment">
             <h3 class="text-md font-semi-bold dark:text-white">{{ department }}</h3>
             <div class="mt-4">
@@ -23,7 +23,8 @@ type parent_departmentObj = {
 interface Props {
     department: string,
     faculty: string,
-    parentDepartment?: parent_departmentObj
+    parentDepartment?: parent_departmentObj,
+    active: boolean
 }
 
 let props = defineProps<Props>();

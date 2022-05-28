@@ -9,12 +9,12 @@
                 </li>
             </ul>
             <div class="search_input_con">
-                <v-input placeholder="Search Courses" class="text-sm rounded-lg dark:bg-db-pry-dark dark:text-white"
-                    type="text" size="small" :icon="SearchIcon" :icon-color="darkMode ? '#ffff' : '#212939'" iconLeft
-                    full styleType="modal-search"></v-input>
+                    <v-input placeholder="Search Courses" class="text-sm rounded-lg dark:bg-db-pry-dark dark:text-white"
+                        type="text" size="small" :icon="SearchIcon" :value="formHandler.searchCourse" @input="handleSearchCourses"
+                        :icon-color="darkMode ? '#ffff' : '#212939'" iconLeft full styleType="modal-search"></v-input>
             </div>
         </div>
-        <slot></slot>
+        <slot ></slot>
     </div>
 </template>
 
@@ -26,23 +26,25 @@ interface Props {
     darkMode: boolean
 }
 
+
 let props = withDefaults(defineProps<Props>(), {});
 
 let slots = useSlots()
-// onMounted(() => {
-//     console.log("mounted blajjjjjj", slots.default()[0].children.forEach(el => {
-//         console.log(el.props.title)
-//     }))
-// })
 let slotsArr = reactive(slots.default()[0].children.map(slot => {
     return {
         title: slot.props.title,
         id: slot.props.key,
     }
 }))
-console.log(slots.default()[0].children)
+
+let formHandler = reactive({
+    searchCourse: {
+        value: null,
+        error: null
+    }
+})
 let titleArray = []
-const emit = defineEmits(['chosenFaculty'])
+const emit = defineEmits(['chosenFaculty', 'searchCourse'])
 let computedSlotArr = computed(() => {
     slotsArr.forEach(element => {
         let titleObj = {
@@ -51,54 +53,11 @@ let computedSlotArr = computed(() => {
             isActive: false,
         }
         titleArray.push(reactive(titleObj))
-        // if (element === slots.default()[0].props.title) {
-        //     titleObj.isActive = true
-        // }
     });
     return titleArray
 })
-console.log(computedSlotArr.value)
 
-// function scrollIfNeeded(el) {
-//     const elLeft = el.offsetLeft + el.offsetWidth;
-//     const elParentLeft = el.parentNode.offsetLeft + el.parentNode.offsetWidth;
 
-//     // check if element not in view
-//     if (elLeft >= elParentLeft + el.parentNode.scrollLeft) {
-//         el.parentNode.scrollLeft = elLeft - elParentLeft;
-//     } else if (elLeft <= el.parentNode.offsetLeft + el.parentNode.scrollLeft) {
-//         el.parentNode.scrollLeft = el.offsetLeft - el.parentNode.offsetLeft;
-//     }
-// }
-// function scrollLft(outsider, elOffset) {
-//     //   outsider.scrollBy({
-//     //     left: 200,
-//     //     behavior: 'smooth'
-//     //   });
-//     elOffset.scrollIntoView({
-//         behavior: 'smooth',
-//         block: 'center',
-//         inline: 'start'
-//     });
-//     console.log(elOffset.parentNode.parentNode.offsetX)
-// }
-
-// function scrollThisShit(target, outer) {
-//     var out = outer;
-//     var tar = target;
-//     var x = out.width();
-//     var y = tar.outerWidth(true);
-//     var z = tar.index();
-//     var q = 0;
-//     var m = out.find('li');
-//     //Just need to add up the width of all the elements before our target. 
-//     for (var i = 0; i < z; i++) {
-//         q += m[i].outerWidth(true);
-//     }
-//     out.scrollLeft(Math.max(0, q - (x - y) / 2));
-//     // el.target.parentNode.scrollLeft = el.target.offsetLeft;
-
-// }
 let selectedTitle = ref({
     title: computedSlotArr.value[0].title,
     id: computedSlotArr.value[0].id,
@@ -120,10 +79,13 @@ function handleTabTitleClick(e, selectObj) {
             element.isActive = true
         }
     });
-    console.log("Emittting value")
     emit('chosenFaculty', selectedTitle.value.id)
-    console.log(computedSlotArr.value)
-    console.log(selectedTitle.value)
+}
+function handleSearchCourses() {
+    let searchCourse = formHandler.searchCourse.value
+    if (searchCourse) {
+        emit('searchCourse', searchCourse)
+    }
 }
 // watchEffect(() => {
 //     // if (selectedTitle.value.title === props.title) {
@@ -131,8 +93,6 @@ function handleTabTitleClick(e, selectObj) {
 //         emit('chosenFaculty',selectedTitle.value.id)
 //     // }
 // })
-
-console.log(selectedTitle)
 provide('tabs', selectedTitle)
 
 let colors = {
