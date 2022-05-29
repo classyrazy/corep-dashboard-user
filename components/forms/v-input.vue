@@ -8,6 +8,7 @@
         :type="type"
         v-model="value.value"
         class="inline-block"
+        @keyup="$emit('customChange', value.value)"
       />
       <component
         v-if="_icon"

@@ -15,9 +15,10 @@
                 @search-course="handleSeachCourses">
                 <tab v-for="faculty in faculties" :title="faculty.name" :key="faculty.id" v-slot="slotProps"
                     class=" styled_scrollbar rounded-lg mt-4 dark:bg-db-pry mx-4 h-[400px] max-h-[500px] overflow-y-auto">
-                    <course-of-study-list-modal-view :course-of-studies="computedCourseOfStudies" class=""
+                    <course-of-study-list-modal-view :course-of-studies="computedCourseOfStudies" v-if="computedCourseOfStudies.length" class=""
                         @chosen-course-of-study="handleChosenCourseOfStudy">
                     </course-of-study-list-modal-view>
+                    <div class="" v-else>Nothing to show ooo</div>
                 </tab>
             </tabs-wrapper>
         </div>
@@ -46,6 +47,7 @@ let modalSubmitData = ref(null)
 
 let faculties = ref(null)
 let courseOfStudies = ref(null)
+let searchValue = ref(null)
 
 async function getFaculties() {
     try {
@@ -60,6 +62,7 @@ async function getFaculties() {
 }
 async function handleChosenFaculty(facultyIdpassed) {
     console.log("hello World", facultyIdpassed)
+    searchValue.value = null
     let id = facultyIdpassed
     let { submitData, loading, data } = useFormRequest(
         "Department/getAllDepartmentsByFaculty",
@@ -77,7 +80,14 @@ async function handleChosenFaculty(facultyIdpassed) {
     );
     submitData()
 }
+function handleSeachCourses(searchVal) {
+    searchValue.value = searchVal
+    console.log(searchValue.value)
+}
 let computedCourseOfStudies = computed(() => {
+    if(searchValue.value){
+        return courseOfStudies.value.filter(course => course.name.toLowerCase().includes(searchValue.value.toLowerCase()))
+    }
     return courseOfStudies.value
 })
 onBeforeMount(() => {
@@ -90,18 +100,8 @@ onMounted(() => {
 function handleChosenCourseOfStudy(courseObj) {
     modalSubmitData.value = courseObj
 }
-function handleSeachCourses(searchValue) {
-    console.log(searchValue)
-    console.log(courseOfStudies.value)
-    if (searchValue) {
-        console.log(courseOfStudies.value)
-        let newFormedArray = [...courseOfStudies.value].filter(course => course.name.toLowerCase().includes(searchValue.toLowerCase()))
-        courseOfStudies.value = newFormedArray
-    }else{
-        courseOfStudies.value = courseOfStudies.value
-    }
-    console.log(courseOfStudies.value)
-}
+
+
 function handleSubmitCourseChosen() {
     console.log(modalSubmitData.value)
 }

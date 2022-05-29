@@ -9,12 +9,13 @@
                 </li>
             </ul>
             <div class="search_input_con">
-                    <v-input placeholder="Search Courses" class="text-sm rounded-lg dark:bg-db-pry-dark dark:text-white"
-                        type="text" size="small" :icon="SearchIcon" :value="formHandler.searchCourse" @input="handleSearchCourses"
-                        :icon-color="darkMode ? '#ffff' : '#212939'" iconLeft full styleType="modal-search"></v-input>
+                <v-input placeholder="Search Courses" class="text-sm rounded-lg dark:bg-db-pry-dark dark:text-white"
+                    type="text" size="small" :icon="SearchIcon" :value="formHandler.searchCourse"
+                    @custom-change="handleSearchCourses" :icon-color="darkMode ? '#ffff' : '#212939'" iconLeft full
+                    styleType="modal-search"></v-input>
             </div>
         </div>
-        <slot ></slot>
+        <slot></slot>
     </div>
 </template>
 
@@ -83,16 +84,8 @@ function handleTabTitleClick(e, selectObj) {
 }
 function handleSearchCourses() {
     let searchCourse = formHandler.searchCourse.value
-    if (searchCourse) {
-        emit('searchCourse', searchCourse)
-    }
+    emit('searchCourse', searchCourse)
 }
-// watchEffect(() => {
-//     // if (selectedTitle.value.title === props.title) {
-//         console.log("Emittting value")
-//         emit('chosenFaculty',selectedTitle.value.id)
-//     // }
-// })
 provide('tabs', selectedTitle)
 
 let colors = {
