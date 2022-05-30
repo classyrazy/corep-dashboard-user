@@ -1,12 +1,14 @@
 <template>
-    <div class="course-list items-center gap-8 mx-4 max-w-auto" v-if="courseOfStudies">
+    <div class="course-list items-center gap-8 mx-4 max-w-auto" v-if="courseOfStudies.length">
         <!-- {{ selectedCourse }} -->
         <course-of-study-modal-view v-for="courseOfStudy in computedCourseOfStudies" :key="courseOfStudy.id"
-            :department="courseOfStudy.name" :faculty="courseOfStudy.faculty" :active="courseOfStudy.active"
+            :department="courseOfStudy.name" :faculty="courseOfStudy.faculty.name" :active="courseOfStudy.active"
             :parent-department="courseOfStudy.parent_department"
             @click="handleCourseOfStudyChosen(courseOfStudy.id, courseOfStudy.parent_department)">
         </course-of-study-modal-view>
+
     </div>
+    <div class="" v-else>Nothing to show ooo</div>
 </template>
 
 <script setup lang="ts">
@@ -19,7 +21,7 @@ type courseOfStudyObj = {
     id: number,
     name: string,
     subDepartment: string,
-    faculty: string,
+    faculty: {id: number, name: string},
     parent_department?: parent_departmentObj
 }
 interface Props {
@@ -52,13 +54,15 @@ function handleCourseOfStudyChosen(courseOfStudyId, parent) {
     console.log({ computedCourseOfStudies: computedCourseOfStudies.value })
     let courseChosenObj = reactive({
         department_id: null,
-        sub_department_id: null
+        sub_department_id: null,
+        faculty_id: null,
     })
     let courseOfStudyWithParent = [...props.courseOfStudies].filter(e => e.parent_department)
     console.log({ parent })
     if (!parent) {
         let chosenCourseFound = [...props.courseOfStudies].find(c => c.id === courseOfStudyId)
         courseChosenObj.department_id = chosenCourseFound.id
+        courseChosenObj.faculty_id = chosenCourseFound.faculty.id
         computedCourseOfStudies.value.forEach(course => {
             course.active = false
             if (course.id === chosenCourseFound.id && !course.parent_department) {
@@ -70,6 +74,7 @@ function handleCourseOfStudyChosen(courseOfStudyId, parent) {
         let chosenCourseFound = courseOfStudyWithParent.find(c => c.id === courseOfStudyId)
         courseChosenObj.sub_department_id = chosenCourseFound.id
         courseChosenObj.department_id = chosenCourseFound.parent_department.id
+        courseChosenObj.faculty_id = chosenCourseFound.faculty.id
         computedCourseOfStudies.value.forEach(course => {
             course.active = false
             if (course.id === chosenCourseFound.id && course.parent_department) {

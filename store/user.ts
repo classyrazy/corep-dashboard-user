@@ -8,7 +8,6 @@ export const useUserStore = defineStore("user", () => {
     try {
       let req = new Graph()
         .service("User/getLoggedInUser")
-        .select("id", "username", "email", "picture", "school");
       user.value = await (await req.get()).getData();
     } catch (error) {
       console.log(error);

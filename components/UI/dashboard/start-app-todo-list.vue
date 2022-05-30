@@ -3,7 +3,7 @@
         <start-app-todo :bg-color="startAppTodo.bgColor" :todo-text="startAppTodo.todoText"
             :description="startAppTodo.description" :icon="startAppTodo.icon" :link="startAppTodo.link"
             v-for="startAppTodo in computedTodoArray" :completed="startAppTodo.completed" :key="startAppTodo.id"
-            @click="handleTodoClick(startAppTodo.id, startAppTodo.modal, startAppTodo.link)">
+            @click="handleTodoClick(startAppTodo, startAppTodo.modal, startAppTodo.link)">
         </start-app-todo>
 
 
@@ -17,6 +17,8 @@ import AddTimeTableIcon from '../../icons/add-time-table-icon.vue';
 import { useModal } from "vue-modally-v3";
 import AddCourseOfStudyModal from "../modals/add-course-of-study-modal.vue"
 import { useUserStore } from '../../../store/user'
+import Graph from "../../../libs/avanda";
+
 
 
 let store = useUserStore()
@@ -62,8 +64,15 @@ let props = withDefaults(defineProps<Props>(), {
     startAppLevel: 'add-course-and-level'
 
 });
+let modalResult = ref(null)
+let computedStartAppLevel = computed(() => {
+    if(modalResult.value){
+        return modalResult.value
+    }
+    return props.startAppLevel
+})
 let startAppTodoLevelNum = computed(() => {
-    switch (props.startAppLevel) {
+    switch (computedStartAppLevel.value) {
         case 'add-course-and-level':
             return 1;
         case 'add-time-table':
@@ -84,21 +93,38 @@ let computedTodoArray = computed(() => {
         return startTodoArray
     }
 });
-
-let handleTodoClick = async (todoId: number, componentPassed, link) => {
+let faculties = ref(null)
+async function getFaculties() {
+    try {
+        let req = new Graph()
+            .service("Faculty/getAllFacultiesBySchool")
+        faculties.value = await (await req.get()).getData();
+        console.log(faculties.value)
+    } catch (error) {
+        console.log(error);
+    }
+}
+let handleTodoClick = async (todo: object, componentPassed, link) => {
     let modalColor = darkMode.value ? '#212939' : 'white'
     // 2A3343
 
-    if(!link){
-        await useModal(componentPassed, {
-        options: {
-            background: modalColor,
-            width: 1000,
-            blur: false,
-        },props: {
-            darkMode: darkMode.value
+    if (!link && !todo.completed) {
+        await getFaculties()
+        if (faculties.value) {
+            modalResult.value = await useModal(componentPassed, {
+                options: {
+                    background: modalColor,
+                    width: 1000,
+                    blur: false,
+                }, props: {
+                    darkMode: darkMode.value,
+                    faculties: faculties
+                }
+            })
+            if (modalResult.value) {
+                console.log(computedStartAppLevel.value)
+            }
         }
-    })
     }
 }
 // async function openIntroMobile() {

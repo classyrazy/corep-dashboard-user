@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-[600px]" :class="darkMode ? 'dark' : ''" v-if="faculties">
+    <div class="min-h-[600px] pb-2" :class="darkMode ? 'dark' : ''" v-if="faculties">
         <div class="upper">
             <div class="name-close_btn p-6  flex justify-between items-center dark:text-white">
                 <h1 class="font-semibold text-2xl text-center">Choose course of study</h1>
@@ -9,16 +9,20 @@
                 </div>
             </div>
             <div class="bg-sec w-full h-[1px]"></div>
+
+            <div class="erorr flex justify-between" v-if="showError">
+                <h2 class="error-text">{{error}}</h2>
+                <h2 class="error-close-btn" @click="showError = !showError">close error</h2>
+            </div>
         </div>
         <div class="courses-part mt-4">
             <tabs-wrapper :dark-mode="darkMode" @chosen-faculty="handleChosenFaculty"
                 @search-course="handleSeachCourses">
                 <tab v-for="faculty in faculties" :title="faculty.name" :key="faculty.id" v-slot="slotProps"
                     class=" styled_scrollbar rounded-lg mt-4 dark:bg-db-pry mx-4 h-[400px] max-h-[500px] overflow-y-auto">
-                    <course-of-study-list-modal-view :course-of-studies="computedCourseOfStudies" v-if="computedCourseOfStudies.length" class=""
+                    <course-of-study-list-modal-view :course-of-studies="computedCourseOfStudies" v-if="computedCourseOfStudies" class=""
                         @chosen-course-of-study="handleChosenCourseOfStudy">
                     </course-of-study-list-modal-view>
-                    <div class="" v-else>Nothing to show ooo</div>
                 </tab>
             </tabs-wrapper>
         </div>
@@ -39,27 +43,20 @@ import useFormRequest from '../../../composables/useFormRequest';
 
 interface Props {
     darkMode: boolean
+    faculties: object[]
 }
 
 let props = defineProps<Props>();
+let emit = defineEmits(['close'])
 
 let modalSubmitData = ref(null)
-
-let faculties = ref(null)
 let courseOfStudies = ref(null)
 let searchValue = ref(null)
+let returnedData = ref(null)
+let error = ref(null)
+let showError = ref(false)
 
-async function getFaculties() {
-    try {
-        let req = new Graph()
-            .service("Faculty/getAllFacultiesBySchool")
-            .selectAll("id", "name")
-        faculties.value = await (await req.get()).getData();
-        console.log(faculties.value)
-    } catch (error) {
-        console.log(error);
-    }
-}
+
 async function handleChosenFaculty(facultyIdpassed) {
     console.log("hello World", facultyIdpassed)
     searchValue.value = null
@@ -90,9 +87,9 @@ let computedCourseOfStudies = computed(() => {
     }
     return courseOfStudies.value
 })
-onBeforeMount(() => {
-    getFaculties()
-})
+// onBeforeMount(() => {
+//     getFaculties()
+// })
 onMounted(() => {
     // getFaculties()
     console.log('mounted')
@@ -104,6 +101,29 @@ function handleChosenCourseOfStudy(courseObj) {
 
 function handleSubmitCourseChosen() {
     console.log(modalSubmitData.value)
+    if(!modalSubmitData.value){
+        error.value = "Please choose a course of study"
+        showError.value = true
+        return
+    }
+    let unrefModalSubmitData = modalSubmitData.value
+    let { submitData, loading, data } = useFormRequest(
+        "User/courseOfStudyRegisteration",
+        null,
+        { ...unrefModalSubmitData },
+        (data) => {
+            console.log(data);
+            if (data) {
+                returnedData.value = data;
+                emit('close', returnedData.value)
+            }
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+    submitData()
+
 }
 let colors = {
     scrollthumb: props.darkMode ? '#BBB9B6' : 'rgb(100 116 139/.5)',

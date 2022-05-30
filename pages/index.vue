@@ -30,7 +30,7 @@
             </header>
             <div class="">
             <h1 class="dark:text-white text-4xl text-db-pry-dark font-bold">Hello {{slotProps.userStore.username}}</h1>
-            <start-app-todo-list class="mt-4"></start-app-todo-list>
+            <start-app-todo-list class="mt-4" v-if="startAppTodoLevel" :start-app-level="startAppTodoLevel"></start-app-todo-list>
             </div>
         </div>
     </db-content>
@@ -44,6 +44,7 @@ import SearchIcon from '../components/icons/search-icon.vue'
 import VInput from '../components/forms/v-input.vue'
 import '@/assets/css/tailwind.css'
 import StartAppTodoList from '~~/components/UI/dashboard/start-app-todo-list.vue'
+import Graph from '~~/libs/avanda'
 
 
 definePageMeta({
@@ -52,6 +53,7 @@ definePageMeta({
 })
 
 type Theme = 'light' | 'dark';
+let startAppTodoLevel = ref(null)
 
 const LOCAL_STORAGE_THEME_KEY = 'app-theme ';
 let mode = ref('');
@@ -62,8 +64,18 @@ const setTheme = (newTheme: Theme) => {
     darkMode.value = newTheme === 'dark';
 };
 const isDarkModePreferred = ref(null)
-
+async function getStartAppTodos() {
+    try {
+        let req = new Graph()
+            .service("User/getUserTodos")
+        startAppTodoLevel.value = await (await req.get()).getData();
+        console.log(startAppTodoLevel.value)
+    } catch (error) {
+        console.log(error);
+    }
+}
 onMounted(() => {
+    getStartAppTodos()
     isDarkModePreferred.value = window.matchMedia(
         '(prefers-color-scheme: dark)'
     ).matches;
@@ -76,9 +88,12 @@ onMounted(() => {
     // setTheme(themeFromLocalStorage);
 });
 
+
+
 watch(darkMode, selected => {
     setTheme(selected ? 'dark' : 'light');
 });
+
 
 
 </script>
