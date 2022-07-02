@@ -4,6 +4,11 @@ import Graph from "../libs/avanda";
 export const useUserStore = defineStore("user", () => {
   let user = ref(null);
   let darkMode = ref(false);
+  if(localStorage.getItem("app-theme") === "dark"){
+    darkMode.value = true
+  }else{
+    darkMode.value = false
+  }
   async function fetchUser() {
     try {
       let req = new Graph()
@@ -13,7 +18,9 @@ export const useUserStore = defineStore("user", () => {
       console.log(error);
     }
   }
+  // watch(darkMode)
   function changeMode() {
+    // localStorage.getItem("app-theme")
     darkMode.value = !darkMode.value;
   }
   return{

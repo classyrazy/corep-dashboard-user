@@ -7,6 +7,7 @@
   },
   "devDependencies": {
     "@nuxtjs/color-mode": "^3.0.2",
+    "@nuxtjs/pwa": "^3.3.5",
     "autoprefixer": "^10.4.4",
     "nuxt": "npm:nuxt3@latest",
     "postcss": "^8.4.12",

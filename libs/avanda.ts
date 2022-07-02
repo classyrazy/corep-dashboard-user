@@ -5,7 +5,7 @@ if (process.client) {
 }
 
 Graph.setRequestConfig({
-  baseURL: "http://192.168.43.215:4000/",
+  baseURL: "http://192.168.43.43:4000/",
   withCredentials: true,
   headers: {
       Authorization: `Bearer ${sessionToken}`

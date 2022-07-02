@@ -54,8 +54,7 @@ definePageMeta({
 
 type Theme = 'light' | 'dark';
 let startAppTodoLevel = ref(null)
-
-const LOCAL_STORAGE_THEME_KEY = 'app-theme ';
+const LOCAL_STORAGE_THEME_KEY = 'app-theme';
 let mode = ref('');
 let darkMode = ref(false)
 
@@ -80,6 +79,7 @@ onMounted(() => {
         '(prefers-color-scheme: dark)'
     ).matches;
     console.log(isDarkModePreferred.value)
+    console.log(darkMode.value)
 
     const themeFromLocalStorage = localStorage.getItem(
         LOCAL_STORAGE_THEME_KEY

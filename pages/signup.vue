@@ -23,20 +23,34 @@
                         <v-input type="text" placeholder="Enter School Email addresss" full styleType="white"
                             class="text-sm rounded-lg" size="small" label="Email Address" :value="formReactive.email">
                         </v-input>
+                        <k-dropdown class="w-full text-sm" :label="levelDropDownLabel" placeholder="Search for school"
+                            :drop-state="dropState2" :error="formReactive.level.error" @on-search="searchDropDown"
+                            @on-dropdown-click="handleDropdown" @on-close-dropdown="closeDropDown">
+                            <ul class="" v-if="levels">
+                                <li class="block w-full text-sm cursor-pointer hover:bg-[#eee] rounded-md mt-2 p-2"
+                                    @click="chooseFromDropDown($event, item.id)" v-for="(item, idx) in levels"
+                                    :key="idx">
+                                    ({{ item.name }} level) - {{item.year}} year</li>
+                            </ul>
+                            <p v-else>Loading ...</p>
+                        </k-dropdown>
                         <v-input type="password" placeholder="Enter Password" full styleType="white"
                             class="text-sm rounded-lg" size="small" label="Password" iconClick
                             :value="formReactive.password"></v-input>
                         <v-button full type="pry-reverse" :loading="loading">Sign Up</v-button>
                         <h3 class="text-sm text-center">By signing up, you agree to our <router-link to="#"><span
                                     class="text-pry">Terms
-                                    and Conditions</span></router-link></h3>
+                                    and Conditions</span></router-link>
+                        </h3>
                     </stack>
                 </form>
             </div>
         </div>
         <div class="text-center text-white my-5 md:my-8 font-ibmplex">
             <p>
-                Already have account?<span class="opacity-70 underline ml-1"><router-link to="/login">login</router-link></span>
+                Already have account?<span class="opacity-70 underline ml-1">
+                    <router-link to="/login">login</router-link>
+                </span>
             </p>
         </div>
         <div class="fixed -bottom-[7rem] -left-[7rem] md:-bottom-[7rem] md:-left-[8rem]">
@@ -48,7 +62,8 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import KDropdown from '../components/forms/k-dropdown.vue'
 import VDropDown from '../components/forms/v-drop-down.vue'
 import CorepLogoNotext from '../components/svgs/corep-logo-notext.vue'
 import ToastText from "../components/UI/toast-text.vue";
@@ -67,6 +82,12 @@ import useFormRequest from '../composables/useFormRequest';
 
 let router = useRouter();
 let schools = ref(null)
+let dropState = ref(false)
+let dropState2 = ref(false)
+let searchValue = ref(null)
+let levelDropDownLabel = ref("Select your Level")
+let levels = ref(null)
+let initialFormData = ref(null)
 let formReactive = reactive({
     username: {
         value: null,
@@ -83,29 +104,69 @@ let formReactive = reactive({
     id: {
         value: null,
         error: null
+    },
+    level: {
+        value: null,
+        error: null
     }
 });
 
-let availableSchools = [
+let availableLevels = [
     {
-        full_name: 'University Of Lagos University Of Lagos',
-        short_name: 'unilag'
-    },
+        id: 1,
+        name: 100,
+        year: '1st',
+    }
+    ,
     {
-        full_name: 'Lagos State University',
-        short_name: 'lasu'
-    },
+        id: 2,
+        name: 200,
+        year: '2nd',
+    }
+    ,
     {
-        full_name: 'Obafemi Awolowo University',
-        short_name: 'oau'
-    },
+        id: 3,
+        name: 300,
+        year: '3rd',
+    }
+    ,
     {
-        full_name: 'University Of Ilorin',
-        short_name: 'unilorin'
-    },
+        id: 4,
+        name: 400,
+        year: '4th',
+    }
+    ,
+    {
+        id: 5,
+        name: 500,
+        year: '5th',
+    }
 ]
+function handleDropdown() {
+    console.log(dropState2.value)
+    dropState.value = false
+    dropState2.value = !dropState2.value
+}
+function searchDropDown(searchText: string) {
+    searchValue.value = searchText
+}
+let computedRefData = computed(() => {
+    return availableLevels
+})
+function closeDropDown() {
+    dropState.value = false
+    dropState2.value = false
+    searchValue.value = null
 
-
+}
+function chooseFromDropDown(curentChose, chosenId: number) {
+    console.log(curentChose.target.innerHTML)
+    levelDropDownLabel.value = curentChose.target.innerHTML
+    formReactive.level.value = chosenId
+    formReactive.level.error = null
+    closeDropDown()
+    console.log(levelDropDownLabel.value)
+}
 let validate = () => {
     if (formReactive.username.value == null || formReactive.username.value.trim() == "") {
         formReactive.username.error = "Full Name is required";
@@ -118,7 +179,7 @@ let validate = () => {
     }
     if (formReactive.email.value == null || formReactive.email.value.trim() == "") {
         formReactive.email.error = "Email is required";
-    } 
+    }
     else {
         formReactive.email.error = null;
     }
@@ -128,6 +189,12 @@ let validate = () => {
     else {
         formReactive.id.error = null;
     }
+    if (formReactive.level.value == null) {
+        formReactive.level.error = true;
+    }
+    else {
+        formReactive.level.error = null;
+    }
     if (formReactive.password.value == null || formReactive.email.value.trim() == "") {
         formReactive.password.error = "Password is required";
     } else if (formReactive.password.value.trim().length < 6) {
@@ -136,7 +203,7 @@ let validate = () => {
     else {
         formReactive.password.error = null;
     }
-    if (formReactive.username.error == null && formReactive.email.error == null && formReactive.password.error == null && formReactive.id.error == null) {
+    if (formReactive.username.error == null && formReactive.email.error == null && formReactive.password.error == null && formReactive.id.error == null && formReactive.level.error == null) {
         return true;
     }
     return false;
@@ -150,14 +217,27 @@ async function requestSchools() {
         console.log(error)
     }
 }
-console.log({ schools })
+async function requestLevels() {
+    try {
+        let req = new Graph().service('Level/getAll').selectAll("id", "name", "year")
+        let data = await (await req.get()).getData()
+        levels.value = data
+    } catch (error) {
+        console.log(error)
+    }
+}
+console.log({ schools }, {levels})
 function setSchool(schoolChosen) {
     formReactive.id.value = schoolChosen
+    formReactive.id.error = null
 }
 
 
 onMounted(() => {
     requestSchools()
+    setTimeout(() => {
+        requestLevels()
+    }, 5000)
     console.log({ schools })
 
 })
