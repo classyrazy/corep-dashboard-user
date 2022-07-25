@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-auto grid-cols-3 gap-4 max-w-[1000px]" v-if="startAppLevel">
+    <div class="grid grid-auto grid-cols-3 gap-4 max-w-[1000px]" v-if="startAppTodoLevel">
         <start-app-todo :bg-color="startAppTodo.bgColor" :todo-text="startAppTodo.todoText"
             :description="startAppTodo.description" :icon="startAppTodo.icon" :link="startAppTodo.link"
             v-for="startAppTodo in computedTodoArray" :completed="startAppTodo.completed" :key="startAppTodo.id"
@@ -18,13 +18,25 @@ import { useModal } from "vue-modally-v3";
 import AddCourseOfStudyModal from "../modals/add-course-of-study-modal.vue"
 import { useUserStore } from '../../../store/user'
 import Graph from "../../../libs/avanda";
+// import startAppTodoObjType from "../../../types/appTodoObj.ts"
 
 
+interface startAppTodoObjType {
+    id: number;
+    todoText: string;
+    completed: boolean;
+    bgColor: string;
+    description: string;
+    icon: Object;
+    modal: Object ;
+    link?: string;
+}
 
 let store = useUserStore()
 let darkMode = computed(() => store.darkMode)
 
-let startTodoArray = reactive([
+
+let startTodoArray  = reactive<startAppTodoObjType[]>([
     {
         id: 1,
         bgColor: '#8D24AA',
@@ -56,23 +68,27 @@ let startTodoArray = reactive([
     }
 ])
 
-interface Props {
-    startAppLevel: "add-course-and-level" | "add-time-table" | "subscribe-courses" | "completed"
-}
+// interface Props {
+//     startAppLevel: "add-course-and-level" | "add-time-table" | "subscribe-courses" | "completed"
+// }
+let startAppTodoLevel = computed(() => store.userRegTodoStageLevel)
+console.log(startAppTodoLevel.value)
 
-let props = withDefaults(defineProps<Props>(), {
-    startAppLevel: 'add-course-and-level'
+// let props = withDefaults(defineProps<Props>(), {
+//     // startAppLevel: 'add-course-and-level'
 
-});
+// });
 let modalResult = ref(null)
-let computedStartAppLevel = computed(() => {
-    if(modalResult.value){
-        return modalResult.value
-    }
-    return props.startAppLevel
-})
+// let computedStartAppLevel = computed(() => {
+//     if (modalResult.value) {
+//         return modalResult.value
+//     }
+
+//     return props.startAppLevel
+// })
 let startAppTodoLevelNum = computed(() => {
-    switch (computedStartAppLevel.value) {
+    console.log("from start app todo level num", startAppTodoLevel.value)
+    switch (startAppTodoLevel.value) {
         case 'add-course-and-level':
             return 1;
         case 'add-time-table':
@@ -83,8 +99,11 @@ let startAppTodoLevelNum = computed(() => {
             return 4;
     }
 });
+console.log(startAppTodoLevelNum.value)
+// let computedPropsStartAppLevel = computed(() => props.startAppLevel)
 let computedTodoArray = computed(() => {
-    if (props.startAppLevel) {
+    if (startAppTodoLevel.value) {
+        console.log("from computedTodoArray", startAppTodoLevel.value)
         startTodoArray.forEach((todo) => {
             if (todo.id < startAppTodoLevelNum.value) {
                 todo.completed = true;
@@ -104,7 +123,7 @@ async function getFaculties() {
         console.log(error);
     }
 }
-let handleTodoClick = async (todo: object, componentPassed, link) => {
+let handleTodoClick = async (todo: startAppTodoObjType, componentPassed, link) => {
     let modalColor = darkMode.value ? '#212939' : 'white'
     // 2A3343
 
@@ -122,7 +141,7 @@ let handleTodoClick = async (todo: object, componentPassed, link) => {
                 }
             })
             if (modalResult.value) {
-                console.log(computedStartAppLevel.value)
+                store.fetchUserRegStartTodoLevelMode()
             }
         }
     }

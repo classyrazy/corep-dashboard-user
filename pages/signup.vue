@@ -29,8 +29,10 @@
                             <ul class="" v-if="levels">
                                 <li class="block w-full text-sm cursor-pointer hover:bg-[#eee] rounded-md mt-2 p-2"
                                     @click="chooseFromDropDown($event, item.id)" v-for="(item, idx) in levels"
-                                    :key="idx">
-                                    ({{ item.name }} level) - {{item.year}} year</li>
+                                    tabindex="0" :key="idx"
+                                    @focusout="closeDropDownAfterLastChild(idx, computedRefData.length)"
+                                    @keydown.enter="chooseFromDropDown($event, item.id)">
+                                    ({{ item.name }} level) - {{ item.year }} year</li>
                             </ul>
                             <p v-else>Loading ...</p>
                         </k-dropdown>
@@ -164,8 +166,16 @@ function chooseFromDropDown(curentChose, chosenId: number) {
     levelDropDownLabel.value = curentChose.target.innerHTML
     formReactive.level.value = chosenId
     formReactive.level.error = null
-    closeDropDown()
+    setTimeout(() => {
+        closeDropDown()
+    }, 100)
     console.log(levelDropDownLabel.value)
+}
+function closeDropDownAfterLastChild(idx, length) {
+    console.log(idx, length)
+    if (idx === length - 1) {
+        closeDropDown()
+    }
 }
 let validate = () => {
     if (formReactive.username.value == null || formReactive.username.value.trim() == "") {
@@ -226,7 +236,7 @@ async function requestLevels() {
         console.log(error)
     }
 }
-console.log({ schools }, {levels})
+console.log({ schools }, { levels })
 function setSchool(schoolChosen) {
     formReactive.id.value = schoolChosen
     formReactive.id.error = null
@@ -273,6 +283,7 @@ let { submitForm, form, loading, data } = useFormRequest(
 );
 let submitHandler = () => {
     validate();
+    console.log({ formReactive });
 
     if (validate()) {
         submitForm()

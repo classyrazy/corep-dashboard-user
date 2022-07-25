@@ -3,32 +3,47 @@ import Graph from "../libs/avanda";
 
 export const useUserStore = defineStore("user", () => {
   let user = ref(null);
+  let userRegTodoStageLevel = ref(null);
   let darkMode = ref(false);
-  if(localStorage.getItem("app-theme") === "dark"){
-    darkMode.value = true
-  }else{
-    darkMode.value = false
+  if (localStorage.getItem("app-theme") === "dark") {
+    darkMode.value = true;
+  } else {
+    darkMode.value = false;
   }
   async function fetchUser() {
     try {
-      let req = new Graph()
-        .service("User/getLoggedInUser")
+      let req = new Graph().service("User/getLoggedInUser");
       user.value = await (await req.get()).getData();
     } catch (error) {
       console.log(error);
     }
+  }
+  function changeUserRegTodoStageLevel(level: string){
+    userRegTodoStageLevel.value = level
   }
   // watch(darkMode)
   function changeMode() {
     // localStorage.getItem("app-theme")
     darkMode.value = !darkMode.value;
   }
-  return{
+  async function fetchUserRegStartTodoLevelMode() {
+    try {
+      let req = new Graph().service("User/getUserTodos");
+      userRegTodoStageLevel.value = await (await req.get()).getData();
+      console.log(userRegTodoStageLevel.value);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  return {
     user,
     darkMode,
     fetchUser,
     changeMode,
-  }
+    fetchUserRegStartTodoLevelMode,
+    userRegTodoStageLevel,
+    changeUserRegTodoStageLevel
+  };
 });
 // import { defineStore } from "pinia";
 // import Graph from "../libs/avanda";

@@ -5,6 +5,7 @@
                 <d-board-side-bar class=" dark:bg-db-pry-dark bg-db-white-light h-screen overflow-y-auto top-0">
                 </d-board-side-bar>
                 <button @click="store.changeMode" class="bg-red-400">Change Modee</button>
+                <button @click="store.changeUserRegTodoStageLevel('subscribe-courses')" class="bg-blue-400">test Modee</button>
                 {{ store }}
             </div>
             <slot></slot>
@@ -22,8 +23,17 @@ const themeFromLocalStorage = localStorage.getItem("theme");
 import { useUserStore } from '../store/user'
 let store = useUserStore()
 onMounted(() => {
+    if (process.client) {
+    //   window.addEventListener('load', () => {
+    if (!("serviceWorker" in navigator)) {
+      throw new Error("serviceWorker is not supported in current browser!");
+    }
+    navigator.serviceWorker.register("/sw.js");
+    //   })
+  }
     store.fetchUser();
 })
+
 
 </script>
 

@@ -6,33 +6,40 @@
                     <d-board-logo class="w-[70%] mx-auto"></d-board-logo>
                 </router-link>
                 <ul class="mt-10">
-                    <router-link to="/">
-                        <side-bar-item text="Dashboard" :icon="DashboardIcon" class="bg-sec"></side-bar-item>
-                    </router-link>
+                    <!-- <router-link to="/" class="bg-pry"> -->
+                    <!-- </router-link> -->
+                    <li>
+                        <side-bar-item text="Dashboard" :icon="DashboardIcon" class="" link="/"></side-bar-item>
 
-                    <router-link to="/classes">
-                        <side-bar-item text="Classes" :icon="ClassesIcon" :info-num="7"></side-bar-item>
-                    </router-link>
+                    </li>
 
-                    <router-link to="/announcements">
-                        <side-bar-item text="Announcements" :icon="AnnouncementIcon" :info-num="2"></side-bar-item>
-                    </router-link>
+                    <li>
+                        <side-bar-item text="Classes" :icon="ClassesIcon" :info-num="7" link="/classes"></side-bar-item>
 
-                    <router-link to="/assignments">
-                        <side-bar-item text="Assignments" :icon="AssignmentIcon" :info-num="3"></side-bar-item>
-                    </router-link>
+                    </li>
+                    <li>
+                        <side-bar-item text="Announcements" :icon="AnnouncementIcon" :info-num="2"
+                            link="/announcements">
+                        </side-bar-item>
+                    </li>
 
-                    <router-link to="/timetable">
-                        <side-bar-item text="Timetable" :icon="TimeTableIcon" active></side-bar-item>
-                    </router-link>
+                    <li>
+                        <side-bar-item text="Assignments" :icon="AssignmentIcon" :info-num="3" link="/assignments">
+                        </side-bar-item>
+                    </li>
+                    <li>
+                        <side-bar-item text="Timetable" :icon="TimeTableIcon" active link="/time-table"></side-bar-item>
+
+                    </li>
+
                 </ul>
             </div>
             <div class="bottom-side-item">
                 <div class="w-[90%] h-[1px] bg-sec mt-16 mx-auto"></div>
+                <li>
+                    <side-bar-item text="Settings" :icon="SettingsIcon" class="py-3" link="/settings"></side-bar-item>
 
-                <router-link to="/settings">
-                    <side-bar-item text="Settings" :icon="SettingsIcon" class="py-3"></side-bar-item>
-                </router-link>
+                </li>
             </div>
         </nav>
     </div>
@@ -54,5 +61,9 @@ let store = useUserStore()
 
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
+nav a.router-link-exact-active {
+  @apply bg-sec
+    
+}
 </style>

@@ -1,5 +1,6 @@
 <template>
-    <div class="dropdown-container mx-auto relative" v-click-outside="closeDropDown">
+    <div class="dropdown-container mx-auto relative" v-click-outside="closeDropDown" tabindex="0"
+        @keydown.enter="handleDropdown()" @keydown.esc="closeDropDown()">
         <div class="dropdown-toggle click-dropdown flex justify-between border-gray-100 border-2 rounded-lg p-2 cursor-pointer"
             @click="handleDropdown()" :class="error ? 'border-red-100' : ''">
             <p class="truncate">{{ label }}</p>
