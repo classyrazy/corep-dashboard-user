@@ -23,5 +23,5 @@ export default defineNuxtConfig({
     },
   },
   buildModules: ["@pinia/nuxt", "@nuxtjs/pwa"],
-  ssr: false,
+  // ssr: false,
 });
