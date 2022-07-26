@@ -21,7 +21,10 @@ import { useUserStore } from "../store/user.ts";
 const themeFromLocalStorage = localStorage.getItem("theme");
 let store = useUserStore();
 onMounted(() => {
-    if (process.client) {
+  console.log("This is from D-board Mounted");
+  store.fetchUser();
+
+  if (process.client) {
     //   window.addEventListener('load', () => {
     if (!("serviceWorker" in navigator)) {
       throw new Error("serviceWorker is not supported in current browser!");
@@ -29,8 +32,8 @@ onMounted(() => {
     navigator.serviceWorker.register("/sw.js");
     //   })
   }
-    store.fetchUser();
-})
+//   store.fetchUser();
+});
 </script>
 
 <style scoped>
