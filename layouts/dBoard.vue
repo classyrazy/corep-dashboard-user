@@ -17,12 +17,12 @@
 <script setup lang="ts">
 import DbContent from "../components/UI/db-content.vue";
 import DBoardSideBar from "./dBoardSideBar.vue";
-import { useUserStore } from "../store/user.ts";
+import { useUserStore } from "../store/user";
 const themeFromLocalStorage = localStorage.getItem("theme");
-let store = useUserStore();
+let storeData = useUserStore();
 onMounted(() => {
   console.log("This is from D-board Mounted");
-  store.fetchUser();
+//   storeData.fetchUser();
 
   if (process.client) {
     //   window.addEventListener('load', () => {
