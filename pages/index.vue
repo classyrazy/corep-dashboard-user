@@ -78,7 +78,7 @@ import { useUserStore } from "../store/user";
 let store = useUserStore();
 
 definePageMeta({
-  layout: "d-board",
+  // layout: "d-board",
   middleware: "logged-in",
 });
 
