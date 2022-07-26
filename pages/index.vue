@@ -109,7 +109,7 @@ const isDarkModePreferred = ref(null);
 // }
 onMounted(() => {
   console.log("This is from index Mounted")
-  // store.fetchUser()
+  store.fetchUser()
   // getStartAppTodos()
   store.fetchUserRegStartTodoLevelMode();
   isDarkModePreferred.value = window.matchMedia(
