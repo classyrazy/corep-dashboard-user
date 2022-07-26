@@ -107,9 +107,19 @@ const isDarkModePreferred = ref(null);
 //         console.log(error);
 //     }
 // }
+let userData = null;
+async function fetchUser() {
+    try {
+      let req = new Graph().service("User/getLoggedInUser");
+      userData = await (await req.get()).getData();
+    store.setUser(userData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 onMounted(() => {
-    store.fetchUser();
-
+    // store.fetchUser();
+  fetchUser()
   // getStartAppTodos()
   store.fetchUserRegStartTodoLevelMode();
   isDarkModePreferred.value = window.matchMedia(
