@@ -1,7 +1,8 @@
 <template>
   <db-content v-slot="slotProps">
-  {{slotProps}}
-    <div class="font-inter" >
+  {{ store }}
+  Hello World
+    <div class="font-inter" v-if="slotProps.userStore">
       <!-- {{ slotProps.mode }} -->
       <header class="w-full flex justify-between items-center mb-6">
         <div class="w-full max-w-lg">
@@ -78,10 +79,10 @@ import { useUserStore } from "../store/user";
 
 let store = useUserStore();
 
-definePageMeta({
-  // layout: "d-board",
-  middleware: "logged-in",
-});
+// definePageMeta({
+//   layout: "d-board",
+//   middleware: "logged-in",
+// });
 
 type Theme = "light" | "dark";
 // let startAppTodoLevel = ref(null)
@@ -107,6 +108,8 @@ const isDarkModePreferred = ref(null);
 //     }
 // }
 onMounted(() => {
+    store.fetchUser();
+
   // getStartAppTodos()
   store.fetchUserRegStartTodoLevelMode();
   isDarkModePreferred.value = window.matchMedia(
