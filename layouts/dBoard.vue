@@ -21,7 +21,7 @@ import DbContent from '../components/UI/db-content.vue'
 import DBoardSideBar from './dBoardSideBar.vue'
 import { useUserStore } from '../store/user.ts'
 const themeFromLocalStorage = localStorage.getItem("theme");
-// let store = useUserStore()
+let store = useUserStore()
 // onMounted(() => {
 //     if (process.client) {
 //     //   window.addEventListener('load', () => {
