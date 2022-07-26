@@ -121,7 +121,7 @@ onMounted(() => {
     // store.fetchUser();
   fetchUser()
   // getStartAppTodos()
-  store.fetchUserRegStartTodoLevelMode();
+  // store.fetchUserRegStartTodoLevelMode();
   isDarkModePreferred.value = window.matchMedia(
     "(prefers-color-scheme: dark)"
   ).matches;
