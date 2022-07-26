@@ -21,18 +21,18 @@ import DbContent from '../components/UI/db-content.vue'
 import DBoardSideBar from './dBoardSideBar.vue'
 import { useUserStore } from '../store/user.ts'
 const themeFromLocalStorage = localStorage.getItem("theme");
-let store = useUserStore()
-onMounted(() => {
-    if (process.client) {
-    //   window.addEventListener('load', () => {
-    if (!("serviceWorker" in navigator)) {
-      throw new Error("serviceWorker is not supported in current browser!");
-    }
-    navigator.serviceWorker.register("/sw.js");
-    //   })
-  }
-    store.fetchUser();
-})
+// let store = useUserStore()
+// onMounted(() => {
+//     if (process.client) {
+//     //   window.addEventListener('load', () => {
+//     if (!("serviceWorker" in navigator)) {
+//       throw new Error("serviceWorker is not supported in current browser!");
+//     }
+//     navigator.serviceWorker.register("/sw.js");
+//     //   })
+//   }
+//     store.fetchUser();
+// })
 
 
 </script>

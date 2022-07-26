@@ -1,4 +1,5 @@
 import Graph from "../libs/avanda";
+import {ref,computed} from "vue";
 interface formObj {
   value: null | string;
   error: null | string;
@@ -39,12 +40,9 @@ export default function useFormRequest(
     loading.value = true;
     console.log(form ?? postData);
 
-    console.log(serverForm.value);
     try {
-      console.log(serverForm.value);
       let req = new Graph().service(service);
       data.value = (await req.post(serverForm.value)).getData();
-      console.log(data.value);
       clearError();
     } catch (error) {
       if (typeof errorFunc == "function") await errorFunc(error);
@@ -57,10 +55,8 @@ export default function useFormRequest(
     if (!postData) return;
     if (loading.value) return;
     loading.value = true;
-    console.log(postData);
     let toServerData = ref(postData);
     try {
-      console.log(toServerData.value);
       let req = new Graph().service(service);
       data.value = (await req.post(toServerData.value)).getData();
       console.log(data.value);

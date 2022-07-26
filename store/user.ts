@@ -30,7 +30,6 @@ export const useUserStore = defineStore("user", () => {
     try {
       let req = new Graph().service("User/getUserTodos");
       userRegTodoStageLevel.value = await (await req.get()).getData();
-      console.log(userRegTodoStageLevel.value);
     } catch (error) {
       console.log(error);
     }
