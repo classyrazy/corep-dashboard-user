@@ -79,10 +79,10 @@ import { useUserStore } from "../store/user";
 
 let store = useUserStore();
 
-// definePageMeta({
-//   layout: "d-board",
-//   middleware: "logged-in",
-// });
+definePageMeta({
+  layout: "d-board",
+  middleware: "logged-in",
+});
 
 type Theme = "light" | "dark";
 // let startAppTodoLevel = ref(null)
@@ -109,7 +109,7 @@ const isDarkModePreferred = ref(null);
 // }
 onMounted(() => {
   console.log("This is from index Mounted")
-  store.fetchUser()
+  // store.fetchUser()
   // getStartAppTodos()
   store.fetchUserRegStartTodoLevelMode();
   isDarkModePreferred.value = window.matchMedia(
