@@ -6,15 +6,6 @@
           class="dark:bg-db-pry-dark bg-db-white-light h-screen overflow-y-auto top-0"
         >
         </d-board-side-bar>
-        <button @click="store.changeMode" class="bg-red-400">
-          Change Modee
-        </button>
-        <button
-          @click="store.changeUserRegTodoStageLevel('subscribe-courses')"
-          class="bg-blue-400"
-        >
-          test Modee
-        </button>
         {{ store }}
       </div>
       <slot></slot>
