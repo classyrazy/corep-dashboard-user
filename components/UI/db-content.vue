@@ -1,6 +1,6 @@
 <template>
     <div class="overflow-y-auto w-full h-screen p-8">
-        <slot :user-store="user" :mode="store.darkMode"></slot>
+        <slot></slot>
     </div>
 </template>
 
