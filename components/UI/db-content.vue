@@ -10,9 +10,8 @@ import { storeToRefs } from 'pinia'
 let store = useUserStore()
 
 // const soreDetails = storeToRefs(store)
-const user = computed(() => {
-    return store.user
-})
+const user = computed(() =>  store.user)
+
 // const user = computed(() => {
 //     return store.user
 // })
@@ -20,10 +19,11 @@ const user = computed(() => {
 //     return store.getMode
 // })
 
-// onMounted(() => {
-//     store.fetchUser();
+onMounted(() => {
+    // store.fetchUser();
+    console.log("This is from db content")
 
-// })
+})
 
 </script>
 

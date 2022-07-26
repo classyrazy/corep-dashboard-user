@@ -10,16 +10,14 @@ export const useUserStore = defineStore("user", () => {
   } else {
     darkMode.value = false;
   }
-  // async function fetchUser() {
-  //   try {
-  //     let req = new Graph().service("User/getLoggedInUser");
-  //     user.value = await (await req.get()).getData();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-  function setUser(userData: object) {
-    user.value = userData;
+  async function fetchUser() {
+    console.log("this from store fetch user")
+    try {
+      let req = new Graph().service("User/getLoggedInUser");
+      user.value = await (await req.get()).getData();
+    } catch (error) {
+      console.log(error);
+    }
   }
   function changeUserRegTodoStageLevel(level: string){
     userRegTodoStageLevel.value = level
@@ -30,6 +28,7 @@ export const useUserStore = defineStore("user", () => {
     darkMode.value = !darkMode.value;
   }
   async function fetchUserRegStartTodoLevelMode() {
+    console.log("this is from store fetch user reg start todo level mode")
     try {
       let req = new Graph().service("User/getUserTodos");
       userRegTodoStageLevel.value = await (await req.get()).getData();
@@ -40,7 +39,7 @@ export const useUserStore = defineStore("user", () => {
   return {
     user,
     darkMode,
-    setUser,
+    fetchUser,
     changeMode,
     fetchUserRegStartTodoLevelMode,
     userRegTodoStageLevel,

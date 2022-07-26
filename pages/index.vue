@@ -1,6 +1,6 @@
 <template>
   <db-content v-slot="slotProps">
-  {{ store }}
+  {{ slotProps }}
   Hello World
     <div class="font-inter" v-if="slotProps.userStore">
       <!-- {{ slotProps.mode }} -->
@@ -107,21 +107,11 @@ const isDarkModePreferred = ref(null);
 //         console.log(error);
 //     }
 // }
-let userData = null;
-async function fetchUser() {
-    try {
-      let req = new Graph().service("User/getLoggedInUser");
-      userData = await (await req.get()).getData();
-    store.setUser(userData);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 onMounted(() => {
-    // store.fetchUser();
-  fetchUser()
+  console.log("This is from index Mounted")
+  store.fetchUser()
   // getStartAppTodos()
-  // store.fetchUserRegStartTodoLevelMode();
+  store.fetchUserRegStartTodoLevelMode();
   isDarkModePreferred.value = window.matchMedia(
     "(prefers-color-scheme: dark)"
   ).matches;
