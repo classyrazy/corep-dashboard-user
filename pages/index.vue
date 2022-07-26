@@ -1,6 +1,6 @@
 <template>
-  <db-content>
-    <div class="font-inter">
+  <db-content v-slot="slotProps">
+    <div class="font-inter" v-if="slotProps.userStore">
       <!-- {{ slotProps.mode }} -->
       <header class="w-full flex justify-between items-center mb-6">
         <div class="w-full max-w-lg">
@@ -12,7 +12,7 @@
             placeholder="Search for Courses"
             full
             iconLeft
-            :icon-color="store.darkMode? '#ffff' : '#212939'"
+            :icon-color="slotProps.mode ? '#ffff' : '#212939'"
           ></v-input>
         </div>
         <div class="flex items-center mx-2">
@@ -23,7 +23,7 @@
               <div class="flex relative">
                 <bell-icon
                   class=""
-                  :text-color="store.darkMode ? '#ffff' : '#212939'"
+                  :text-color="slotProps.mode ? '#ffff' : '#212939'"
                 ></bell-icon>
                 <div
                   class="w-2 h-2 bg-red-400 top-1 left-1 absolute rounded-full"
@@ -35,9 +35,9 @@
             <div class="flex items-center font-inter text-sm">
               <p
                 class="dark:text-white text-db-pry-dark mr-2"
-                v-if="store.user"
+                v-if="slotProps.userStore"
               >
-                {{ store.user.username }}
+                {{ slotProps.userStore.username }}
               </p>
               <div
                 class="flex bg-pry rounded-full w-10 h-10 justify-center items-center"
@@ -54,7 +54,7 @@
       </header>
       <div class="">
         <h1 class="dark:text-white text-4xl text-db-pry-dark font-bold">
-          Hello {{ store.user.username }}
+          Hello {{ slotProps.userStore.username }}
         </h1>
         <start-app-todo-list
           class="mt-4"
