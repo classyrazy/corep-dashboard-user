@@ -1,7 +1,5 @@
 <template>
   <db-content v-slot="slotProps">
-  {{ slotProps }}
-  Hello World
     <div class="font-inter" v-if="slotProps.userStore">
       <!-- {{ slotProps.mode }} -->
       <header class="w-full flex justify-between items-center mb-6">

@@ -12,6 +12,7 @@
                 <h2 class="text-sm font-semibold">{{ todoText }}</h2>
                 <p class="text-xs font-medium">{{ description }}</p>
             </div>
+            <h1 v-if="loading">loading</h1>
         </div>
     <!-- </router-link> -->
 </template>
@@ -29,6 +30,7 @@ interface Props {
     description: string;
     icon: object;
     link: string;
+    loading: boolean;
 }
 
 let props = withDefaults(defineProps<Props>(), {});

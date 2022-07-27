@@ -3,7 +3,7 @@
         <start-app-todo :bg-color="startAppTodo.bgColor" :todo-text="startAppTodo.todoText"
             :description="startAppTodo.description" :icon="startAppTodo.icon" :link="startAppTodo.link"
             v-for="startAppTodo in computedTodoArray" :completed="startAppTodo.completed" :key="startAppTodo.id"
-            @click="handleTodoClick(startAppTodo, startAppTodo.modal, startAppTodo.link)">
+            @click="handleTodoClick(startAppTodo, startAppTodo.modal, startAppTodo.link)" :loading="loadingModal">
         </start-app-todo>
 
 
@@ -34,6 +34,7 @@ interface startAppTodoObjType {
 
 let store = useUserStore()
 let darkMode = computed(() => store.darkMode)
+let loadingModal = ref(false)
 
 
 let startTodoArray  = reactive<startAppTodoObjType[]>([
@@ -125,10 +126,12 @@ async function getFaculties() {
 }
 let handleTodoClick = async (todo: startAppTodoObjType, componentPassed, link) => {
     let modalColor = darkMode.value ? '#212939' : 'white'
+    loadingModal.value = true
     // 2A3343
 
-    if (!link && !todo.completed) {
+    if (!link && !todo.completed && todo.id === 1) {
         await getFaculties()
+        loadingModal.value = false
         if (faculties.value) {
             modalResult.value = await useModal(componentPassed, {
                 options: {

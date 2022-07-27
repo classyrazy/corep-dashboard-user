@@ -6,7 +6,6 @@
           class="dark:bg-db-pry-dark bg-db-white-light h-screen overflow-y-auto top-0"
         >
         </d-board-side-bar>
-        <!-- {{ store }} -->
       </div>
       <slot></slot>
     </div>
