@@ -1,17 +1,17 @@
 <template>
   <div :class="storeData.darkMode ? 'dark' : ''">
     <div
-      class="relative dark:bg-db-pry max-h-screen h-full md:max-h-auto lg:max-h-auto md:h-auto lg:h-auto bg-white md:bg-db-white-dark db-con md:flex lg:flex w-full"
+      class="relative dark:bg-db-pry md:max-h-screen min-h-screen md:max-h-auto lg:max-h-auto md:h-auto lg:h-auto bg-white md:bg-db-white-dark db-con md:flex lg:flex items-center w-full"
     >
       <div
-        class="relative w-full hidden lg:block md:block lg:max-w-[18rem] md:max-w-[4rem] z-10"
+        class="relative w-full hidden lg:block md:block lg:max-w-[18rem] md:max-w-[4rem] shrink-0 z-10"
       >
         <d-board-side-bar
           class="dark:bg-db-pry-dark bg-db-white-light h-screen overflow-y-auto top-0"
         >
         </d-board-side-bar>
       </div>
-      <div class="db-content">
+      <div class="db-content pb-32 md:pb-0">
         <slot></slot>
       </div>
       <d-board-side-bar-mobile

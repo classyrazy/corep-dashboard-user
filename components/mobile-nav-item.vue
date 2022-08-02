@@ -1,14 +1,18 @@
 <template>
-    <div>
-        <router-link :to="link"
-            class="flex justify-between items-center mx-2 rounded-md mt-6 py-4">
-            <div class="flex flex-col justify-center ">
+    <!-- <div> -->
+        <li class="">
+            <router-link :to="link"
+            class=" w-full mx-auto items-center mx-2 rounded-md">
+            <!-- <li class=""> -->
+                <div class="flex flex-col justify-center ">
                 <component v-if="icon" :is="icon" :size="size" :bg-color="darkMode ? bgColor : '#4471E3'" class="mx-auto"></component>
                 <h2 class="text-sm font-medium font-inter">{{ text }}</h2>
             </div>
+            <!-- </li> -->
 
         </router-link>
-    </div>
+        </li>
+    <!-- </div> -->
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template>
-    <div class="py-6 w-full">
+    <div class="py-6 ">
         <nav class="flex flex-col max-h-screen h-full justify-between">
             <div class="upper-sidebar">
                 <router-link to="/">

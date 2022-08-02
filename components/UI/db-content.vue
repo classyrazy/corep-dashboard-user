@@ -1,5 +1,5 @@
 <template>
-    <div class="overflow-y-auto w-full h-screen md:p-8 pt-4 px-2 md:px-auto md:pt-auto">
+    <div class="md:overflow-y-auto w-full md:h-screen md:p-8 pt-4 px-2 md:px-auto md:pt-auto">
         <slot :user-store="user" :mode="store.darkMode"></slot>
     </div>
 </template>

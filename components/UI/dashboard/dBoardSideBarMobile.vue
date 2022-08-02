@@ -1,40 +1,40 @@
 <template>
   <div class="w-full">
-    <nav class="px-4">
-      <div class="upper-sidebar">
-        <ul class="mt-10 flex items-end justify-between">
-          <li>
+    <nav class="">
+      <div class="upper-sidebar dark:bg-db-pry bg-db-white-light">
+        <ul class="mt-10 flex items-end justify-between px-4">
+          <!-- <li> -->
             <mobile-nav-item
               text="Home"
               :icon="HomeMobileIcon"
               class=""
               link="/"
             ></mobile-nav-item>
-          </li>
-          <li>
+          <!-- </li> -->
+          <!-- <li> -->
             <mobile-nav-item
               text="Classes"
               :icon="ClassesMobileIcon"
               class=""
               link="/classes"
             ></mobile-nav-item>
-          </li>
-          <li>
+          <!-- </li> -->
+          <!-- <li> -->
             <mobile-nav-item
               text="Announcements"
               :icon="AnnouncementIcon"
               class=""
               link="/announcements"
             ></mobile-nav-item>
-          </li>
-          <li>
+          <!-- </li> -->
+          <!-- <li> -->
             <mobile-nav-item
               text="Timetable"
               :icon="TimetableMobileIcon"
               class=""
               link="/timetable"
             ></mobile-nav-item>
-          </li>
+          <!-- </li> -->
         </ul>
       </div>
     </nav>

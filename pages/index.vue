@@ -2,8 +2,13 @@
   <db-content v-slot="slotProps">
     <div class="font-inter" v-if="slotProps.userStore">
       <!-- {{ slotProps.mode }} -->
-      <header class="w-full flex justify-between items-center mb-6">
-        <corep-logo-notext :size="40" :bg-color="slotProps.mode? '#3B3F4D': '#EEEEEE'" :text-color="slotProps.mode? '#fff': '#212939'"></corep-logo-notext>
+      <header class="w-full flex justify-between items-center mb-6 mt-4">
+        <corep-logo-notext
+          :size="40"
+          :bg-color="slotProps.mode ? '#3B3F4D' : '#EEEEEE'"
+          :text-color="slotProps.mode ? '#fff' : '#212939'"
+          class="md:hidden mx-2"
+        ></corep-logo-notext>
         <div class="w-full max-w-lg hidden md:block">
           <v-input
             class="dark:bg-db-pry-dark min-w-[70%] block py-2 px-3 dark:text-white rounded-lg"
@@ -53,21 +58,22 @@
           </router-link>
         </div>
       </header>
-      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto">
-        <h1 class="dark:text-white text-4xl text-db-pry-dark font-bold">
+      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto pt-10">
+       <div class="app-todos" v-if="startAppTodoLevel !== 'completed'">
+         <h1 class="dark:text-white text-4xl text-db-pry-dark font-bold">
           Hello {{ slotProps.userStore.username }}
         </h1>
         <start-app-todo-list
           class="mt-4"
-          v-if="startAppTodoLevel !== 'completed'"
         ></start-app-todo-list>
+       </div>
       </div>
     </div>
   </db-content>
 </template>
 
 <script setup lang="ts">
-import CorepLogoNotext from '../components/svgs/corep-logo-notext.vue'
+import CorepLogoNotext from "../components/svgs/corep-logo-notext.vue";
 import DbContent from "../components/UI/db-content.vue";
 import BellIcon from "../components/icons/bell-icon.vue";
 import SearchIcon from "../components/icons/search-icon.vue";
