@@ -37,7 +37,7 @@ let props = withDefaults(defineProps<Props>(), {
 
 <style scoped lang="postcss">
 nav a.router-link-exact-active{
-  @apply text-sec
+  @apply text-sec dark:text-sec
 }
 nav a{
   @apply dark:text-[#cccc] text-db-pry-dark
