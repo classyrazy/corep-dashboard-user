@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-auto grid-cols-3 gap-4 max-w-[1000px]" v-if="startAppTodoLevel">
+    <div class="grid grid-auto md:grid-cols-3 gap-4 max-w-[1000px]" v-if="startAppTodoLevel">
         <start-app-todo :bg-color="startAppTodo.bgColor" :todo-text="startAppTodo.todoText"
             :description="startAppTodo.description" :icon="startAppTodo.icon" :link="startAppTodo.link"
             v-for="startAppTodo in computedTodoArray" :completed="startAppTodo.completed" :key="startAppTodo.id"
@@ -149,19 +149,6 @@ let handleTodoClick = async (todo: startAppTodoObjType, componentPassed, link) =
         }
     }
 }
-// async function openIntroMobile() {
-//     await useModal(CitiesModal, {
-//         options: {
-//             background: '#EDEDED',
-//             width: 1000,
-//             blur: false,
-//         },
-//         props: {
-//             city: formHandlers.countrySelectedMobile,
-//             country: foundCity
-//         }
-//     })
-// }
 </script>
 
 <style scoped>

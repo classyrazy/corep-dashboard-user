@@ -46,16 +46,16 @@
 </template>
 
 <script setup lang="ts">
-import SideBarItem from '../components/UI/side-bar-item.vue'
-import SettingsIcon from '../components/icons/settings-icon.vue'
-import TimeTableIcon from '../components/icons/time-table-icon.vue'
-import AssignmentIcon from '../components/icons/assignment-icon.vue'
-import AnnouncementIcon from '../components/icons/announcement-icon.vue'
-import ClassesIcon from '../components/icons/classes-icon.vue'
-import DashboardIcon from '../components/icons/dashboard-icon.vue'
-import DBoardLogo from '../components/UI/d-board-logo.vue'
+import SideBarItem from '../side-bar-item.vue'
+import SettingsIcon from '../../icons/settings-icon.vue'
+import TimeTableIcon from '../../icons/time-table-icon.vue'
+import AssignmentIcon from '../../icons/assignment-icon.vue'
+import AnnouncementIcon from '../../icons/announcement-icon.vue'
+import ClassesIcon from '../../icons/classes-icon.vue'
+import DashboardIcon from '../../icons/dashboard-icon.vue'
+import DBoardLogo from '../../UI/d-board-logo.vue'
 // bg-gray-900 flex flex-col w-0 lg:w-64 h-0 lg:h-screen z-10 lg:fixed start-0 top-0
-import { useUserStore } from '../store/user'
+import {useUserStore} from '../../../store/user'
 import { storeToRefs } from 'pinia'
 let store = useUserStore()
 
@@ -63,6 +63,14 @@ let store = useUserStore()
 
 <style scoped lang="postcss">
 nav a.router-link-exact-active {
+  @apply bg-sec
+    
+}
+nav a {
+  @apply dark:hover:bg-db-pry hover:bg-db-white-dark
+    
+}
+nav a.router-link-exact-active:hover {
   @apply bg-sec
     
 }

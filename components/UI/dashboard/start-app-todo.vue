@@ -1,6 +1,6 @@
 <template>
     <!-- <router-link :to="link"> -->
-        <div class="dark:bg-db-white-light bg-db-white-dark dark:border-db-white-dark border-2  rounded-md p-4 flex justify-center items-center"
+        <div class="dark:bg-db-white-light bg-db-white-dark dark:border-db-white-dark border-2  rounded-md p-4 flex md:justify-center items-center"
             :class="completed ? '' : 'cursor-pointer'">
             <div class="h">
                 <div class="cicle circle-bg-color rounded-full flex justify-center mr-2">

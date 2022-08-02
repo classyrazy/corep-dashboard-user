@@ -3,7 +3,8 @@
     <div class="font-inter" v-if="slotProps.userStore">
       <!-- {{ slotProps.mode }} -->
       <header class="w-full flex justify-between items-center mb-6">
-        <div class="w-full max-w-lg">
+        <corep-logo-notext :size="40" :bg-color="slotProps.mode? '#3B3F4D': '#EEEEEE'" :text-color="slotProps.mode? '#fff': '#212939'"></corep-logo-notext>
+        <div class="w-full max-w-lg hidden md:block">
           <v-input
             class="dark:bg-db-pry-dark min-w-[70%] block py-2 px-3 dark:text-white rounded-lg"
             size="x-small"
@@ -34,7 +35,7 @@
           <router-link to="/settings/user">
             <div class="flex items-center font-inter text-sm">
               <p
-                class="dark:text-white text-db-pry-dark mr-2"
+                class="hidden md:block dark:text-white text-db-pry-dark mr-2"
                 v-if="slotProps.userStore"
               >
                 {{ slotProps.userStore.username }}
@@ -52,7 +53,7 @@
           </router-link>
         </div>
       </header>
-      <div class="">
+      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto">
         <h1 class="dark:text-white text-4xl text-db-pry-dark font-bold">
           Hello {{ slotProps.userStore.username }}
         </h1>
@@ -66,6 +67,7 @@
 </template>
 
 <script setup lang="ts">
+import CorepLogoNotext from '../components/svgs/corep-logo-notext.vue'
 import DbContent from "../components/UI/db-content.vue";
 import BellIcon from "../components/icons/bell-icon.vue";
 import SearchIcon from "../components/icons/search-icon.vue";
@@ -106,8 +108,8 @@ const isDarkModePreferred = ref(null);
 //     }
 // }
 onMounted(() => {
-  console.log("This is from index Mounted")
-  store.fetchUser()
+  console.log("This is from index Mounted");
+  store.fetchUser();
   // getStartAppTodos()
   store.fetchUserRegStartTodoLevelMode();
   isDarkModePreferred.value = window.matchMedia(
