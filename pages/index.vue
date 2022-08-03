@@ -58,13 +58,14 @@
           </router-link>
         </div>
       </header>
-      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto pt-10">
-       <div class="app-todos" v-if="startAppTodoLevel !== 'completed'">
-         <h1 class="dark:text-white text-4xl text-db-pry-dark font-bold">
-          Hello {{ slotProps.userStore.username }}
-        </h1>
+      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto pt-10 ">
+       <div class="app-todos mt-6 md:mt-0" v-if="startAppTodoLevel !== 'completed'">
+         <h3 class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold"> 
+          Welcome comrade👋
+        </h3>
+        <p class="dark:text-white text-db-pry-dark mt-2">Let help you get started by completing the following steps</p>
         <start-app-todo-list
-          class="mt-4"
+          class="mt-6 md:mt-4"
         ></start-app-todo-list>
        </div>
       </div>
@@ -103,31 +104,22 @@ const setTheme = (newTheme: Theme) => {
   darkMode.value = newTheme === "dark";
 };
 const isDarkModePreferred = ref(null);
-// async function getStartAppTodos() {
-//     try {
-//         let req = new Graph()
-//             .service("User/getUserTodos")
-//         startAppTodoLevel.value = await (await req.get()).getData();
-//         console.log(startAppTodoLevel.value)
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 onMounted(() => {
   console.log("This is from index Mounted");
+  store.setUserTheme()
   store.fetchUser();
   // getStartAppTodos()
   store.fetchUserRegStartTodoLevelMode();
-  isDarkModePreferred.value = window.matchMedia(
-    "(prefers-color-scheme: dark)"
-  ).matches;
-  console.log(isDarkModePreferred.value);
-  console.log(darkMode.value);
+  // isDarkModePreferred.value = window.matchMedia(
+  //   "(prefers-color-scheme: dark)"
+  // ).matches;
+  // console.log(isDarkModePreferred.value);
+  // console.log(darkMode.value);
 
-  const themeFromLocalStorage = localStorage.getItem(
-    LOCAL_STORAGE_THEME_KEY
-  ) as Theme;
-  setTheme(isDarkModePreferred.value ? "dark" : "light");
+  // const themeFromLocalStorage = localStorage.getItem(
+  //   LOCAL_STORAGE_THEME_KEY
+  // ) as Theme;
+  // setTheme(isDarkModePreferred.value ? "dark" : "light");
   // setTheme(themeFromLocalStorage);
 });
 

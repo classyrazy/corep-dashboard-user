@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import Graph from "../libs/avanda";
-import {ref} from "vue";
+import { ref } from "vue";
 export const useUserStore = defineStore("user", () => {
   let user = ref(null);
   let userRegTodoStageLevel = ref(null);
@@ -11,7 +11,7 @@ export const useUserStore = defineStore("user", () => {
     darkMode.value = false;
   }
   async function fetchUser() {
-    console.log("this from store fetch user")
+    console.log("this from store fetch user");
     try {
       let req = new Graph().service("User/getLoggedInUser");
       user.value = await (await req.get()).getData();
@@ -19,8 +19,8 @@ export const useUserStore = defineStore("user", () => {
       console.log(error);
     }
   }
-  function changeUserRegTodoStageLevel(level: string){
-    userRegTodoStageLevel.value = level
+  function changeUserRegTodoStageLevel(level: string) {
+    userRegTodoStageLevel.value = level;
   }
   // watch(darkMode)
   function changeMode() {
@@ -28,13 +28,23 @@ export const useUserStore = defineStore("user", () => {
     darkMode.value = !darkMode.value;
   }
   async function fetchUserRegStartTodoLevelMode() {
-    console.log("this is from store fetch user reg start todo level mode")
+    console.log("this is from store fetch user reg start todo level mode");
     try {
       let req = new Graph().service("User/getUserTodos");
       userRegTodoStageLevel.value = await (await req.get()).getData();
     } catch (error) {
       console.log(error);
     }
+  }
+  let mode = ref(false);
+  const LOCAL_STORAGE_THEME_KEY = "app-theme";
+  function setUserTheme() {
+    let isDarkModePreferred = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDarkModePreferred ? "dark" : "light");
+    // mode.value = newTheme === "dark";
+    console.log({isDarkModePreferred})
   }
   return {
     user,
@@ -43,7 +53,8 @@ export const useUserStore = defineStore("user", () => {
     changeMode,
     fetchUserRegStartTodoLevelMode,
     userRegTodoStageLevel,
-    changeUserRegTodoStageLevel
+    changeUserRegTodoStageLevel,
+    setUserTheme
   };
 });
 // import { defineStore } from "pinia";
