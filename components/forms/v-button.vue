@@ -83,6 +83,10 @@ let types = {
         __class: ' border-pry bg-sec text-pry-dark font-bold btn-sec button02',
         text: '#fff'
     },
+    "border-sec": {
+        __class: ' border-pry bg-transparent border-sec border-2 text-white hover:bg-pry-dark-hover-light font-bold btn-sec button02',
+        text: '#fff'
+    },
 }
 // hover:bg-pry-dark hover:text-white transition-colors duration-500
 

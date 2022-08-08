@@ -6,15 +6,15 @@
   >
     <div class="upper">
       <div
-        class="name-close_btn p-6 flex justify-between items-center dark:text-white"
+        class="name-close_btn py-6 px-2 md:p-6 flex justify-between items-center dark:text-white"
       >
-        <h1 class="font-semibold text-2xl text-center">
+        <h1 class="font-semibold text-xl md:text-2xl text-center">
           Choose course of study
         </h1>
         <div
-          class="close_btn dark:border-db-white-dark border-2 w-10 h-10 flex justify-center cursor-pointer items-center rounded-md"
+          class="close_btn dark:border-db-white-dark border-2 w-6 h-6 md:w-10 md:h-10 flex justify-center cursor-pointer items-center rounded-md"
         >
-          <close-icon :text-color="darkMode ? 'white' : 'black'"></close-icon>
+          <close-icon :text-color="darkMode ? 'white' : 'black'" ></close-icon>
         </div>
       </div>
       <div class="bg-sec w-full h-[1px]"></div>
@@ -46,14 +46,14 @@
             @chosen-course-of-study="handleChosenCourseOfStudy"
           >
           </course-of-study-list-modal-view>
-          <h1 v-if="loadingDepartments">{{ loadingDepartments }}</h1>
+          <loader-icon v-if="loadingDepartments" class="center-element" :size="50" :color="darkMode? '#fff':'#212939'"></loader-icon>
         </tab>
       </tabs-wrapper>
     </div>
     <div class="flex justify-end m-8">
       <v-button
         type="pry"
-        :loading="loading"
+        :loading="loadingSubmitData"
         class="text-right"
         @click="handleSubmitCourseChosen"
         >Done</v-button
@@ -63,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+import LoaderIcon from '../../svgs/loader-icon.vue'
 import VButton from "../../forms/v-button.vue";
 import Tab from "../tabs/tab.vue";
 import TabsWrapper from "../tabs/tabs-wrapper.vue";
@@ -86,7 +87,7 @@ let returnedData = ref(null);
 let error = ref(null);
 let showError = ref(false);
 let loadingDepartments = ref(false);
-
+let loadingSubmitData = ref(false);
 async function handleChosenFaculty(facultyIdpassed) {
   console.log("hello World", facultyIdpassed);
   loadingDepartments.value = true;
@@ -106,6 +107,8 @@ async function handleChosenFaculty(facultyIdpassed) {
     },
     (error) => {
       console.log(error);
+      loadingDepartments.value = false;
+
     }
   );
   submitData();
@@ -122,13 +125,6 @@ let computedCourseOfStudies = computed(() => {
   }
   return courseOfStudies.value;
 });
-// onBeforeMount(() => {
-//     getFaculties()
-// })
-onMounted(() => {
-  // getFaculties()
-  console.log("mounted");
-});
 function handleChosenCourseOfStudy(courseObj) {
   modalSubmitData.value = courseObj;
 }
@@ -140,6 +136,7 @@ function handleSubmitCourseChosen() {
     showError.value = true;
     return;
   }
+  loadingSubmitData.value = true; 
   let unrefModalSubmitData = modalSubmitData.value;
   let { submitData, loading, data } = useFormRequest(
     "User/courseOfStudyRegisteration",
@@ -149,11 +146,13 @@ function handleSubmitCourseChosen() {
       console.log(data);
       if (data) {
         returnedData.value = data;
+        loadingSubmitData.value = false;
         emit("close", returnedData.value);
       }
     },
     (error) => {
       console.log(error);
+      loadingSubmitData.value = false;
     }
   );
   submitData();
@@ -182,5 +181,11 @@ let colors = {
   border-radius: 50px !important;
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+.center-element{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

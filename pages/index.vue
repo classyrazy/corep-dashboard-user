@@ -9,7 +9,7 @@
           :text-color="slotProps.mode ? '#fff' : '#212939'"
           class="md:hidden mx-2"
         ></corep-logo-notext>
-        <div class="w-full max-w-lg hidden md:block">
+        <div class="w-full max-w-lg md:max-w-auto hidden md:block">
           <v-input
             class="dark:bg-db-pry-dark min-w-[70%] block py-2 px-3 dark:text-white rounded-lg"
             size="x-small"
@@ -88,7 +88,7 @@ let store = useUserStore();
 
 definePageMeta({
   layout: "d-board",
-  middleware: "logged-in",
+  middleware: ["logged-in","is-verified"],
 });
 
 type Theme = "light" | "dark";

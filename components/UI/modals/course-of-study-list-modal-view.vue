@@ -1,5 +1,5 @@
 <template>
-    <div class="course-list items-center gap-8 mx-4 max-w-auto" v-if="courseOfStudies.length">
+    <div class="course-list md:flex flex-wrap items-center gap-8 mx-4 max-w-auto" v-if="courseOfStudies.length">
         <!-- {{ selectedCourse }} -->
         <course-of-study-modal-view v-for="courseOfStudy in computedCourseOfStudies" :key="courseOfStudy.id"
             :department="courseOfStudy.name" :faculty="courseOfStudy.faculty.name" :active="courseOfStudy.active"
@@ -8,7 +8,7 @@
         </course-of-study-modal-view>
 
     </div>
-    <div class="" v-else>Nothing to show ooo</div>
+    <div class="center-element" v-else>Nothing to show ooo</div>
 </template>
 
 <script setup lang="ts">
@@ -96,11 +96,10 @@ function handleCourseOfStudyChosen(courseOfStudyId, parent) {
 </script>
 
 <style scoped>
-.course-list {
+/* .course-list {
     display: grid;
     display: flex;
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     max-width: auto;
-    /* grid-gap: 1rem; */
-}
+} */
 </style>

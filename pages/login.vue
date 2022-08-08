@@ -1,12 +1,6 @@
 <template>
-    <div class="bg-pry-dark min-h-screen h-full block my-auto overflow-x-hidden px-4 center-middle md:px-0">
-        <div class="fixed -top-[7rem] -right-[7rem] md:-top-[7rem] md:-right-[8rem]">
-            <circle-exclude :size="250" class="relative max-w-[200px] md:max-w-[250px]"></circle-exclude>
-        </div>
-        <div class="fixed -top-[5rem] -left-[8rem] md:-top-[3rem] md:-left-[7rem]">
-            <union-svg :size="250" class="relative max-w-[200px] md:max-w-[250px]"></union-svg>
-        </div>
-        <div class="w-full">
+    <layer-bg class="fixed md:relative bg-pry-dark min-h-screen h-full block my-auto overflow-x-hidden px-4 md:px-0">
+        <div class="w-full p-6">
             <div class="bg-white rounded-xl mt-10 pt-2 max-w-md mx-auto font-inter">
                 <div class="w-full">
                     <corep-logo-notext size="40" class=" mx-auto justify-center"></corep-logo-notext>
@@ -31,16 +25,11 @@
                 Don't have an account?<span class="opacity-70 underline ml-1"><router-link to="/signup">signup</router-link></span>
             </p>
         </div>
-        <div class="fixed -bottom-[7rem] -left-[7rem] md:-bottom-[7rem] md:-left-[8rem]">
-            <circle-exclude :size="250" class="relative max-w-[200px] md:max-w-[250px]"></circle-exclude>
-        </div>
-        <div class="fixed -bottom-[5rem] -right-[7rem] md:-bottom-[3rem] md:-right-[7rem]">
-            <union-svg :size="250" class="relative max-w-[200px] md:max-w-[250px]"></union-svg>
-        </div>
-    </div>
+    </layer-bg>
 </template>
 
 <script setup>
+import LayerBg from '../components/UI/layer-bg.vue'
 import VDropDown from '../components/forms/v-drop-down.vue'
 import CorepLogoNotext from '../components/svgs/corep-logo-notext.vue'
 import ToastText from "../components/UI/toast-text.vue";
