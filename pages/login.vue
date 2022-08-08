@@ -1,7 +1,7 @@
 <template>
-    <layer-bg class="fixed md:relative bg-pry-dark min-h-screen h-full block my-auto overflow-x-hidden px-4 md:px-0">
-        <div class="w-full p-6">
-            <div class="bg-white rounded-xl mt-10 pt-2 max-w-md mx-auto font-inter">
+    <layer-bg class="md:relative bg-pry-dark h-screen  block my-auto overflow-x-hidden  center-middle md:px-0">
+        <div class="w-full p-6 ">
+            <div class="bg-white rounded-xl mt-10 pt-2 max-w-md mx-auto font-inter w-full">
                 <div class="w-full">
                     <corep-logo-notext size="40" class=" mx-auto justify-center"></corep-logo-notext>
                     <div class="w-full h-[1px] bg-[#F9B700] mt-4"></div>
@@ -129,4 +129,11 @@ let submitHandler = () => {
     flex-direction: column;
     align-items: center;
 }
+.center-element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 </style>

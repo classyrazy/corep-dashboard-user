@@ -1,7 +1,7 @@
 <template>
-    <layer-bg class="bg-pry-dark h-screen block my-auto overflow-x-hidden px-4  md:px-0">
-        <div class="w-full p-6">
-            <div class="bg-white rounded-xl mt-10 pt-2 max-w-md mx-auto font-inter">
+    <layer-bg class="bg-pry-dark h-screen block my-auto overflow-x-hidden px-4 center-middle  md:px-0">
+        <div class="w-full ">
+            <div class="bg-white rounded-xl mt-10 pt-2 mx-auto max-w-md font-inter w-full">
                 <div class="w-full">
                     <corep-logo-notext size="40" class=" mx-auto justify-center"></corep-logo-notext>
                     <div class="w-full h-[1px] bg-[#F9B700] mt-4"></div>
@@ -33,7 +33,7 @@
                         <v-input type="password" placeholder="Enter Password" full styleType="white"
                             class="text-sm rounded-lg" size="small" label="Password" iconClick
                             :value="formReactive.password"></v-input>
-                        <v-button full type="pry-reverse" :loading="loading">Sign Up</v-button>
+                        <v-button full type="pry" :loading="loading">Sign Up</v-button>
                         <h3 class="text-sm text-center">By signing up, you agree to our <router-link to="#"><span
                                     class="text-pry">Terms
                                     and Conditions</span></router-link>
