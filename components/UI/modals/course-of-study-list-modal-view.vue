@@ -1,98 +1,110 @@
 <template>
-    <div class="course-list md:flex flex-wrap items-center gap-8 mx-4 max-w-auto" v-if="courseOfStudies.length">
-        <!-- {{ selectedCourse }} -->
-        <course-of-study-modal-view v-for="courseOfStudy in computedCourseOfStudies" :key="courseOfStudy.id"
-            :department="courseOfStudy.name" :faculty="courseOfStudy.faculty.name" :active="courseOfStudy.active"
-            :parent-department="courseOfStudy.parent_department"
-            @click="handleCourseOfStudyChosen(courseOfStudy.id, courseOfStudy.parent_department)">
-        </course-of-study-modal-view>
-
-    </div>
-    <div class="center-element" v-else>Nothing to show ooo</div>
+  <div
+    class="course-list md:flex flex-wrap items-center gap-8 mx-4 max-w-auto"
+    v-if="courseOfStudies.length"
+  >
+    <!-- {{ courseOfStudies }} -->
+    <course-of-study-modal-view
+      v-for="courseOfStudy in computedCourseOfStudies"
+      :key="courseOfStudy.id"
+      :department="courseOfStudy.name"
+      :faculty="courseOfStudy.faculty.name"
+      :active="courseOfStudy.active"
+      :parent-department="courseOfStudy.parent_department"
+      @click="
+        handleCourseOfStudyChosen(
+          courseOfStudy.id,
+          courseOfStudy.parent_department
+        )
+      "
+    >
+    </course-of-study-modal-view>
+  </div>
+  <div class="center-element" v-else>Nothing to show ooo</div>
 </template>
 
 <script setup lang="ts">
-import CourseOfStudyModalView from './course-of-study-modal-view.vue'
+import CourseOfStudyModalView from "./course-of-study-modal-view.vue";
 type parent_departmentObj = {
-    id: number,
-    name: string
-}
+  id: number;
+  name: string;
+};
 type courseOfStudyObj = {
-    id: number,
-    name: string,
-    subDepartment: string,
-    faculty: {id: number, name: string},
-    parent_department?: parent_departmentObj
-}
+  id: number;
+  name: string;
+  subDepartment: string;
+  faculty: { id: number; name: string };
+  parent_department?: parent_departmentObj;
+};
 interface Props {
-    courseOfStudies: courseOfStudyObj[]
+  courseOfStudies: courseOfStudyObj[];
 }
-let selectedCourse = ref(null)
+let selectedCourse = ref(null);
 
-let withActiveArr = null
+let withActiveArr = null;
 let computedCourseOfStudies = computed(() => {
-    withActiveArr = []
-    props.courseOfStudies.forEach((courseOfStudy) => {
-        withActiveArr.push(reactive({
-            id: courseOfStudy.id,
-            name: courseOfStudy.name,
-            faculty: courseOfStudy.faculty,
-            parent_department: courseOfStudy.parent_department,
-            active: false
-        }))
-    })
-    return withActiveArr
-
-})
-
-
+  withActiveArr = [];
+  props.courseOfStudies.forEach((courseOfStudy) => {
+    withActiveArr.push(
+      reactive({
+        id: courseOfStudy.id,
+        name: courseOfStudy.name,
+        faculty: courseOfStudy.faculty,
+        parent_department: courseOfStudy.parent_department,
+        active: false,
+      })
+    );
+  });
+  return withActiveArr;
+});
 
 let props = defineProps<Props>();
 let emit = defineEmits(["chosenCourseOfStudy"]);
 
 function handleCourseOfStudyChosen(courseOfStudyId, parent) {
-    console.log({ computedCourseOfStudies: computedCourseOfStudies.value })
-    let courseChosenObj = reactive({
-        department_id: null,
-        sub_department_id: null,
-        faculty_id: null,
-    })
-    let courseOfStudyWithParent = [...props.courseOfStudies].filter(e => e.parent_department)
-    console.log({ parent })
-    if (!parent) {
-        let chosenCourseFound = [...props.courseOfStudies].find(c => c.id === courseOfStudyId)
-        courseChosenObj.department_id = chosenCourseFound.id
-        courseChosenObj.faculty_id = chosenCourseFound.faculty.id
-        computedCourseOfStudies.value.forEach(course => {
-            course.active = false
-            if (course.id === chosenCourseFound.id && !course.parent_department) {
-                course.active = true
-            }
-        })
+  console.log({ computedCourseOfStudies: computedCourseOfStudies.value });
+  let courseChosenObj = reactive({
+    department_id: null,
+    faculty_id: null,
+  });
+  let courseOfStudyWithParent = [...props.courseOfStudies].filter(
+    (e) => e.parent_department
+  );
+  console.log({ parent });
+//   if (!parent) {
+    let chosenCourseFound = [...props.courseOfStudies].find(
+      (c) => c.id === courseOfStudyId
+    );
+    courseChosenObj.department_id = chosenCourseFound.id;
+    courseChosenObj.faculty_id = chosenCourseFound.faculty.id;
+    computedCourseOfStudies.value.forEach((course) => {
+      course.active = false;
+      if (course.id === chosenCourseFound.id) {
+        course.active = true;
+      }
+    });
+//   } else {
+//     let chosenCourseFound = courseOfStudyWithParent.find(
+//       (c) => c.id === courseOfStudyId
+//     );
+//     courseChosenObj.sub_department_id = chosenCourseFound.id;
+//     courseChosenObj.department_id = chosenCourseFound.parent_department.id;
+//     courseChosenObj.faculty_id = chosenCourseFound.faculty.id;
+//     computedCourseOfStudies.value.forEach((course) => {
+//       course.active = false;
+//       if (course.id === chosenCourseFound.id && course.parent_department) {
+//         console.log(course);
+//         course.active = true;
+//       }
+//     });
+//   }
 
-    } else {
-        let chosenCourseFound = courseOfStudyWithParent.find(c => c.id === courseOfStudyId)
-        courseChosenObj.sub_department_id = chosenCourseFound.id
-        courseChosenObj.department_id = chosenCourseFound.parent_department.id
-        courseChosenObj.faculty_id = chosenCourseFound.faculty.id
-        computedCourseOfStudies.value.forEach(course => {
-            course.active = false
-            if (course.id === chosenCourseFound.id && course.parent_department) {
-                console.log(course)
-                course.active = true
-            }
-        })
+  selectedCourse.value = courseChosenObj;
 
-    }
+  console.log("Chosen", courseChosenObj);
 
-    selectedCourse.value = courseChosenObj
-
-    console.log("Chosen", courseChosenObj)
-
-    emit("chosenCourseOfStudy", courseChosenObj)
+  emit("chosenCourseOfStudy", courseChosenObj);
 }
-
-
 </script>
 
 <style scoped>
