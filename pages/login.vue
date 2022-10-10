@@ -1,31 +1,50 @@
 <template>
-    <layer-bg class="md:relative bg-pry-dark h-screen  block my-auto overflow-x-hidden  center-middle md:px-0">
-        <div class="w-full p-6 ">
-            <div class="bg-white rounded-xl mt-10 pt-2 max-w-md mx-auto font-inter w-full">
+    <!-- Desktop Login --> 
+
+    <div class="md:flex justify-center hidden">
+        <div class="flex items-center min-h-screen w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
                 <div class="w-full">
-                    <corep-logo-notext size="40" class=" mx-auto justify-center"></corep-logo-notext>
-                    <div class="w-full h-[1px] bg-[#F9B700] mt-4"></div>
+                    <div class="">
+                        <div class="bg-white rounded-xl max-w-md mx-auto font-inter">
+                            <div class="w-full">
+                                <corep-logo-notext size="90" class=" mx-auto justify-center"></corep-logo-notext>
+                                <div class="w-full h-[1px] bg-[#F9B700] mt-4"></div>
+                            </div>
+                            <form @submit.prevent="submitHandler" >
+                                <stack class=" gap-6">
+                                    <h2 class="font-bold text-2xl text-center">Log In</h2>
+                                    <v-input type="email" placeholder="Enter email addresss" full styleType="white" class="text-sm rounded-lg" size="small" label="Email Address" :value="formReactive.email">
+                                    </v-input>
+                                    <v-input type="password" placeholder="Enter Password" full styleType="white" class="text-sm rounded-lg" size="small" label="Password" iconClick :value="formReactive.password"></v-input>
+                                    <v-button full type="pry" :loading="loading">Log In</v-button>
+                                </stack>
+                            </form>
+                        </div>
+                        <div class="text-center text-pry-dark my-5 md:my-8 font-ibmplex">
+                            <p>
+                                Don't have an account?<span class="opacity-70 underline-none ml-1 text-pry-dark">
+                                    <router-link to="/signup">Signup</router-link>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <form @submit.prevent="submitHandler" class="p-4">
-                    <stack class="mx-auto" :gap="1">
-                        <h2 class="font-bold text-2xl text-center">Log In</h2>
-                        <v-input type="email" placeholder="Enter email addresss" full styleType="white"
-                            class="text-sm rounded-lg" size="small" label="Email Address" :value="formReactive.email">
-                        </v-input>
-                        <v-input type="password" placeholder="Enter Password" full styleType="white"
-                            class="text-sm rounded-lg" size="small" label="Password" iconClick
-                            :value="formReactive.password"></v-input>
-                        <v-button full type="pry" :loading="loading">Log In</v-button>
-                    </stack>
-                </form>
-            </div>
         </div>
-        <div class="text-center text-white my-5 md:my-8 font-ibmplex">
-            <p>
-                Don't have an account?<span class="opacity-70 underline ml-1"><router-link to="/signup">signup</router-link></span>
-            </p>
-        </div>
-    </layer-bg>
+        <layer-bg class="  block my-auto overflow-x-hidden px-4 center-middle  md:px-0"></layer-bg>
+                <div class=" hidden pt-[15%] bg-cover lg:block lg:w-6/12" style="background-image: url('https://images.unsplash.com/photo-1494621930069-4fd4b2e24a11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80')">
+                    <div class="text-white  md:p-12 md:mx-6">
+                        <h1 class="title  mb-6">GET A</h1>
+                        <h1 class="seam  mb-6">SEAMLESS</h1>
+                        <h1 class="title1"><span class="span0">experience attending your </span>
+                            <span class="span1">classes</span>
+                        </h1>
+                    </div>
+             </div>
+    </div>
+
+
+    <login />
+
 </template>
 
 <script setup>
@@ -43,6 +62,7 @@ import VInput from "../components/forms/v-input.vue";
 import { useRouter } from "vue-router";
 import { createToast, withProps } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
+import login from '../components/mobile/login.vue'
 let router = useRouter();
 
 let formReactive = reactive({
@@ -134,6 +154,41 @@ let submitHandler = () => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.title{
+    color: rgba(255, 255, 255, 1);
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    line-height: 60px;
+    min-height: 60px;
+    white-space: nowrap;
+}
+.seam{
+    color: rgba(249, 183, 0, 1);
+    font-size: 72px;
+    font-weight: 800;
+    letter-spacing: 3.6px;
+    line-height: 108px;
+    min-height: 108px;
+    white-space: nowrap;
+}
+
+.title1{
+    color: rgba(255, 255, 255, 1);
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    line-height: 60px;
+    min-height: 120px;
+    width: 462px;
+}
+.span0{
+    color: rgba(255, 255, 255, 1);
+}
+.span1{
+    color: rgba(243, 58, 58, 1);
 }
 
 </style>
