@@ -43,7 +43,41 @@
     </div>
 
 
-    <login />
+    <!-- <login /> -->
+    <div class='lg:hidden md:hidden'>
+  <layer-bg class="bg-pry-dark h-screen block my-auto overflow-x-hidden p-4  md:px-0">
+        <div class=" rounded-xl font-inter">
+            <div class="w-full">
+                <corep-logo-notext size="70" class=" mx-auto justify-center"></corep-logo-notext>
+                <div class="w-full h-[1px] bg-[#F9B700] mt-4"></div>
+            </div>
+
+            <div class=" p-3">
+                <h1 class="text-2xl font-bold text-white">Welcome Back &#128075;</h1>
+                <h1 class="text-[#c4c4c4] font-medium">Comrade, you've been <br />
+                    <span>missed</span>
+                </h1>
+            </div>
+            <form @submit.prevent="submitHandler" class="p-4">
+                <stack class="mx-auto" :gap="1">
+                    <h2 class="font-bold text-2xl text-center text-white">Log In</h2>
+                    <v-input type="email" placeholder="Enter email addresss" full styleType="white" class="text-xl rounded-lg mb-3" size="small" :value="formReactive.email">
+                    </v-input>
+                    <v-input type="password" placeholder="Enter Password" full styleType="white" class="text-xl rounded-lg mb-3" size="small" iconClick :value="formReactive.password"></v-input>
+                    <v-button full type="pry" class="bg-[#F9B700]" :loading="loading">Log In</v-button>
+                </stack>
+            </form>
+        </div>
+        <div class="text-center text-[#c4c4c4] my-5 md:my-8 font-ibmplex">
+            <p>
+                Don't have an account?<span class="opacity-70 underline-none text-xl ml-1">
+                    <router-link to="/signup">Signup</router-link>
+                </span>
+            </p>
+        </div>
+
+</layer-bg>
+    </div>
 
 </template>
 
