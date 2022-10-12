@@ -25,7 +25,7 @@
                                         <p v-else>Loading ...</p>
                                     </k-dropdown>
                                     <v-input type="password" placeholder="Enter Password" full styleType="white" class="text-sm rounded-lg" size="small" label="Password" iconClick :value="formReactive.password"></v-input>
-                                    <v-button full type="pry" :loading="loading">Sign Up</v-button>
+                                    <v-button full type="sec" :loading="loading">Sign Up</v-button>
                                     <h3 class="text-sm text-center">By signing up, you agree to our <router-link to="#"><span class="text-pry">Terms
                                                 and Conditions</span></router-link>
                                     </h3>
@@ -35,7 +35,7 @@
                         <div class="text-center text- my-5 md:my-8 font-ibmplex">
                             <p>
                                 Already have account?<span class="opacity-70 underline-none ml-1 text-pry-dark">
-                                    <router-link to="/login">Login</router-link>
+                                    <router-link to="/login">login</router-link>
                                 </span>
                             </p>
                         </div>
@@ -73,20 +73,20 @@
             <form @submit.prevent="submitHandler" class="p-4  rounded">
                 <stack class="mx-auto" :gap="1">
                     <h2 class="font-bold text-2xl text-center text-white">Sign Up</h2>
-                    <v-input placeholder="Classydev" class="overflow-y-hidden text-xl text-[#c4c4c4] rounded-lg mb-3" type="text" size="small" full styleType="white" :value="formReactive.username"></v-input>
-                    <v-drop-down class="w-full text-xl bg-white text-pry-dark mb-10" styleType="white" placeholder="Search for school" :data="schools" v-if="schools" @chosen="setSchool" :error="formReactive.id.error">
+                    <v-input placeholder="Classydev" class="overflow-y-hidden text-[#c4c4c4] rounded-lg mb-3" type="text" size="small" full styleType="white" :value="formReactive.username"></v-input>
+                    <v-drop-down class="w-full bg-white text-pry-dark mb-10" styleType="white" placeholder="Search for school" :data="schools" v-if="schools" @chosen="setSchool" :error="formReactive.id.error">
                     </v-drop-down>
-                    <v-input type="text" placeholder="Enter School Email addresss" full styleType="white" class="mb-3 text-xl rounded-lg text-[#c4c4c4]" size="small" :value="formReactive.email">
+                    <v-input type="text" placeholder="Enter School Email addresss" full styleType="white" class="mb-3 rounded-lg text-[#c4c4c4]" size="small" :value="formReactive.email">
                     </v-input>
-                    <k-dropdown class="w-full text-xl text-pry-dark bg-white mb-10" :label="levelDropDownLabel" placeholder="Search for school" :drop-state="dropState2" :error="formReactive.level.error" @on-search="searchDropDown" @on-dropdown-click="handleDropdown" @on-close-dropdown-click="closeDropDown">
+                    <k-dropdown class="w-full text-pry-dark bg-white mb-10" :label="levelDropDownLabel" placeholder="Search for school" :drop-state="dropState2" :error="formReactive.level.error" @on-search="searchDropDown" @on-dropdown-click="handleDropdown" @on-close-dropdown-click="closeDropDown">
                         <ul class="" v-if="levels">
                             <li class="block w-full text-sm cursor-pointer hover:bg-[#eee] rounded-md mt-2 p-2" @click="chooseFromDropDown($event, item.id)" v-for="(item, idx) in levels" tabindex="0" :key="idx"   @keydown.enter="chooseFromDropDown($event, item.id)">
                                 ({{ item.name }} level) - {{ item.year }} year</li>
                         </ul>
                         <p v-else>Loading ...</p>
                     </k-dropdown>
-                    <v-input type="password" placeholder="Enter Password" full styleType="white" class="mb-3 text-xl rounded-lg" size="small" iconClick :value="formReactive.password"></v-input>
-                    <v-button full type="pry" :loading="loading" class="bg-[#F9B700]">Sign Up</v-button>
+                    <v-input type="password" placeholder="Enter Password" full styleType="white" class="mb-3 rounded-lg" size="small" iconClick :value="formReactive.password"></v-input>
+                    <v-button full type="sec" :loading="loading" class="bg-[#F9B700]">Sign Up</v-button>
                     <h3 class="text-sm text-center text-black">By signing up, you agree to our <router-link to="#"><span class="text-pry">Terms
                                 and Conditions</span></router-link>
                     </h3>
@@ -96,7 +96,7 @@
         <div class="text-center text-black my-5 md:my-8 font-ibmplex">
             <p>
                 Already have account?<span class="text-[#c4c4c4] opacity-70 underline-none text-xl ml-1">
-                    <router-link to="/login">Login</router-link>
+                    <router-link to="/login">login</router-link>
                 </span>
             </p>
         </div>

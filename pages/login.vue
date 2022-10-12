@@ -16,14 +16,14 @@
                                     <v-input type="email" placeholder="Enter email addresss" full styleType="white" class="text-sm rounded-lg" size="small" label="Email Address" :value="formReactive.email">
                                     </v-input>
                                     <v-input type="password" placeholder="Enter Password" full styleType="white" class="text-sm rounded-lg" size="small" label="Password" iconClick :value="formReactive.password"></v-input>
-                                    <v-button full type="pry" :loading="loading">Log In</v-button>
+                                    <v-button full type="sec" :loading="loading">Log In</v-button>
                                 </stack>
                             </form>
                         </div>
                         <div class="text-center text-pry-dark my-5 md:my-8 font-ibmplex">
                             <p>
                                 Don't have an account?<span class="opacity-70 underline-none ml-1 text-pry-dark">
-                                    <router-link to="/signup">Signup</router-link>
+                                    <router-link to="/signup">signup</router-link>
                                 </span>
                             </p>
                         </div>
@@ -64,7 +64,7 @@
                     <v-input type="email" placeholder="Enter email addresss" full styleType="white" class="text-xl rounded-lg mb-3" size="small" :value="formReactive.email">
                     </v-input>
                     <v-input type="password" placeholder="Enter Password" full styleType="white" class="text-xl rounded-lg mb-3" size="small" iconClick :value="formReactive.password"></v-input>
-                    <v-button full type="pry" class="bg-[#F9B700]" :loading="loading">Log In</v-button>
+                    <v-button full type="sec" class="bg-[#F9B700]" :loading="loading">Log In</v-button>
                 </stack>
             </form>
         </div>

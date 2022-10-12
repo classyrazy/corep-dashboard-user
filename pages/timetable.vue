@@ -25,18 +25,39 @@ import Timetable from "../components/icons/time-table-icon.vue";
 import VButton from "../components/forms/v-button.vue";
 import "@/assets/css/tailwind.css";
 import {useModal} from "vue-modally-v3"
+import { useUserStore } from "../store/user";
+import useUserScreenSize from "../composables/useUserScreenSize";
+
+
+
+let store = useUserStore();
+let darkMode = computed(() => store.darkMode);
+
+let {
+  getUserScreenSize,
+  computedDeviceType,
+} = useUserScreenSize();
+
+
+onMounted(() => {
+  getUserScreenSize();
+});
+
 
 definePageMeta({
   layout: "d-board",
   middleware: ["logged-in", "is-verified"],
 });
 async function handleCreateTImeTable(){
+  let modalColor = darkMode.value ? "#212939" : "white";
+  let modalType: "panel" | "modal" =
+    computedDeviceType.value == "mobile" ? "panel" : "modal";
   let modal = await useModal(AddNewCourseSubjectModal, {
     options:{
     width: 1000,
-    background: "red",
+    background: modalColor,
     blur: false,
-    type: 'panel'
+    type: modalType
   }
   })
   
