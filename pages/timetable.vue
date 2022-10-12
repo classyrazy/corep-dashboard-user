@@ -4,13 +4,14 @@
       <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto ">
        <div class=" mt-6 md:mt-0" >
          <h1 class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold"> 
-          Assignments
+          Timetable
         </h1>
        </div>
 
       <div class="flex flex-col items-center mt-40 space-y-4">
-       <assignmenticon :size="120"/>
-       <p class="dark:text-white text-db-pry-dark text-2xl md:text-4xl font-bold">No Assignments yet</p>
+       <timetable :size="120"/>
+       <p class="dark:text-white text-db-pry-dark text-2xl md:text-4xl font-bold">No Timetable yet</p>
+       <v-button  type="sec" class="bg-[#F9B700]" >Create Timetable</v-button>
       </div>
       </div>
     </db-content>
@@ -19,7 +20,8 @@
 
 <script setup lang="ts">
 import DbContent from "../components/UI/db-content.vue";
-import assignmenticon from "../components/icons/assignment-icon.vue";
+import Timetable from "../components/icons/time-table-icon.vue";
+import VButton from "../components/forms/v-button.vue";
 import "@/assets/css/tailwind.css";
 
 definePageMeta({

@@ -1,14 +1,34 @@
 <template>
   <div>
     <db-content>
-      <h2 class="text-2xl">Hello World</h2>
+      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto" >
+       <div class=" mt-6 md:mt-0" >
+         <h1 class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold"> 
+          My Classes
+        </h1>
+       
+
+      <div class="flex flex-col items-center mt-40 space-y-4" v-if="emptyState !== false">
+       <classes-mobile-icon :size="120"/>
+       <p class="dark:text-white text-db-pry-dark text-2xl md:text-4xl font-bold">No Classes yet</p>
+       <v-button  type="sec" class="bg-[#F9B700]" >Register your courses</v-button>
+      </div>
+      </div>
+    </div>
     </db-content>
   </div>
 </template>
 
 <script setup lang="ts">
 import DbContent from "../components/UI/db-content.vue";
+import ClassesMobileIcon from "../components/icons/classes-icon.vue";
+import VButton from "../components/forms/v-button.vue";
 import "@/assets/css/tailwind.css";
+import { useUserStore } from "../store/user";
+
+let store = useUserStore();
+
+let emptyState = computed(() => store.emptyState);
 
 definePageMeta({
   layout: "d-board",
@@ -16,4 +36,3 @@ definePageMeta({
 });
 </script>
 
-<style scoped></style>

@@ -122,7 +122,7 @@ import { createToast, withProps } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 import Graph from "../libs/avanda.ts"
 import useFormRequest from '../composables/useFormRequest';
-import signup from '../components/mobile/signup.vue'
+
 
 let router = useRouter();
 let schools = ref(null)

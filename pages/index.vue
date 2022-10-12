@@ -88,7 +88,7 @@ let store = useUserStore();
 
 definePageMeta({
   layout: "d-board",
-  middleware: ["logged-in","is-verified"],
+  // middleware: ["logged-in","is-verified"],
 });
 
 type Theme = "light" | "dark";

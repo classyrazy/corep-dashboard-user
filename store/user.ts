@@ -5,6 +5,7 @@ export const useUserStore = defineStore("user", () => {
   let user = ref(null);
   let userRegTodoStageLevel = ref(null);
   let darkMode = ref(false);
+  let emptyState = ref(true)
   if (localStorage.getItem("app-theme") === "dark") {
     darkMode.value = true;
   } else {
@@ -54,7 +55,8 @@ export const useUserStore = defineStore("user", () => {
     fetchUserRegStartTodoLevelMode,
     userRegTodoStageLevel,
     changeUserRegTodoStageLevel,
-    setUserTheme
+    setUserTheme,
+    emptyState
   };
 });
 // import { defineStore } from "pinia";

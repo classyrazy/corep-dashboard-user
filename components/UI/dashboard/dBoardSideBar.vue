@@ -28,7 +28,7 @@
                         </side-bar-item>
                     </li>
                     <li>
-                        <side-bar-item text="Timetable" :icon="TimeTableIcon" active link="/time-table"></side-bar-item>
+                        <side-bar-item text="Timetable" :icon="TimeTableIcon" active link="/timetable"></side-bar-item>
 
                     </li>
 

@@ -96,7 +96,7 @@ import VInput from "../components/forms/v-input.vue";
 import { useRouter } from "vue-router";
 import { createToast, withProps } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
-import login from '../components/mobile/login.vue'
+
 let router = useRouter();
 
 let formReactive = reactive({
