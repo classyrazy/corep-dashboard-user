@@ -1,11 +1,11 @@
 <template>
     <!-- Desktop Login --> 
 
-    <div class="md:flex justify-center hidden">
+    <div class="dark:bg-pry-dark bg-white md:flex justify-center hidden">
         <div class="flex items-center min-h-screen w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
                 <div class="w-full">
                     <div class="">
-                        <div class="bg-white rounded-xl max-w-md mx-auto font-inter">
+                        <div class=" rounded-xl max-w-md mx-auto font-inter">
                             <div class="w-full">
                                 <corep-logo-notext size="90" class=" mx-auto justify-center"></corep-logo-notext>
                                 <div class="w-full h-[1px] bg-[#F9B700] mt-4"></div>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
         </div>
-        <layer-bg class="  block my-auto overflow-x-hidden px-4 center-middle  md:px-0"></layer-bg>
+        <layer-bg class="dark:bg-pry-dark  block my-auto overflow-x-hidden px-4 center-middle  md:px-0"></layer-bg>
                 <div class=" hidden pt-[15%] bg-cover lg:block lg:w-6/12" style="background-image: url('https://images.unsplash.com/photo-1494621930069-4fd4b2e24a11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80')">
                     <div class="text-white  md:p-12 md:mx-6">
                         <h1 class="title  mb-6">GET A</h1>
@@ -45,7 +45,7 @@
 
     <!-- <login /> -->
     <div class='lg:hidden md:hidden'>
-  <layer-bg class="bg-pry-dark h-screen block my-auto overflow-x-hidden p-4  md:px-0">
+  <layer-bg class="  h-screen block my-auto overflow-x-hidden p-4  md:px-0">
         <div class=" rounded-xl font-inter">
             <div class="w-full">
                 <corep-logo-notext size="70" class=" mx-auto justify-center"></corep-logo-notext>
@@ -53,7 +53,7 @@
             </div>
 
             <div class=" p-3">
-                <h1 class="text-2xl font-bold text-white">Welcome Back &#128075;</h1>
+                <h1 class="text-2xl font-bold  text-db-pry-dark">Welcome Back &#128075;</h1>
                 <h1 class="text-[#c4c4c4] font-medium">Comrade, you've been <br />
                     <span>missed</span>
                 </h1>
@@ -68,10 +68,10 @@
                 </stack>
             </form>
         </div>
-        <div class="text-center text-[#c4c4c4] my-5 md:my-8 font-ibmplex">
+        <div class="text-center text-black my-5 md:my-8 font-ibmplex">
             <p>
-                Don't have an account?<span class="opacity-70 underline-none text-xl ml-1">
-                    <router-link to="/signup">Signup</router-link>
+                Don't have an account?<span class="text-[#c4c4c4] opacity-70 underline-none text-xl ml-1">
+                    <router-link to="/signup">signup</router-link>
                 </span>
             </p>
         </div>

@@ -11,7 +11,7 @@
       <div class="flex flex-col items-center mt-40 space-y-4">
        <timetable :size="120"/>
        <p class="dark:text-white text-db-pry-dark text-2xl md:text-4xl font-bold">No Timetable yet</p>
-       <v-button  type="sec" class="bg-[#F9B700]" >Create Timetable</v-button>
+       <v-button  type="sec" class="bg-[#F9B700]" @click="handleCreateTImeTable">Create Timetable</v-button>
       </div>
       </div>
     </db-content>
@@ -19,14 +19,30 @@
 </template>
 
 <script setup lang="ts">
+import AddNewCourseSubjectModal from '../components/UI/modals/time-table/add-new-course-subject-modal.vue'
 import DbContent from "../components/UI/db-content.vue";
 import Timetable from "../components/icons/time-table-icon.vue";
 import VButton from "../components/forms/v-button.vue";
 import "@/assets/css/tailwind.css";
+import {useModal} from "vue-modally-v3"
 
 definePageMeta({
   layout: "d-board",
   middleware: ["logged-in", "is-verified"],
 });
+async function handleCreateTImeTable(){
+  let modal = await useModal(AddNewCourseSubjectModal, {
+    options:{
+    width: 1000,
+    background: "red",
+    blur: false,
+    type: 'panel'
+  }
+  })
+  
+}
+console.log('Hello', useRoute().params)
+
+
 </script>
 
