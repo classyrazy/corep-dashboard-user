@@ -1,5 +1,5 @@
 <template>
-    <div class="p-12 p:m-20">
+    <div class="p-12 lg:m-20">
         <form class="p-4">
                 <stack class="mx-auto" :gap="1">
                     <v-input type="text" placeholder="Enter course code e.g MAT231" full styleType="white" class=" rounded-lg mb-5" size="small" >

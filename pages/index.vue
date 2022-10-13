@@ -79,17 +79,25 @@ import DbContent from "../components/UI/db-content.vue";
 import BellIcon from "../components/icons/bell-icon.vue";
 import SearchIcon from "../components/icons/search-icon.vue";
 import VInput from "../components/forms/v-input.vue";
+import VButton from "../components/forms/v-button.vue";
 import "@/assets/css/tailwind.css";
 import StartAppTodoList from "~~/components/UI/dashboard/start-app-todo-list.vue";
 import Graph from "~~/libs/avanda";
 import { useUserStore } from "../store/user";
+import { useRouter } from "vue-router";
 
 let store = useUserStore();
+let router = useRouter();
 
 definePageMeta({
   layout: "d-board",
   // middleware: ["logged-in","is-verified"],
 });
+
+ function showTimetableModal(){
+  console.log('clicked')
+  router.push({path: 'timetable', query: {create:'a'}})
+}
 
 type Theme = "light" | "dark";
 // let startAppTodoLevel = ref(null)
@@ -126,6 +134,8 @@ onMounted(() => {
 watch(darkMode, (selected) => {
   setTheme(selected ? "dark" : "light");
 });
+
+
 </script>
 
 <style scoped>

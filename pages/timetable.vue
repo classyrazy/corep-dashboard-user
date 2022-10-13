@@ -27,9 +27,10 @@ import "@/assets/css/tailwind.css";
 import {useModal} from "vue-modally-v3"
 import { useUserStore } from "../store/user";
 import useUserScreenSize from "../composables/useUserScreenSize";
+import { useRouter, useRoute } from 'vue-router';
 
 
-
+let router = useRouter();
 let store = useUserStore();
 let darkMode = computed(() => store.darkMode);
 
@@ -41,6 +42,11 @@ let {
 
 onMounted(() => {
   getUserScreenSize();
+
+  let openCreate = useRoute().query?.create
+  if(!!openCreate){
+    handleCreateTImeTable()
+  }
 });
 
 
@@ -54,7 +60,7 @@ async function handleCreateTImeTable(){
     computedDeviceType.value == "mobile" ? "panel" : "modal";
   let modal = await useModal(AddNewCourseSubjectModal, {
     options:{
-    width: 1000,
+    width: 500,
     background: modalColor,
     blur: false,
     type: modalType
@@ -62,8 +68,13 @@ async function handleCreateTImeTable(){
   })
   
 }
-console.log('Hello', useRoute().params)
+
 
 
 </script>
 
+<style>
+.vm__modal__wrapper .vm__modal__container .vm__modal__box .vm__modal__box_container {
+  border-radius: 50px;
+}
+</style>
