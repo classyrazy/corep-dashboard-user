@@ -1,5 +1,5 @@
 <template>
-    <div class="m-5">
+    <div class="p-12 p:m-20">
         <form class="p-4">
                 <stack class="mx-auto" :gap="1">
                     <v-input type="text" placeholder="Enter course code e.g MAT231" full styleType="white" class=" rounded-lg mb-5" size="small" >
@@ -7,8 +7,10 @@
                     <v-input type="text" placeholder="Enter course name e.g Real Analysis" full styleType="white"  class="  rounded-lg mb-5" size="small" >
                     </v-input>
                     <div class="flex justify-center gap-4"> 
+                        <label class="text-white font-bold text-xl">From</label>
                     <v-input type="time" placeholder="10:00AM - 1:00PM"  styleType="white" class="  rounded-lg mb-5" size="small" >
                     </v-input>
+                    <label class="text-white font-bold text-xl">To</label>
                     <v-input type="time" placeholder="10:00AM - 1:00PM"  styleType="white" class="  rounded-lg mb-5" size="small" >
                     </v-input>
                     </div>
