@@ -86,7 +86,7 @@
                         <p v-else>Loading ...</p>
                     </k-dropdown>
                     <v-input type="password" placeholder="Enter Password" full styleType="white" class="mb-3 rounded-lg" size="small" iconClick :value="formReactive.password"></v-input>
-                    <v-button full type="sec" :loading="loading" class="bg-[#F9B700]">Sign Up</v-button>
+                    <v-button full type="sec" :loading="loading" class="bg-yellow">Sign Up</v-button>
                     <h3 class="text-sm text-center text-black">By signing up, you agree to our <router-link to="#"><span class="text-pry">Terms
                                 and Conditions</span></router-link>
                     </h3>

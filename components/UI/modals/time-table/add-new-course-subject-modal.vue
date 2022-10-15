@@ -1,5 +1,14 @@
 <template>
     <div class="p-12 lg:m-20">
+        <div class="flex justify-center gap-3 mb-3">
+            <span class="font-bold border p-1 rounded bg-db-pry text-white border-transparent">MON</span>
+            <span class="font-bold border p-1 rounded bg-yellow border-transparent">TUE</span>
+            <span class="font-bold border p-1 rounded bg-yellow border-transparent">WED</span>
+            <span class="font-bold border p-1 rounded bg-yellow border-transparent">THU</span>
+            <span class="font-bold border p-1 rounded bg-yellow border-transparent">FRI</span>
+            <span class="font-bold border p-1 rounded bg-yellow border-transparent">SAT</span>
+            <span class="font-bold border p-1 rounded bg-yellow border-transparent">SUN</span>
+        </div>
         <form class="p-4">
                 <stack class="mx-auto" :gap="1">
                     <v-input type="text" placeholder="Enter course code e.g MAT231" full styleType="white" class=" rounded-lg mb-5" size="small" >

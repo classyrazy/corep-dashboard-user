@@ -53,6 +53,7 @@ module.exports = {
         "db-white-dark": "#eeeeee",
         "db-white-darker": "#eeeeee",
         sec: "#F9B700",
+        "yellow": "#F9B700"
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
