@@ -47,6 +47,7 @@ interface startAppTodoObjType {
 }
 
 let store = useUserStore();
+let router = useRouter()
 let darkMode = computed(() => store.darkMode);
 let loadingModal = ref(false);
 let capitalizedSchoolName = computed(() => {
@@ -73,7 +74,7 @@ let startTodoArray = reactive<startAppTodoObjType[]>([
     description:
       "Create your class timetable to allow other students to get updates.",
     icon: AddTimeTableIcon,
-    link: "/add-time-table",
+    link: "/timetable?a=create",
     courseRepOnly: true
   },
   {
@@ -84,7 +85,7 @@ let startTodoArray = reactive<startAppTodoObjType[]>([
     description:
       "Select all the courses you are offering, and be notified If any changes occur on each.",
     icon: RegisterCoursesIcon,
-    link: "/add-time-table",
+    link: "/timetable?a=register",
     courseRepOnly: false
 
   },
@@ -181,6 +182,8 @@ let handleTodoClick = async (
         store.fetchUserRegStartTodoLevelMode();
       }
     }
+  }else if(link && !todo.completed && !todo.modal){
+    router.push(link)
   }
 };
 </script>

@@ -11,6 +11,36 @@ export const useUserStore = defineStore("user", () => {
   } else {
     darkMode.value = false;
   }
+
+  //Create a user Object
+  async function fetchUserObject(){
+    try {
+      let req = new Graph().service("User/getLoggedInUser");
+      user.value = await (await req.get()).getData();
+    } catch (error) {
+      if(error.getMsg() === "you are not logged in" || error.code === 401){
+        return "/login"
+        //Redirect to login page
+      //  error({
+      //     message: "You must be logged in to access this page",
+      //     statusCode: 403
+      //   })
+      } else if (error.getMsg() === "you are not verified" || error.code === 429){
+        return "/email-verification"
+        //Redirect to verification page 
+        // error({
+        //   message: "You must verify your account to access this page",
+        //   statusCode: 403
+        // })
+      } else {
+        //Handle other errors
+        error({
+          message: "An error occured while loading the user",
+          statusCode: error.code || 500
+        })
+      }
+    }
+  }
   async function fetchUser() {
     console.log("this from store fetch user");
     try {
@@ -56,9 +86,14 @@ export const useUserStore = defineStore("user", () => {
     userRegTodoStageLevel,
     changeUserRegTodoStageLevel,
     setUserTheme,
-    emptyState
+    emptyState,
+    fetchUserObject
   };
 });
+
+function redirect() {
+  throw new Error("Function not implemented.");
+}
 // import { defineStore } from "pinia";
 // import Graph from "../libs/avanda";
 

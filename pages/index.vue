@@ -58,16 +58,21 @@
           </router-link>
         </div>
       </header>
-      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto pt-10 ">
-       <div class="app-todos mt-6 md:mt-0" v-if="startAppTodoLevel !== 'completed'">
-         <h3 class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold"> 
-          Welcome comrade👋
-        </h3>
-        <p class="dark:text-white text-db-pry-dark mt-2">Let help you get started by completing the following steps</p>
-        <start-app-todo-list
-          class="mt-6 md:mt-4"
-        ></start-app-todo-list>
-       </div>
+      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto pt-10">
+        <div
+          class="app-todos mt-6 md:mt-0"
+          v-if="startAppTodoLevel !== 'completed'"
+        >
+          <h3
+            class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold"
+          >
+            Welcome comrade👋
+          </h3>
+          <p class="dark:text-white text-db-pry-dark mt-2">
+            Let help you get started by completing the following steps
+          </p>
+          <start-app-todo-list class="mt-6 md:mt-4"></start-app-todo-list>
+        </div>
       </div>
     </div>
   </db-content>
@@ -91,12 +96,12 @@ let router = useRouter();
 
 definePageMeta({
   layout: "d-board",
-  // middleware: ["logged-in","is-verified"],
+  middleware: ["logged-in", "is-verified"],
 });
 
- function showTimetableModal(){
-  console.log('clicked')
-  router.push({path: 'timetable', query: {create:'a'}})
+function showTimetableModal() {
+  console.log("clicked");
+  router.push({ path: "timetable", query: { a: "create" } });
 }
 
 type Theme = "light" | "dark";
@@ -114,7 +119,7 @@ const setTheme = (newTheme: Theme) => {
 const isDarkModePreferred = ref(null);
 onMounted(() => {
   console.log("This is from index Mounted");
-  store.setUserTheme()
+  store.setUserTheme();
   store.fetchUser();
   // getStartAppTodos()
   store.fetchUserRegStartTodoLevelMode();
@@ -134,8 +139,6 @@ onMounted(() => {
 watch(darkMode, (selected) => {
   setTheme(selected ? "dark" : "light");
 });
-
-
 </script>
 
 <style scoped>

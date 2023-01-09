@@ -43,7 +43,7 @@ let {
 onMounted(() => {
   getUserScreenSize();
 
-  let openCreate = useRoute().query?.create
+  let openCreate = useRoute().query?.a
   if(!!openCreate){
     handleCreateTImeTable()
   }
