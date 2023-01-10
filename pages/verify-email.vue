@@ -71,6 +71,7 @@ let { submitData, loading, data } = useFormRequest(
         console.log(data);
         if(data){
             verified.value = true;
+            router.push('/')
         }
     },
     (error) => {
