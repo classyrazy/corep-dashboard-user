@@ -1,4 +1,5 @@
 <template>
+  <notifications position="top left" animation-type="velocity"/>
   <div>
     <layer-bg class="fixed md:relative bg-pry-dark min-h-screen h-full block my-auto overflow-x-hidden px-4 md:px-0">
       <div class=" rounded-xl mt-10 pt-2 max-w-md mx-auto font-inter px-4 overflow-hidden">
@@ -14,7 +15,7 @@
           <a href="http://gmail.com" target="_blank" rel="noopener noreferrer"><v-button :icon="GmailIcon" type="sec" > Gmail</v-button></a>
          </div>
          <form  @submit.prevent="sendVerificationEmail">
-          <v-button  type="border-sec" :loading="!Loading" full class="mt-4">Resend verification Email</v-button>
+          <v-button  type="sec" :loading="loading" full class="mt-4">Resend Verification Email</v-button>
          </form>
         </div>
       </div>
@@ -32,18 +33,32 @@ import LayerBg from "../components/UI/layer-bg.vue";
 import GmailIcon from "../components/icons/gmail-icon.vue";
 import MicrosoftIcon from "../components/icons/microsoft-icon.vue";
 import Graph from "../libs/avanda.ts"
+import { useNotification } from "@kyvg/vue3-notification";
 
 
+const notification = useNotification()
+let loading = ref(false);
 
 async function sendVerificationEmail(){
-  // let loading = Loading
   try {
+    loading.value = true;
       let req = new Graph().service("User/resendVerificationEmail");
       let user = await (await req.get()).getData();
-      // console.log(user)
-      alert("Email Verification Link Sent")
+      setTimeout(() => {
+      loading.value = false;
+    }, 2000);
+      notification.notify({
+      title: "Success",
+      text: "Email Verification Link Sent 🎉",
+      type: "success",
+    });
     } catch (error) {
-      console.error(error)
+      notification.notify({
+        title: "Error",
+        text: "Oops, Email Verification Link Not Sent Due to Network Error",
+        type: "error",
+      });
+      loading.value = false;
     }
   }
 </script>
