@@ -1,5 +1,5 @@
 <template>
-  <div class="relative z-30 overflow-x-hidden">
+  <div class="absolute z-30 overflow-x-hidden">
     <div
       class="fixed -z-10 -top-[3rem] -right-[4rem] md:-top-[3rem] md:-right-[5rem]"
     >

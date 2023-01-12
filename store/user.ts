@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import Graph from "../libs/avanda";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 export const useUserStore = defineStore("user", () => {
   let user = ref(null);
   let userRegTodoStageLevel = ref(null);
@@ -12,10 +12,23 @@ export const useUserStore = defineStore("user", () => {
     darkMode.value = false;
   }
 
+  if(localStorage.getItem("user")){
+    user.value = JSON.parse(localStorage.getItem("user"))
+  }
+
+  watch(
+    user,
+    (userVal) => {
+      localStorage.setItem("user", JSON.stringify(userVal));
+    },
+    {deep : true}
+  )
+
   //Create a user Object
   async function fetchUserObject(){
     try {
       let req = new Graph().service("User/getLoggedInUser");
+      console.log(req)
       user.value = await (await req.get()).getData();
     } catch (error) {
       if(error.getMsg() === "you are not logged in" || error.code === 401){
@@ -45,7 +58,9 @@ export const useUserStore = defineStore("user", () => {
     console.log("this from store fetch user");
     try {
       let req = new Graph().service("User/getLoggedInUser");
+      localStorage.setItem("user", JSON.stringify(req));
       user.value = await (await req.get()).getData();
+      console.log(user.value)
     } catch (error) {
       console.log(error);
     }

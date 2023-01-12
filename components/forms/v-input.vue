@@ -1,13 +1,13 @@
 <template>
   <div :class="full? 'w-full':''">
-    <label v-if="label" class="font-inter text-sm mb-2">{{ label }}</label>
-    <div class="relative">
+    <label v-if="label" class="font-inter text-xl mb-2">{{ label }}</label>
+    <div class="relative border-b border-gray-200 py-1">
       <input
         v-bind="$attrs"
         :class="[__class, iconLeft ? 'pl-10' : '',]"
         :type="type"
         v-model="value.value"
-        class="inline-block"
+        class="inline-block appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 focus:outline-none"
         @keyup="$emit('customChange', value.value)"
       />
       <component

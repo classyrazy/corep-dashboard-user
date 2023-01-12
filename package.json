@@ -21,6 +21,7 @@
     "click-outside-vue3": "^4.0.1",
     "mosha-vue-toastify": "^1.0.23",
     "pinia": "^2.0.13",
+    "pinia-plugin-persistedstate": "^3.0.2",
     "velocity-animate": "^2.0.6",
     "vue-modally-v3": "^0.0.7"
   }

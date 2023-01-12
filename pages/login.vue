@@ -1,90 +1,52 @@
 <template>
     <!-- Desktop Login --> 
 
-    <div class="dark:bg-pry-dark bg-white md:flex justify-center hidden">
-        <div class="flex items-center min-h-screen w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-3/5">
-                <div class="w-full">
-                    <div class="">
-                        <div class=" rounded-xl max-w-md mx-auto font-inter">
-                            <div class="w-full">
-                                <corep-logo-notext size="90" class=" mx-auto justify-center"></corep-logo-notext>
-                                <div class="w-full h-[1px] bg-[#F9B700] mt-4"></div>
-                            </div>
-                            <form @submit.prevent="submitHandler" >
+    <div class="flex min-h-screen">
+    <div class="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-6/12">
+      <div class="bg-white rounded-xl max-w-md mx-auto font-inter w-full">
+        <div class="mb-5">
+          <CorepLogText size="290" class="mx-auto justify-center" />
+        </div>
+        <form @submit.prevent="submitHandler" >
                                 <stack class=" gap-6">
-                                    <h2 class="font-bold text-2xl text-center">Log In</h2>
+                                    <h2 class="font-bold text-2xl text-left">Log In</h2>
                                     <v-input type="email" placeholder="Enter email addresss" full styleType="white" class="text-sm rounded-lg" size="small" label="Email Address" :value="formReactive.email">
                                     </v-input>
                                     <v-input type="password" placeholder="Enter Password" full styleType="white" class="text-sm rounded-lg" size="small" label="Password" iconClick :value="formReactive.password"></v-input>
                                     <v-button full type="sec" :loading="loading">Log In</v-button>
                                 </stack>
                             </form>
-                        </div>
-                        <div class="text-center text-pry-dark my-5 md:my-8 font-ibmplex">
-                            <p>
+        <div class="text-center py-5 md:py-8 font-ibmplex">
+            <p>
                                 Don't have an account?<span class="opacity-70 underline-none ml-1 text-pry-dark">
                                     <router-link to="/signup">signup</router-link>
                                 </span>
                             </p>
-                        </div>
-                    </div>
-                </div>
         </div>
-        <layer-bg class="dark:bg-pry-dark  block my-auto overflow-x-hidden px-4 center-middle  md:px-0"></layer-bg>
-                <div class=" hidden pt-[15%] bg-cover lg:block lg:w-6/12" style="background-image: url('https://images.unsplash.com/photo-1494621930069-4fd4b2e24a11?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=715&q=80')">
-                    <div class="text-white  md:p-12 md:mx-6">
-                        <h1 class="title  mb-6">GET A</h1>
-                        <h1 class="seam  mb-6">SEAMLESS</h1>
-                        <h1 class="title1"><span class="span0">experience attending your </span>
-                            <span class="span1">classes</span>
-                        </h1>
-                    </div>
-             </div>
+      </div>
     </div>
-
-
-    <!-- <login /> -->
-    <div class='lg:hidden md:hidden'>
-  <layer-bg class="  h-screen block my-auto overflow-x-hidden p-4  md:px-0">
-        <div class=" rounded-xl font-inter">
-            <div class="w-full">
-                <corep-logo-notext size="70" class=" mx-auto justify-center"></corep-logo-notext>
-                <div class="w-full h-[1px] bg-[#F9B700] mt-4"></div>
-            </div>
-
-            <div class=" p-3">
-                <h1 class="text-2xl font-bold  text-db-pry-dark">Welcome Back &#128075;</h1>
-                <h1 class="text-[#c4c4c4] font-medium">Comrade, you've been <br />
-                    <span>missed</span>
-                </h1>
-            </div>
-            <form @submit.prevent="submitHandler" class="p-4">
-                <stack class="mx-auto" :gap="1">
-                    <h2 class="font-bold text-2xl text-center text-white">Log In</h2>
-                    <v-input type="email" placeholder="Enter email addresss" full styleType="white" class="text-xl rounded-lg mb-3" size="small" :value="formReactive.email">
-                    </v-input>
-                    <v-input type="password" placeholder="Enter Password" full styleType="white" class="text-xl rounded-lg mb-3" size="small" iconClick :value="formReactive.password"></v-input>
-                    <v-button full type="sec" class="bg-[#F9B700]" :loading="loading">Log In</v-button>
-                </stack>
-            </form>
-        </div>
-        <div class="text-center text-black my-5 md:my-8 font-ibmplex">
-            <p>
-                Don't have an account?<span class="text-[#c4c4c4] opacity-70 underline-none text-xl ml-1">
-                    <router-link to="/signup">signup</router-link>
-                </span>
-            </p>
-        </div>
-
-</layer-bg>
+    <div
+      class="hidden pt-[25%] bg-cover md:block lg:block lg:w-8/12 bg-pry-dark-hover-light"
+    >
+      <layer-bg class="block my-auto overflow-y-hidden px-4 md:px-0"></layer-bg>
+      <div class="text-white md:p-12 md:mx-6">
+        <h1 class="title mb-6">GET A</h1>
+        <h1 class="seam mb-6">SEAMLESS</h1>
+        <h1 class="title1">
+          <span class="span0">experience attending your </span>
+          <span class="span1">classes</span>
+        </h1>
+      </div>
     </div>
+  </div>
+
 
 </template>
 
 <script setup>
 import LayerBg from '../components/UI/layer-bg.vue'
 import VDropDown from '../components/forms/v-drop-down.vue'
-import CorepLogoNotext from '../components/svgs/corep-logo-notext.vue'
+import CorepLogText from "../components/svgs/corep-logo.vue";
 import ToastText from "../components/UI/toast-text.vue";
 import '@/assets/css/tailwind.css'
 import Loadingicon from "../components/svgs/loader-icon.vue";

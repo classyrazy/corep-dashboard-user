@@ -1,7 +1,8 @@
 <template>
-    <div class="dropdown-container mx-auto relative" v-click-outside="closeDropDown" tabindex="0"
+    <div class="dropdown-container mx-auto relative border-b border-gray-200 py-1" v-click-outside="closeDropDown" tabindex="0"
         @keydown.enter="handleDropdown()" @keydown.esc="closeDropDown()">
-        <div class="dropdown-toggle click-dropdown flex justify-between border-gray-100 border-2 rounded-lg p-2 cursor-pointer"
+        <label v-if="label" class="font-inter text-xl mb-2">School </label>
+        <div class="dropdown-toggle click-dropdown flex justify-between rounded-lg p-2 cursor-pointer"
             @click="handleDropdown()" :class="error ? 'border-red-100' : ''">
             <p class="truncate">{{ refLabel }}</p>
             <down-icon></down-icon>
@@ -10,7 +11,7 @@
             <div class="dropdown-menu w-full border-gray-100 border-2 mt-2 rounded-lg p-2 bg-white "
                 :class="computedDropState ? 'block' : 'hidden'">
                 <v-input size="x-small" style-type="white" :placeholder="placeholder" full :value="searchValue"
-                    class="mt-2 border-0 border-b-2 rounded-none" @input="searchDropdown()"></v-input>
+                    class="mt-2  rounded-none" @input="searchDropdown()"></v-input>
                 <ul class="">
                     <li class="block w-full text-sm cursor-pointer hover:bg-[#eee] rounded-md mt-2 p-2"
                         @click="chooseFromDropDown($event, item.id)" v-if="computedRefData"

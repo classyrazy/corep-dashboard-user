@@ -22,6 +22,6 @@ export default defineNuxtConfig({
       postcssOptions: require("./postcss.config.js"),
     },
   },
-  buildModules: ["@pinia/nuxt", "@nuxtjs/pwa"],
+  buildModules: ["@pinia/nuxt", "@nuxtjs/pwa",],
   ssr: false,
 });

@@ -1,16 +1,17 @@
 <template>
-    <div class="dropdown-container mx-auto relative" v-click-outside="closeDropDown" tabindex="0"
+    <div class="dropdown-container mx-auto relative border-b border-gray-200 py-1" v-click-outside="closeDropDown" tabindex="0"
         @keydown.enter="handleDropdown()" @keydown.esc="closeDropDown()">
-        <div class="dropdown-toggle click-dropdown flex justify-between border-gray-100 border-2 rounded-lg p-2 cursor-pointer"
+        <label v-if="label" class="font-inter text-xl mb-2">Level</label>
+        <div class="dropdown-toggle click-dropdown flex justify-between  rounded-lg p-2 cursor-pointer"
             @click="handleDropdown()" :class="error ? 'border-red-100' : ''">
             <p class="truncate">{{ label }}</p>
             <down-icon></down-icon>
         </div>
         <div class="absolute top-12 w-full z-10">
-            <div class="dropdown-menu w-full border-gray-100 border-2 mt-2 rounded-lg p-2 bg-white "
+            <div class="dropdown-menu w-full  mt-2 rounded-lg p-2 bg-white "
                 :class="dropState ? 'block' : 'hidden'">
                 <v-input size="x-small" style-type="white" :placeholder="placeholder" full :value="searchValue"
-                    class="mt-2 border-0 border-b-2 rounded-none" @input="searchDropdown()" v-if="showSearch"></v-input>
+                    class="mt-2  rounded-none" @input="searchDropdown()" v-if="showSearch"></v-input>
                 <slot></slot>
             </div>
         </div>

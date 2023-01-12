@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-1" :style="{gridGap: `${gapRef}em`}">
+    <div class="grid grid-cols-1 " :style="{gridGap: `${gapRef}em`}">
         <slot></slot>
     </div>
 </template>
