@@ -9,7 +9,7 @@
         <img src="/email-veriff-image.png" class="rounded-lg"/>
         <div class="my-4">
           <h2 class="md:text-xl text-white">Verify your school Email</h2>
-          <p class="text-db-white-light my-4">Hi, {{store.user}}! Use the link in your microsoft account to verify your email and start enjoying corep.</p>
+          <p class="text-db-white-light my-4">Hi, Olix! Use the link in your microsoft account to verify your email and start enjoying corep.</p>
          <div class="flex gap-4 justify-center">
          <a href="https://outlook.office.com/mail/" target="_blank" rel="noopener noreferrer"><v-button :icon="MicrosoftIcon"  type="sec" >Microsoft</v-button></a> 
           <a href="http://gmail.com" target="_blank" rel="noopener noreferrer"><v-button :icon="GmailIcon" type="sec" > Gmail</v-button></a>

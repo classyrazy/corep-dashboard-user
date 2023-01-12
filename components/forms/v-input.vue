@@ -2,12 +2,13 @@
   <div :class="full? 'w-full':''">
     <label v-if="label" class="font-inter text-xl mb-2">{{ label }}</label>
     <div class="relative border-b border-gray-200 py-1">
+      <Username class="absolute inset-y-0 left-0 flex items-center justify-center"/>
       <input
         v-bind="$attrs"
         :class="[__class, iconLeft ? 'pl-10' : '',]"
         :type="type"
         v-model="value.value"
-        class="inline-block appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 focus:outline-none"
+        class="inline-block appearance-none bg-transparent border-none pr-3 pl-8 w-full text-gray-700 mr-3 py-1 px-2 focus:border-sec"
         @keyup="$emit('customChange', value.value)"
       />
       <component
@@ -35,6 +36,7 @@
 <script lang="ts">
 import EyeClosed from "../svgs/eye-closed.vue";
 import EyeOpen from "../svgs/eye-open.vue";
+import Username from "../svgs/username.vue"
 // import EyeCloseIcon from "../icons/eye-close-icon.vue";
 // import EyeOpenIcon from "../icons/eye-open-icon.vue";
 import { computed, ref, watchEffect } from "vue";
@@ -44,6 +46,7 @@ export default {
   components: {
     EyeOpen,
     EyeClosed,
+    Username
   },
   props: {
     value: {

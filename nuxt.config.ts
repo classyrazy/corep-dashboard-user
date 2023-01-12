@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   meta: {
     title: "Corep",
     charset: "utf-8",
+    viewport: "width=device-width, initial-scale=1, user-scalable=no",
     meta: [{ name: "theme-color", content: "#ffdd67" }],
     link: [
       { hid: "icon", rel: "icon", type: "image/png", href: "/fa.png" },
