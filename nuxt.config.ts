@@ -1,4 +1,4 @@
-import { defineNuxtConfig } from "nuxt";
+// import { defineNuxtConfig } from "nuxt";
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
@@ -23,6 +23,12 @@ export default defineNuxtConfig({
       postcssOptions: require("./postcss.config.js"),
     },
   },
-  buildModules: ["@pinia/nuxt", "@nuxtjs/pwa",],
+  modules: ["@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt","@nuxtjs/tailwindcss"],
   ssr: false,
+  piniaPersistedstate: {
+    cookieOptions: {
+      sameSite: 'strict',
+    },
+    storage: 'sessionStorage'
+  }
 });

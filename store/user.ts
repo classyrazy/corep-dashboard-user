@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import Graph from "../libs/avanda";
 import { ref, watch } from "vue";
-export const useUserStore = defineStore("user", () => {
+const store = () => {
   let user = ref(null);
   let userRegTodoStageLevel = ref(null);
   let darkMode = ref(false);
@@ -12,33 +12,33 @@ export const useUserStore = defineStore("user", () => {
     darkMode.value = false;
   }
 
-  if(localStorage.getItem("user")){
-    user.value = JSON.parse(localStorage.getItem("user"))
-  }
+  // if(localStorage.getItem("user")){
+  //   user.value = JSON.parse(localStorage.getItem("user"))
+  // }
 
-  watch(
-    user,
-    (userVal) => {
-      localStorage.setItem("user", JSON.stringify(userVal));
-    },
-    {deep : true}
-  )
+  // watch(
+  //   user,
+  //   (userVal) => {
+  //     localStorage.setItem("user", JSON.stringify(userVal));
+  //   },
+  //   {deep : true}
+  // )
 
   //Create a user Object
-  async function fetchUserObject(){
+  async function fetchUserObject() {
     try {
       let req = new Graph().service("User/getLoggedInUser");
       console.log(req)
       user.value = await (await req.get()).getData();
     } catch (error) {
-      if(error.getMsg() === "you are not logged in" || error.code === 401){
+      if (error.getMsg() === "you are not logged in" || error.code === 401) {
         return "/login"
         //Redirect to login page
-      //  error({
-      //     message: "You must be logged in to access this page",
-      //     statusCode: 403
-      //   })
-      } else if (error.getMsg() === "you are not verified" || error.code === 429){
+        //  error({
+        //     message: "You must be logged in to access this page",
+        //     statusCode: 403
+        //   })
+      } else if (error.getMsg() === "you are not verified" || error.code === 429) {
         return "/email-verification"
         //Redirect to verification page 
         // error({
@@ -90,8 +90,13 @@ export const useUserStore = defineStore("user", () => {
     ).matches;
     localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDarkModePreferred ? "dark" : "light");
     // mode.value = newTheme === "dark";
-    console.log({isDarkModePreferred})
+    console.log({ isDarkModePreferred })
   }
+  const getUserToken = computed(() => {
+    let userToken = localStorage.getItem("session-token");
+    return userToken
+  })
+
   return {
     user,
     darkMode,
@@ -102,13 +107,17 @@ export const useUserStore = defineStore("user", () => {
     changeUserRegTodoStageLevel,
     setUserTheme,
     emptyState,
-    fetchUserObject
+    fetchUserObject,
+    getUserToken
   };
+};
+export const useUserStore = defineStore("user", {
+  state: store,
+  persist: true,
 });
-
-function redirect() {
-  throw new Error("Function not implemented.");
-}
+// function redirect() {
+//   throw new Error("Function not implemented.");
+// }
 // import { defineStore } from "pinia";
 // import Graph from "../libs/avanda";
 
