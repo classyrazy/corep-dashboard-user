@@ -6,8 +6,10 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
+    "@kevinmarrec/nuxt-pwa": "^0.15.0",
     "@nuxt/postcss8": "^1.1.3",
     "@nuxtjs/color-mode": "^3.0.2",
+    "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/tailwindcss": "^6.2.0",
     "@pinia-plugin-persistedstate/nuxt": "^1.0.0",
     "autoprefixer": "^10.4.13",
@@ -17,7 +19,7 @@
   },
   "dependencies": {
     "@avanda/avandajs": "^0.1.19",
-    "@kyvg/vue3-notification": "^2.7.0",
+    "@kyvg/vue3-notification": "^2.8.0",
     "@pinia/nuxt": "^0.4.6",
     "click-outside-vue3": "^4.0.1",
     "mosha-vue-toastify": "^1.0.23",

@@ -23,7 +23,12 @@ export default defineNuxtConfig({
       postcssOptions: require("./postcss.config.js"),
     },
   },
-  modules: ["@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt","@nuxtjs/tailwindcss"],
+  modules: ["@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt","@nuxtjs/tailwindcss", "@kevinmarrec/nuxt-pwa"],
+  pwa: {
+    workbox: {
+      enabled: true,
+    }
+  },
   ssr: false,
   piniaPersistedstate: {
     cookieOptions: {
