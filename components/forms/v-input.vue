@@ -2,7 +2,7 @@
   <div :class="full? 'w-full':''">
     <label v-if="label" class="font-inter text-xl mb-2">{{ label }}</label>
     <div class="relative border-b border-gray-200 py-1">
-      <Username class="absolute inset-y-0 left-0 flex items-center justify-center"/>
+      <!-- <Username class="absolute inset-y-0 left-0 flex items-center justify-center"/> -->
       <input
         v-bind="$attrs"
         :class="[__class, iconLeft ? 'pl-10' : '',]"
