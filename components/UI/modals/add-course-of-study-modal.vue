@@ -14,7 +14,7 @@
         <div
           class="close_btn dark:border-db-white-dark border-2 w-6 h-6 md:w-10 md:h-10 flex justify-center cursor-pointer items-center rounded-md"
         >
-          <close-icon :text-color="darkMode ? 'white' : 'black'" ></close-icon>
+          <close-icon :text-color="darkMode ? 'white' : 'black'" @click="$emit('close')"></close-icon>
         </div>
       </div>
       <div class="bg-sec w-full h-[1px]"></div>

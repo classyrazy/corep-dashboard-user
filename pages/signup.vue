@@ -302,7 +302,6 @@ let { submitForm, form, loading, data } = useFormRequest(
   formReactive,
   null,
   (data) => {
-    console.log(data);
     if (data) {
       if (process.client) {
         localStorage.setItem("session-token", data.token);
