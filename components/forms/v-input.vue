@@ -1,14 +1,14 @@
 <template>
   <div :class="full? 'w-full':''">
     <label v-if="label" class="font-inter text-xl mb-2">{{ label }}</label>
-    <div class="relative border-b border-gray-200 py-1">
+    <div class="relative py-1">
       <!-- <Username class="absolute inset-y-0 left-0 flex items-center justify-center"/> -->
       <input
         v-bind="$attrs"
         :class="[__class, iconLeft ? 'pl-10' : '',]"
         :type="type"
         v-model="value.value"
-        class="inline-block appearance-none bg-transparent border-none pr-3 pl-8 w-full text-gray-700 mr-3 py-1 px-2 focus:border-sec"
+        class="inline-block appearance-none bg-transparent pr-3 pl-8 w-full text-gray-700 mr-3 py-1 px-2 focus:border-sec"
         @keyup="$emit('customChange', value.value)"
       />
       <component
@@ -93,6 +93,7 @@ export default {
       white:"bg-[#fff] text-black focus:border-pry border-2 border-gray-100",
       'search':"",
       "modal-search": "bg-[#fff] dark:bg-db text-black focus:border-pry border-b-0 border-gray-100 p-0 pb-1",
+      "sammie-input": "border-b border-gray-200"
     };
     let base = "";
     let sizes = {

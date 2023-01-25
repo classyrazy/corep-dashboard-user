@@ -120,20 +120,7 @@ const isDarkModePreferred = ref(null);
 onMounted(() => {
   console.log("This is from index Mounted");
   store.setUserTheme();
-  store.fetchUser();
-  // getStartAppTodos()
   store.fetchUserRegStartTodoLevelMode();
-  // isDarkModePreferred.value = window.matchMedia(
-  //   "(prefers-color-scheme: dark)"
-  // ).matches;
-  // console.log(isDarkModePreferred.value);
-  // console.log(darkMode.value);
-
-  // const themeFromLocalStorage = localStorage.getItem(
-  //   LOCAL_STORAGE_THEME_KEY
-  // ) as Theme;
-  // setTheme(isDarkModePreferred.value ? "dark" : "light");
-  // setTheme(themeFromLocalStorage);
 });
 
 watch(darkMode, (selected) => {

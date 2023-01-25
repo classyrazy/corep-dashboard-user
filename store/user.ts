@@ -1,8 +1,18 @@
 import { defineStore } from "pinia";
 import Graph from "../libs/avanda";
 import { ref, watch } from "vue";
+type UserType = {
+  id: string;
+  email: string;
+  username: string;
+  isVerified: boolean;
+  role: string;
+  school: object;
+  department: object;
+  faculty: object;
+}
 const store = () => {
-  let user = ref(null);
+  let user = ref<UserType | null>(null);
   let userRegTodoStageLevel = ref(null);
   let darkMode = ref(false);
   let emptyState = ref(true)
@@ -96,6 +106,7 @@ const store = () => {
     let userToken = localStorage.getItem("session-token");
     return userToken
   })
+
 
   return {
     user,
