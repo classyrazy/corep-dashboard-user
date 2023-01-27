@@ -8,7 +8,7 @@
         :class="[__class, iconLeft ? 'pl-10' : '',]"
         :type="type"
         v-model="value.value"
-        class="inline-block appearance-none bg-transparent pr-3 pl-8 w-full text-gray-700 mr-3 py-1 px-2 focus:border-sec"
+        class="inline-block appearance-none bg-transparent w-full text-gray-700 mr-3 py-1 px-2 focus:border-sec"
         @keyup="$emit('customChange', value.value)"
       />
       <component
@@ -90,10 +90,10 @@ export default {
     let styleTypes = {
       "grey-pry":
         "bg-[#DCDCDC] rounded-2xl text-black focus:border-pry border-2 border-[#DCDCDC] rounded-lg",
-      white:"bg-[#fff] text-black focus:border-pry border-2 border-gray-100",
+      white:"bg-[#fff] text-black focus:border-pry border-2 border-gray-100 pr-3 pl-8",
       'search':"",
       "modal-search": "bg-[#fff] dark:bg-db text-black focus:border-pry border-b-0 border-gray-100 p-0 pb-1",
-      "sammie-input": "border-b border-gray-200"
+      "modal-input": "border-b border-gray-200 text-white"
     };
     let base = "";
     let sizes = {
