@@ -1,19 +1,22 @@
 <template>
-    <div class="m-3 pt-12 lg:pt-20 lg:m-30">
+    <div class="p-10 pt-12 lg:pt-20 lg:m-30">
     <div class="flex flex-col">
         <h1 class=" text-2xl  dark:text-white text-text-db-pry-dark mb-10 font-bold">Create New Course</h1>
         <ul class="flex gap-4 mb-3">
-            <li class="font-bold border p-1 rounded bg-db-pry text-white border-transparent">MON</li>
-            <li class="font-bold border p-1 rounded bg-yellow border-transparent">TUE</li>
-            <li class="font-bold border p-1 rounded bg-yellow border-transparent">WED</li>
-            <li class="font-bold border p-1 rounded bg-yellow border-transparent">THU</li>
-            <li class="font-bold border p-1 rounded bg-yellow border-transparent">FRI</li>
-            <li class="font-bold border p-1 rounded bg-yellow border-transparent">SAT</li>
-        </ul>
+            <NuxtLink :to="day.route" class="nuxt-link-exact-active" v-for="day in days" :key="day.name">
+      <li :class="[
+        'transition duration-200 ease-in font-bold border p-1 rounded',
+        activeDay === day.name ? 'bg-db-pry text-white' : 'bg-yellow',
+        'border-transparent cursor-pointer'
+      ]" @click="setActiveDay(day.name)">
+        {{ day.name }}
+      </li>
+    </NuxtLink>
+  </ul>
     </div>
         <form class="lg:pb-20 pb-12">
                 <stack class="mx-auto" :gap="1">
-                    <v-input type="text" placeholder="Enter course code e.g MAT231" full styleType="modal-input" class="text-white rounded-lg mb-5" size="small" >
+                    <v-input type="text" placeholder="Enter course code e.g MAT231" full styleType="modal-input" class="text-white rounded-lg mb-3" size="small" >
                     </v-input>
                     <v-input type="text" placeholder="Enter course name e.g Real Analysis" full styleType="modal-input"  class="text-white rounded-lg mb-5" size="small" >
                     </v-input>
@@ -37,9 +40,28 @@
 <script setup lang="ts">
 import VInput from '../../../forms/v-input.vue'
 import VButton from '../../../forms/v-button.vue'
+import {  ref } from 'vue'
+
+const activeDay = ref('')
+const days = [
+      { name: 'MON', route: '' },
+      { name: 'TUE', route: '' },
+      { name: 'WED', route: '' },
+      { name: 'THU', route: '' },
+      { name: 'FRI', route: '' },
+      { name: 'SAT', route: '' },
+    ]
+
+    function setActiveDay(day: string){
+      activeDay.value = day
+      return {
+      activeDay,
+      setActiveDay,
+      days
+    }
+    }
 
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
 </style>

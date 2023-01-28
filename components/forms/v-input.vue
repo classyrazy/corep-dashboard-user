@@ -93,7 +93,7 @@ export default {
       white:"bg-[#fff] text-black focus:border-pry border-2 border-gray-100 pr-3 pl-8",
       'search':"",
       "modal-search": "bg-[#fff] dark:bg-db text-black focus:border-pry border-b-0 border-gray-100 p-0 pb-1",
-      "modal-input": "border-b border-gray-200 text-white"
+      "modal-input": "dark:bg-db-pry-dark dark:bg-db text-white focus:border-gray-400 border border-gray-400 m-2 pb-4"
     };
     let base = "";
     let sizes = {
