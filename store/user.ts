@@ -14,13 +14,12 @@ type UserType = {
 const store = () => {
   let user = ref<UserType | null>(null);
   let userRegTodoStageLevel = ref(null);
-  let darkMode = ref(false);
+  let darkMode = computed(() => {
+
+    if (localStorage.getItem(LOCAL_STORAGE_THEME_KEY) == "dark") return true;
+    return false;
+  });
   let emptyState = ref(true)
-  if (localStorage.getItem("app-theme") === "dark") {
-    darkMode.value = true;
-  } else {
-    darkMode.value = false;
-  }
 
   // if(localStorage.getItem("user")){
   //   user.value = JSON.parse(localStorage.getItem("user"))
@@ -98,6 +97,7 @@ const store = () => {
     let isDarkModePreferred = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
+    // watchEffect(() => { localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDarkModePreferred ? "dark" : "light"); })
     localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDarkModePreferred ? "dark" : "light");
     // mode.value = newTheme === "dark";
     console.log({ isDarkModePreferred })

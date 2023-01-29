@@ -119,13 +119,13 @@ const setTheme = (newTheme: Theme) => {
 const isDarkModePreferred = ref(null);
 onMounted(() => {
   console.log("This is from index Mounted");
-  store.setUserTheme();
+  // store.setUserTheme();
   store.fetchUserRegStartTodoLevelMode();
 });
 
-watch(darkMode, (selected) => {
-  setTheme(selected ? "dark" : "light");
-});
+// watch(darkMode, (selected) => {
+//   setTheme(selected ? "dark" : "light");
+// });
 </script>
 
 <style scoped>
