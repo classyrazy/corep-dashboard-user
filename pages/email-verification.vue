@@ -9,7 +9,7 @@
         <img src="/email-veriff-image.png" class="rounded-lg" />
         <div class="my-4">
           <h2 class="md:text-xl text-white">Verify your school Email</h2>
-          <p class="text-db-white-light my-4">Hi, {{store.user.username}}! Use the link in your microsoft account to
+          <p class="text-db-white-light my-4">Hi, {{ store.user.username }}! Use the link in your microsoft account to
             verify your email and start enjoying corep.</p>
           <div class="flex gap-4 justify-center">
             <a href="https://outlook.office.com/mail/" target="_blank" rel="noopener noreferrer"><v-button
@@ -44,6 +44,10 @@ definePageMeta({
 });
 
 const store = useUserStore()
+await store.fetchUser();
+if(store.user?.isVerified) {
+  useRouter().push("/")
+}
 const notification = useNotification()
 let loading = ref(false);
 
@@ -75,9 +79,10 @@ async function sendVerificationEmail() {
 //   console.log("This is from index Mounted");
 //   store.fetchUser();
 // });
-  // onMounted(() => {
-  //  const User = sessionStorage.getItem("User")
-  // })
+// onMounted(() => {
+//  const User = sessionStorage.getItem("User")
+// })
+
 </script>
 
 <style scoped>

@@ -30,7 +30,7 @@ export default defineNuxtConfig({
   modules: ["@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "@nuxtjs/tailwindcss", "@kevinmarrec/nuxt-pwa"],
   pwa: {
     workbox: {
-      // enabled: true,
+      // enabled: false,
     }
   },
   ssr: false,
