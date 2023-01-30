@@ -60,7 +60,7 @@ let types = {
         text: '#ffffff'
     },
     'pry': {
-        __class: ' text-white bg-pry-dark font-bold btn-pry button01 hover:bg-pry-dark-hover-light',
+        __class: ' text-white bg-pry-dark font-bold btn-pry button01 hover:bg-pry-dark-hover-light border-bg-yellow',
         text: '#03053D'
     },
     'pry-reverse': {
@@ -84,7 +84,7 @@ let types = {
         text: '#fff'
     },
     "border-sec": {
-        __class: ' border-pry bg-transparent border-sec border-2 text-white hover:bg-pry-dark-hover-light font-bold btn-sec button02',
+        __class: ' border-pry bg-transparent border-sec border-2 dark:text-white hover:bg-pry-dark-hover-light font-bold btn-sec button02',
         text: '#fff'
     },
 }

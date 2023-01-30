@@ -1,9 +1,12 @@
 <template>
-  <div class="p-10 pt-6 lg:pt-20 lg:m-30">
+  <div class="p-8 pt-6 lg:pt-20 lg:m-30">
     <div class="flex flex-col">
-      <h1 class="text-2xl dark:text-white text-text-db-pry-dark mb-10 font-bold">
-        Create New Course
-      </h1>
+      <span class="flex inset-y-0 left-0 gap-4">
+        <left-arrow class="cursor-pointer mt-3" @click="$emit('close')"/>
+        <h1 class="text-2xl dark:text-white text-text-db-pry-dark mb-10 font-bold">
+          Search Borrowed Courses
+        </h1>
+      </span>
       <ul class="flex gap-4 mb-3">
         <NuxtLink
           :to="day.route"
@@ -23,6 +26,16 @@
           </li>
         </NuxtLink>
       </ul>
+
+      <v-input
+        class="dark:bg-db-pry-dark min-w-[70%] block py-2 px-3 dark:text-white rounded-lg"
+        size="small"
+        style-type="modal-input"
+        :icon="SearchIcon"
+        placeholder="Search for Courses"
+        full
+        iconLeft
+      ></v-input>
     </div>
     <form class="lg:pb-20 pb-5">
       <stack class="mx-auto" :gap="1">
@@ -75,59 +88,16 @@
         </v-input>
         <v-button full type="sec" class="bg-[#F9B700]">ADD COURSE</v-button>
       </stack>
-      <v-button full type="border-sec" class="mt-4" @click.prevent="handleBorrowedCourse"
-        >BORROWED COURSES</v-button
-      >
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import AddBorrowedCourse from "../time-table/add-borrowed-course.vue";
+import LeftArrow from "../../../svgs/left-arrow.vue";
 import VInput from "../../../forms/v-input.vue";
 import VButton from "../../../forms/v-button.vue";
+import SearchIcon from "../../../icons/search-icon.vue";
 import { ref } from "vue";
-import { useModal } from "vue-modally-v3";
-import { useUserStore } from "../../../../store/user";
-import useUserScreenSize from "../../../../composables/useUserScreenSize";
-import { useRouter, useRoute } from "vue-router";
-
-let router = useRouter();
-let store = useUserStore();
-let darkMode = computed(() => store.darkMode);
-
-let { getUserScreenSize, computedDeviceType } = useUserScreenSize();
-
-onMounted(() => {
-  getUserScreenSize();
-
-  let openCreate = useRoute().query?.b;
-  if (openCreate) {
-    handleBorrowedCourse();
-  }
-});
-
-// const currentComponent = ref('AddNewCourse')
-
-// function toggleComponent() {
-//   currentComponent.value = 'AddBorrowedCourse'
-// }
-
-// toggleComponent()
-
-async function handleBorrowedCourse() {
-  let modalColor = darkMode.value ? "#212939" : "white";
-  let modalType: "panel" | "modal" =
-    computedDeviceType.value == "mobile" ? "panel" : "modal";
-  let modal = await useModal(AddBorrowedCourse, {
-    options: {
-      width: 500,
-      background: modalColor,
-      blur: false,
-      type: modalType,
-    },
-  });
-}
 
 const activeDay = ref("");
 const days = [
