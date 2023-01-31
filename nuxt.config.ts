@@ -38,6 +38,6 @@ export default defineNuxtConfig({
     cookieOptions: {
       sameSite: 'strict',
     },
-    storage: 'cookies'
+    storage: 'sessionStorage'
   }
 });
