@@ -60,7 +60,7 @@ async function handleCreateTImeTable(){
     computedDeviceType.value == "mobile" ? "panel" : "modal";
   let modal = await useModal(AddNewCourseSubjectModal, {
     options:{
-    width: 500,
+    width: 800,
     background: modalColor,
     blur: false,
     type: modalType
