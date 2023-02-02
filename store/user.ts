@@ -67,9 +67,7 @@ const store = () => {
     console.log("this from store fetch user");
     try {
       let req = new Graph().service("User/getLoggedInUser");
-      localStorage.setItem("user", JSON.stringify(req));
       user.value = await (await req.get()).getData();
-      console.log(user.value)
     } catch (error) {
       console.log(error);
     }

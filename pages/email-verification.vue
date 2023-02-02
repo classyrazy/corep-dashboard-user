@@ -40,14 +40,16 @@ import { useNotification } from "@kyvg/vue3-notification";
 import { useUserStore } from '~~/store/user';
 
 definePageMeta({
-  middleware: ["logged-in"],
+  middleware: ["logged-in", "is-not-verfied"],
 });
 
 const store = useUserStore()
-await store.fetchUser();
-if(store.user?.isVerified) {
-  useRouter().push("/")
-}
+// if(!store.user){
+//   store.fetchUser()
+// }
+// if(store.user?.isVerified) {
+//   useRouter().push("/")
+// }
 const notification = useNotification()
 let loading = ref(false);
 
@@ -75,13 +77,6 @@ async function sendVerificationEmail() {
   }
 }
 
-// onMounted(() => {
-//   console.log("This is from index Mounted");
-//   store.fetchUser();
-// });
-// onMounted(() => {
-//  const User = sessionStorage.getItem("User")
-// })
 
 </script>
 
