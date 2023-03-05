@@ -8,7 +8,7 @@
         :class="[__class, iconLeft ? 'pl-10' : '',]"
         :type="type"
         v-model="value.value"
-        class="inline-block appearance-none bg-transparent w-full text-gray-700 mr-3 py-1 px-2 focus:border-sec"
+        class="inline-block"
         @keyup="$emit('customChange', value.value)"
       />
       <component
@@ -94,7 +94,7 @@ export default {
       white:"bg-[#fff] text-black focus:border-pry border-2 border-gray-100 pr-3 pl-8",
       'search':"",
       "modal-search": "bg-[#fff] dark:bg-db text-black focus:border-pry border-b-0 border-gray-100 p-0 pb-1",
-      "modal-input": "dark:bg-db-pry-dark dark:bg-db dark:text-white  dark:focus:border-white border border-gray-400  pb-4"
+      "modal-input": "dark:bg-db-pry-dark dark:bg-db dark:text-white text-db-pry-dark focus:border-sec border border-gray-400 rounded-md"
     };
     let base = "";
     let sizes = {
@@ -153,5 +153,8 @@ export default {
 <style scoped>
 input:focus {
   outline: none;
+}
+input[type="time"]::-webkit-calendar-picker-indicator{
+ @apply dark:invert invert-0
 }
 </style>

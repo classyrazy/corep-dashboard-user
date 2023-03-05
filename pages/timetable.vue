@@ -29,6 +29,10 @@ import { useUserStore } from "../store/user";
 import useUserScreenSize from "../composables/useUserScreenSize";
 import { useRouter, useRoute } from 'vue-router';
 
+definePageMeta({
+  layout: "d-board",
+  middleware: ["logged-in", "is-verified"],
+});
 
 let router = useRouter();
 let store = useUserStore();
@@ -50,20 +54,16 @@ onMounted(() => {
 });
 
 
-definePageMeta({
-  layout: "d-board",
-  middleware: ["logged-in", "is-verified"],
-});
 async function handleCreateTImeTable(){
   let modalColor = darkMode.value ? "#212939" : "white";
   let modalType: "panel" | "modal" =
     computedDeviceType.value == "mobile" ? "panel" : "modal";
   let modal = await useModal(AddNewCourseSubjectModal, {
     options:{
-    width: 800,
+    width: 1000,
     background: modalColor,
     blur: false,
-    type: modalType
+    type: modalType,
   }
   })
   
@@ -75,6 +75,6 @@ async function handleCreateTImeTable(){
 
 <style>
 .vm__modal__wrapper .vm__modal__container .vm__modal__box .vm__modal__box_container {
-  border-radius: 50px;
+ @apply rounded-2xl md:rounded-xl
 }
 </style>
