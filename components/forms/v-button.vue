@@ -80,7 +80,7 @@ let types = {
         text: ''
     },
     sec: {
-        __class: ' border-pry bg-sec text-pry-dark font-bold btn-sec button02',
+        __class: ' border-pry bg-sec text-pry-dark font-semibold btn-sec button02',
         text: '#fff'
     },
     "border-sec": {
