@@ -1,6 +1,9 @@
 <template>
   <div :class="storeData.darkMode ? 'dark' : ''">
-    <div
+    <div class="w-full h-screen dark:bg-db-pry-dark" v-if="loading">
+      loading
+    </div>
+    <div 
       class="relative dark:bg-db-pry md:max-h-screen min-h-screen md:max-h-auto lg:max-h-auto md:h-auto lg:h-auto bg-white md:bg-db-white-dark db-con md:flex items-center w-full">
       <div class="relative w-full hidden lg:block md:block lg:max-w-[18rem] md:max-w-[4rem] shrink-0 z-10">
         <d-board-side-bar class="dark:bg-db-pry-dark bg-db-white-light h-screen overflow-y-auto top-0">
@@ -11,8 +14,8 @@
       </div>
       <d-board-side-bar-mobile class="block fixed bottom-0 md:hidden lg:hidden"></d-board-side-bar-mobile>
     </div>
-    <modal-root></modal-root>
   </div>
+  <modal-root></modal-root>
 </template>
 
 <script setup lang="ts">
@@ -23,8 +26,10 @@ import { useUserStore } from "../store/user";
 // const themeFromLocalStorage = localStorage.getItem("theme");
 let storeData = useUserStore();
 storeData.setUserTheme();
+let loading = ref(true)
 onMounted(() => {
   console.log("This is from D-board Mounted");
+  loading.value = false
   // storeData.changeMode()
   if (process.client) {
 
@@ -37,6 +42,8 @@ onMounted(() => {
   }
   //   store.fetchUser();
 });
+
+
 
 </script>
 

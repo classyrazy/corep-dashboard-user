@@ -106,6 +106,7 @@ let { submitForm, form, loading, data } = useFormRequest(
         if (data) {
             if (process.client) {
                 localStorage.setItem("session-token", data.token)
+                
             }
             setTimeout(() => {
                 // router.push('/')

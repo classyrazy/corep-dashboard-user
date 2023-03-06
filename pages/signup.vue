@@ -131,6 +131,7 @@ import { createToast, withProps } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 import Graph from "../libs/avanda.ts";
 import useFormRequest from "../composables/useFormRequest";
+import { useUserStore } from "../store/user";
 
 let router = useRouter();
 let schools = ref(null);
@@ -140,6 +141,7 @@ let searchValue = ref(null);
 let levelDropDownLabel = ref("Select your Level");
 let levels = ref(null);
 let initialFormData = ref(null);
+
 let formReactive = reactive({
   username: {
     value: null,

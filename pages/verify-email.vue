@@ -48,13 +48,14 @@ import VButton from "../components/forms/v-button.vue";
 import Stack from "../components/UI/stack.vue";
 import UnionSvg from "../components/svgs/union-svg.vue";
 import CircleExclude from "../components/svgs/circle-exclude.vue";
-import VInput from "../components/forms/v-input.vue";
 import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router';
 import { createToast, withProps } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
-import Graph from "../libs/avanda.ts"
 import useFormRequest from '../composables/useFormRequest';
+import { useUserStore } from '~~/store/user';
+
+let userStore = useUserStore()
 
 let router = useRouter();
 let route = useRoute();
@@ -71,6 +72,7 @@ let { submitData, loading, data } = useFormRequest(
         console.log(data);
         if(data){
             verified.value = true;
+
             router.push('/')
         }
     },

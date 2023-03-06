@@ -13,10 +13,12 @@ type UserType = {
 }
 const store = () => {
   let user = ref<UserType | null>(null);
-  let userRegTodoStageLevel = ref(null);
-  let darkMode = computed(() => {
+  let userRegTodoStageLevel = ref<string | null>(null);
+  let darkMode = computed<boolean>(() => {
 
-    if (localStorage.getItem(LOCAL_STORAGE_THEME_KEY) == "dark") return true;
+    if (process.client) {
+      if (localStorage.getItem(LOCAL_STORAGE_THEME_KEY) == "dark") return true;
+    }
     return false;
   });
   let emptyState = ref(true)
@@ -25,13 +27,24 @@ const store = () => {
   //   user.value = JSON.parse(localStorage.getItem("user"))
   // }
 
-  // watch(
-  //   user,
-  //   (userVal) => {
-  //     localStorage.setItem("user", JSON.stringify(userVal));
-  //   },
-  //   {deep : true}
-  // )
+  if (process.client) {
+    watch(
+      user,
+      (userVal) => {
+        if (userVal) {
+          localStorage.setItem("isLoggedIn", JSON.stringify(true))
+        } else {
+          localStorage.setItem("isLoggedIn", JSON.stringify(false))
+        }
+        if (userVal?.isVerified) {
+          localStorage.setItem("isVerified", JSON.stringify(true))
+        } else {
+          localStorage.setItem("isVerified", JSON.stringify(false))
+        }
+      },
+      { deep: true }
+    )
+  }
 
   //Create a user Object
   async function fetchUserObject() {
@@ -39,7 +52,7 @@ const store = () => {
       let req = new Graph().service("User/getLoggedInUser");
       console.log(req)
       user.value = await (await req.get()).getData();
-    } catch (error) {
+    } catch (error: any) {
       if (error.getMsg() === "you are not logged in" || error.code === 401) {
         return "/login"
         //Redirect to login page
@@ -92,17 +105,32 @@ const store = () => {
   let mode = ref(false);
   const LOCAL_STORAGE_THEME_KEY = "app-theme";
   function setUserTheme() {
-    let isDarkModePreferred = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    let isDarkModePreferred: boolean
+    if (process.client) {
+      isDarkModePreferred = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+    }
     // watchEffect(() => { localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDarkModePreferred ? "dark" : "light"); })
-    localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDarkModePreferred ? "dark" : "light");
+    if (process.client) {
+      localStorage.setItem(LOCAL_STORAGE_THEME_KEY, isDarkModePreferred ? "dark" : "light");
+    }
     // mode.value = newTheme === "dark";
     console.log({ isDarkModePreferred })
   }
   const getUserToken = computed(() => {
-    let userToken = localStorage.getItem("session-token");
+    let userToken
+    if (process.client) {
+      userToken = localStorage.getItem("session-token");
+    }
     return userToken
+  })
+  const getUserLoggedInState = computed(() => {
+    let userLoggedInState :Ref<string>;
+    if(process.client){
+      userLoggedInState = ref(localStorage.getItem("isLoggedIn"))
+    }
+    return userLoggedInState?.value
   })
 
 
@@ -117,13 +145,11 @@ const store = () => {
     setUserTheme,
     emptyState,
     fetchUserObject,
-    getUserToken
+    getUserToken,
+    getUserLoggedInState
   };
 };
-export const useUserStore = defineStore("user", {
-  state: store,
-  persist: true,
-});
+export const useUserStore = defineStore("user", store, { persist: true });
 // function redirect() {
 //   throw new Error("Function not implemented.");
 // }

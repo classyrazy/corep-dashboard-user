@@ -2,10 +2,12 @@ export default function useUserScreenSize() {
   let screenSize = ref(null);
   let deviceType = ref(null);
   function getUserScreenSize() {
-    screenSize.value = window.innerWidth;
-    window.addEventListener("resize", () => {
+    if (process.client) {
       screenSize.value = window.innerWidth;
-    });
+      window.addEventListener("resize", () => {
+        screenSize.value = window.innerWidth;
+      });
+    }
     console.log(screenSize.value);
   }
   let computedScreenSize = computed(() => {
