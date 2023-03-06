@@ -1,7 +1,7 @@
 import { useUserStore } from "~~/store/user";
 export default defineNuxtRouteMiddleware((_) => {
   const userStore = useUserStore();
-  // if (userStore.getUserToken && !userStore.user?.isVerified) {
+  // if (userStore.getUserToken && !userStore.user?.is_verified) {
   //     return navigateTo('/email-verification')
   // } else if(!userStore.user) {
   //  userStore.fetchUser()

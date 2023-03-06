@@ -1,8 +1,5 @@
 <template>
   <div :class="storeData.darkMode ? 'dark' : ''">
-    <div class="w-full h-screen dark:bg-db-pry-dark" v-if="loading">
-      loading
-    </div>
     <div 
       class="relative dark:bg-db-pry md:max-h-screen min-h-screen md:max-h-auto lg:max-h-auto md:h-auto lg:h-auto bg-white md:bg-db-white-dark db-con md:flex items-center w-full">
       <div class="relative w-full hidden lg:block md:block lg:max-w-[18rem] md:max-w-[4rem] shrink-0 z-10">

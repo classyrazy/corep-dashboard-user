@@ -28,7 +28,7 @@ export default defineNuxtConfig({
     },
   },
   modules: ["@pinia/nuxt", "@pinia-plugin-persistedstate/nuxt", "@nuxtjs/tailwindcss"],
-  ssr: true,
+  ssr: false,
   piniaPersistedstate: {
     cookieOptions: {
       sameSite: 'strict',

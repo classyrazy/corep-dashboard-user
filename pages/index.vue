@@ -61,7 +61,7 @@
       <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto pt-10">
         <div
           class="app-todos mt-6 md:mt-0"
-          v-if="startAppTodoLevel !== 'completed'"
+          v-if="slotProps.userStore.user_todo_level !== 'completed'"
         >
           <h3
             class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold"
@@ -99,29 +99,29 @@ definePageMeta({
   middleware: ["logged-in", "is-verified"],
 });
 
-function showTimetableModal() {
-  console.log("clicked");
-  router.push({ path: "timetable", query: { a: "create" } });
-}
+// function showTimetableModal() {
+//   console.log("clicked");
+//   router.push({ path: "timetable", query: { a: "create" } });
+// }
 
-type Theme = "light" | "dark";
-// let startAppTodoLevel = ref(null)
-let startAppTodoLevel = computed(() => store.userRegTodoStageLevel);
+// type Theme = "light" | "dark";
+// // let startAppTodoLevel = ref(null)
+// let startAppTodoLevel = computed(() => store.userRegTodoStageLevel);
 
-const LOCAL_STORAGE_THEME_KEY = "app-theme";
-let mode = ref("");
-let darkMode = ref(false);
+// const LOCAL_STORAGE_THEME_KEY = "app-theme";
+// let mode = ref("");
+// let darkMode = ref(false);
 
-const setTheme = (newTheme: Theme) => {
-  localStorage.setItem(LOCAL_STORAGE_THEME_KEY, newTheme);
-  darkMode.value = newTheme === "dark";
-};
-const isDarkModePreferred = ref(null);
-onMounted(() => {
-  console.log("This is from index Mounted");
-  // store.setUserTheme();
-  store.fetchUserRegStartTodoLevelMode();
-});
+// const setTheme = (newTheme: Theme) => {
+//   localStorage.setItem(LOCAL_STORAGE_THEME_KEY, newTheme);
+//   darkMode.value = newTheme === "dark";
+// };
+// const isDarkModePreferred = ref(null);
+// onMounted(() => {
+//   console.log("This is from index Mounted");
+//   // store.setUserTheme();
+//   store.fetchUserRegStartTodoLevelMode();
+// });
 
 // watch(darkMode, (selected) => {
 //   setTheme(selected ? "dark" : "light");

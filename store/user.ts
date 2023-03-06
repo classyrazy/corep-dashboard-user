@@ -5,11 +5,13 @@ type UserType = {
   id: string;
   email: string;
   username: string;
-  isVerified: boolean;
+  is_verified: boolean;
+  level: object;
   role: string;
   school: object;
   department: object;
   faculty: object;
+  user_todo_level: string;
 }
 const store = () => {
   let user = ref<UserType | null>(null);
@@ -36,7 +38,7 @@ const store = () => {
         } else {
           localStorage.setItem("isLoggedIn", JSON.stringify(false))
         }
-        if (userVal?.isVerified) {
+        if (userVal?.is_verified) {
           localStorage.setItem("isVerified", JSON.stringify(true))
         } else {
           localStorage.setItem("isVerified", JSON.stringify(false))
@@ -86,7 +88,10 @@ const store = () => {
     }
   }
   function changeUserRegTodoStageLevel(level: string) {
-    userRegTodoStageLevel.value = level;
+    if (user.value)
+        user.value.user_todo_level = level;
+
+    // userRegTodoStageLevel.value = level;
   }
   // watch(darkMode)
   function changeMode() {
@@ -97,7 +102,10 @@ const store = () => {
     console.log("this is from store fetch user reg start todo level mode");
     try {
       let req = new Graph().service("User/getUserTodos");
-      userRegTodoStageLevel.value = await (await req.get()).getData();
+      let levelGotten: string = await (await req.get()).getData()
+      // userRegTodoStageLevel.value = await (await req.get()).getData();
+      changeUserRegTodoStageLevel(levelGotten)
+
     } catch (error) {
       console.log(error);
     }
@@ -126,8 +134,8 @@ const store = () => {
     return userToken
   })
   const getUserLoggedInState = computed(() => {
-    let userLoggedInState :Ref<string>;
-    if(process.client){
+    let userLoggedInState: Ref<string>;
+    if (process.client) {
       userLoggedInState = ref(localStorage.getItem("isLoggedIn"))
     }
     return userLoggedInState?.value
@@ -149,7 +157,7 @@ const store = () => {
     getUserLoggedInState
   };
 };
-export const useUserStore = defineStore("user", store, { persist: true });
+export const useUserStore = defineStore("user", store);
 // function redirect() {
 //   throw new Error("Function not implemented.");
 // }

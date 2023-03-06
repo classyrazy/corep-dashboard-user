@@ -20,7 +20,9 @@ const user = computed(() =>  store.user)
 // })
 
 onMounted(() => {
-    // store.fetchUser();
+    if(!user.value){
+        store.fetchUser();
+    }
     console.log("This is from db content")
 
 })

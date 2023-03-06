@@ -1,6 +1,6 @@
 export default function useUserScreenSize() {
-  let screenSize = ref(null);
-  let deviceType = ref(null);
+  let screenSize = ref<number>(0);
+  let deviceType = ref<null | "mobile"| "tablet"| "desktop">(null);
   function getUserScreenSize() {
     if (process.client) {
       screenSize.value = window.innerWidth;
@@ -10,7 +10,7 @@ export default function useUserScreenSize() {
     }
     console.log(screenSize.value);
   }
-  let computedScreenSize = computed(() => {
+  let computedScreenSize = computed<number>(() => {
     return screenSize.value;
   });
   let computedDeviceType = computed(() => {

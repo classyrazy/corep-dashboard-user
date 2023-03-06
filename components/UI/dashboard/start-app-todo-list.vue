@@ -51,7 +51,7 @@ let router = useRouter()
 let darkMode = computed(() => store.darkMode);
 let loadingModal = ref(false);
 let capitalizedSchoolName = computed(() => {
-  let schoolName = store.user.school.short_name;
+  let schoolName = store.user?.school.short_name;
   return schoolName.toUpperCase()
   // return schoolName.charAt(0).toUpperCase() + schoolName.slice(1);
 });
@@ -108,7 +108,8 @@ let {
 onMounted(() => {
   getUserScreenSize();
 });
-let startAppTodoLevel = computed(() => store.userRegTodoStageLevel);
+let startAppTodoLevel = computed(() => store.user?.user_todo_level);
+// let startAppTodoLevel = computed(() => store.userRegTodoStageLevel);
 console.log(startAppTodoLevel.value);
 let modalResult = ref(null);
 let startAppTodoLevelNum = computed(() => {
@@ -126,13 +127,13 @@ let startAppTodoLevelNum = computed(() => {
 });
 console.log(startAppTodoLevelNum.value);
 let computedTodoArray = computed(() => {
-  if(store.user.role !== "course-rep") {
+  if(store.user?.role !== "course-rep") {
     return startTodoArray.filter(todo => todo.courseRepOnly === false)
   }
   if (startAppTodoLevel.value) {
     console.log("from computedTodoArray", startAppTodoLevel.value);
     startTodoArray.forEach((todo) => {
-      if (todo.id < startAppTodoLevelNum.value) {
+      if (startAppTodoLevelNum.value && todo.id < startAppTodoLevelNum.value) {
         todo.completed = true;
       }
     });
