@@ -4,13 +4,13 @@
         <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto ">
          <div class=" mt-6 md:mt-0" >
            <h1 class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold"> 
-            Announcements
+            Updates
           </h1>
          </div>
   
         <div class="flex flex-col items-center mt-40 space-y-2">
          <announcement-icon class="text-white" :size="120"/>
-         <p class="dark:text-white text- text-db-pry-dark text-2xl md:text-4xl font-bold">No announcements yet</p>
+         <p class="dark:text-white text- text-db-pry-dark text-2xl md:text-4xl font-bold">No updates yet</p>
         </div>
         </div>
       </db-content>

@@ -18,8 +18,8 @@
 
                     </li>
                     <li>
-                        <side-bar-item text="Announcements" :icon="AnnouncementIcon" :info-num="2"
-                            link="/announcements">
+                        <side-bar-item text="Updates" :icon="AnnouncementIcon" :info-num="2"
+                            link="/updates">
                         </side-bar-item>
                     </li>
 

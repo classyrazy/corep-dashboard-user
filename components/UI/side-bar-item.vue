@@ -23,10 +23,10 @@ interface Props {
     textColor: string;
     size: number;
     icon: object;
-    infoNum: number;
+    infoNum?: number;
     text: string;
-    active: boolean;
-    mode: boolean;
+    active?: boolean;
+    mode?: boolean;
     link: string;
 }
 let props = withDefaults(defineProps<Props>(), {

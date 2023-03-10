@@ -21,10 +21,10 @@
           <!-- </li> -->
           <!-- <li> -->
             <mobile-nav-item
-              text="Announcements"
+              text="Updates"
               :icon="AnnouncementIcon"
               class=""
-              link="/announcements"
+              link="/updates"
             ></mobile-nav-item>
           <!-- </li> -->
           <!-- <li> -->

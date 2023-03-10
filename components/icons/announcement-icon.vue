@@ -9,8 +9,8 @@
 
 <script setup lang="ts">
 interface Props {
-    bgColor: string;
-    textColor: string;
+    bgColor?: string;
+    textColor?: string;
     size: number;
 }
 
