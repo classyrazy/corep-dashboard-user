@@ -1,6 +1,6 @@
 <template>
   <!-- <notifications position="top left" animation-type="velocity" /> -->
-  <div>
+  <div v-if="computedUser">
     <layer-bg class="fixed md:relative bg-pry-dark min-h-screen h-full block my-auto overflow-x-hidden px-4 md:px-0">
       <div class=" rounded-xl mt-10 pt-2 max-w-md mx-auto font-inter px-4 overflow-hidden">
         <div class="my-4">
@@ -9,7 +9,7 @@
         <img src="/email-veriff-image.png" class="rounded-lg" />
         <div class="my-4">
           <h2 class="md:text-xl text-white">Verify your school Email</h2>
-          <p class="text-db-white-light my-4">Hi, {{ store.user?.username }}! Use the link in your microsoft account to
+          <p class="text-db-white-light my-4">Hi, {{ computedUser.username }}! Use the link in your microsoft account to
             verify your email and start enjoying corep.</p>
           <div class="flex gap-4 justify-center">
             <a href="https://outlook.office.com/mail/" target="_blank" rel="noopener noreferrer"><v-button
@@ -39,7 +39,6 @@ import LayerBg from "../components/UI/layer-bg.vue";
 import GmailIcon from "../components/icons/gmail-icon.vue";
 import MicrosoftIcon from "../components/icons/microsoft-icon.vue";
 import Graph from "../libs/avanda"
-import { useNotification } from "@kyvg/vue3-notification";
 import { useUserStore } from '~~/store/user';
 import { useAlert } from '~~/composables/core/useToast';
 definePageMeta({
@@ -47,10 +46,15 @@ definePageMeta({
 });
 
 const store = useUserStore()
+const computedUser = computed(() => store.user)
 onMounted(() => {
   store.fetchUser()
 })
-const notification = useNotification()
+watch(computedUser, (val) => {
+  if (val && val.is_verified) {
+    useRouter().push('/')
+  }
+})
 let loading = ref(false);
 
 async function sendVerificationEmail() {

@@ -51,14 +51,22 @@
             </v-input>
           </div>
         </div>
-        <div class="flex flex-col w-full">
-          <label class="dark:text-white text-db-pry-dark text-md mb-1">Location Type</label>
-          <select
-            class="dark:bg-db-pry-dark dark:text-white bg-white text-db-pry-dark rounded-lg w-full h-12 px-4 focus:border-sec border border-gray-400 ouline-none"
-            v-model="formReactive.locationType.value">
-            <option value="physical">Physical</option>
-            <option value="online">online</option>
-          </select>
+        <div class="flex gap-6">
+          <div class="flex flex-col w-full">
+            <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Unit</label>
+            <v-input type="number" placeholder="Enter course unit e.g 3" full styleType="modal-input" class=""
+              size="medium" :value="formReactive.unit" max="10" min="1">
+            </v-input>
+          </div>
+          <div class="flex flex-col w-full">
+            <label class="dark:text-white text-db-pry-dark text-md mb-1">Location Type</label>
+            <select
+              class="dark:bg-db-pry-dark dark:text-white bg-white text-db-pry-dark rounded-lg w-full h-12 px-4 focus:border-sec border border-gray-400 ouline-none"
+              v-model="formReactive.locationType.value">
+              <option value="physical">Physical</option>
+              <option value="online">online</option>
+            </select>
+          </div>
         </div>
         <div class="flex flex-col w-full">
           <label class="dark:text-white text-db-pry-dark text-md mb-1">Location</label>
@@ -85,25 +93,21 @@
         </h1>
       </span>
       <div class="bg-sec w-full h-[1px] mt-3"></div>
-
-      <ul class="flex flex-wrap gap-4 w-[90%] mx-auto justify-around mb-4 mt-6">
-        <li v-for="day in days" :key="day.id" :class="[
-          'transition duration-200 ease-in font-semibold md:text-md text-sm rounded-md capitalize text-center py-1 md:py-2 px-2 md:px-1 md:min-w-[100px] cursor-pointer',
-          formReactive.day.value !== day.id ? 'bg-db-pry-light text-white border-b-2 border-yellow' : 'bg-yellow',
-          'border-transparent cursor-pointer',
-        ]" @click="setActiveDay(day.id)">
-          {{ day.name }}
-        </li>
-      </ul>
-      <div class="w-full mx-auto px-4">
+      <div class="w-full mx-auto px-4 my-4" v-if="currentScreen === 'add-borrow'">
         <v-input class="dark:bg-db-pry-dark min-w-[70%] block py-2 px-3 dark:text-white rounded-lg" size="small"
           style-type="modal-input" :icon="SearchIcon" placeholder="Search for Courses" full iconLeft :value="courseSearch"
           @custom-change="debouncedSearchCourseFunction"></v-input>
       </div>
-      <chosen-borrowed-course></chosen-borrowed-course>
-      <course-borrow-suggestion-list class="mt-4 mb-6 mx-4" :course-suggestion="computedCourses"></course-borrow-suggestion-list>
-      <div class="w-full px-4 md:px-0 md:flex md:justify-end pb-10">
-        <v-button type="sec" class="w-full md:w-auto">Add Borrowed Course</v-button>
+      <chosen-borrowed-course class="mt-4 mb-6" v-if="currentScreen === 'added-borrow' && selectedCourseDetails"
+        :course-details="selectedCourseDetails"></chosen-borrowed-course>
+      <course-borrow-suggestion-list class="mt-4 mb-6 mx-4" :course-suggestion="computedCourses"
+        @course-chosen="handleCourseChosen" :search-term="displayCourseSearchString" v-if="currentScreen === 'add-borrow'"
+        :loading="courseSuggestionLoading" :dark-mode="darkMode"></course-borrow-suggestion-list>
+      <div class="flex flex-col gap-4 md:flex-row items-center pb-10 justify-between w-full px-4">
+        <v-button type="border-sec" class="w-full md:w-auto" v-if="currentScreen === 'added-borrow'"
+          @click="handleBackToSearch">Back</v-button>
+        <v-button type="sec" class="w-full md:w-auto" v-if="currentScreen === 'added-borrow'">Add Borrowed
+          Course</v-button>
       </div>
     </div>
   </div>
@@ -122,17 +126,18 @@ import { useModal } from "vue-modally-v3";
 import { useUserStore } from "../../../../store/user";
 import useUserScreenSize from "../../../../composables/useUserScreenSize";
 import { useRouter, useRoute } from "vue-router";
-import {borrowedCourseSuggestionWithScheduleType} from '~~/utils/types/borrowedCourseType'
+import { courseType } from '~~/utils/types/courses/courseType';
 import moment from "moment";
 import _, { debounce } from 'lodash';
 
 import Graph from '@avanda/avandajs';
+import { useAlert } from '~~/composables/core/useToast';
 let router = useRouter();
 let store = useUserStore();
 let darkMode = computed(() => store.darkMode);
 
 let { getUserScreenSize, computedDeviceType } = useUserScreenSize();
-
+let currentScreen = ref<"add-borrow" | "added-borrow">("add-borrow")
 onMounted(() => {
   getUserScreenSize();
 
@@ -170,8 +175,8 @@ let formReactive = reactive<{
     value: string | null;
     error: string | null;
   },
-  isBorrowed: {
-    value: boolean | null;
+  unit: {
+    value: number | null;
     error: string | null;
   },
 }>({
@@ -203,8 +208,8 @@ let formReactive = reactive<{
     value: null,
     error: null,
   },
-  isBorrowed: {
-    value: null,
+  unit: {
+    value: 1,
     error: null,
   },
 });
@@ -228,7 +233,7 @@ let formReactiveBorrowed = reactive<{
     error: null,
   }
 })
-let courses = ref<borrowedCourseSuggestionWithScheduleType[]>([]);
+let courses = ref<courseType[]>([]);
 let computedCourses = computed(() => {
   return courses.value.map((course: any) => {
     return {
@@ -262,28 +267,51 @@ let courseSearch = reactive({
   value: '',
   error: null,
 });
+let courseSuggestionLoading = ref(false)
+let displayCourseSearchString = ref('')
 async function handleSearchCourseWithDay() {
+
+  try {
+    let req = await new Graph().service("Course/getCourseScheduleWithQuery")
+      .fetch("*",
+        new Graph().service("Department/courseOriginDetailsFromParent").as("course_origin")
+      )
+      .params({ course_query: courseSearch.value.trim() })
+      .get()
+    console.log(req.getData())
+    courses.value = req.getData()
+  } catch (error) {
+    console.log(error)
+    useAlert().openAlert({ type: 'ERROR', msg: `Oops, Something went wrong 🤭` })
+
+  } finally {
+    setTimeout(() => {
+      courseSuggestionLoading.value = false
+    }, 3000);
+    displayCourseSearchString.value = courseSearch.value.trim()
+  }
+
+}
+const debouncedSearchCourseFunction = debounce(() => {
   // debounce before sending request
   if (courseSearch.value.trim() === '') return
   let searchQueryBefore: string = '';
   if (searchQueryBefore?.trim() === courseSearch.value.trim()) return
   searchQueryBefore = courseSearch.value.trim()
-  console.log("searching course")
-  let req = await new Graph().service("Course/getCourseScheduleWithQuery")
-    .fetch("*",
-      new Graph().service("Department/courseOriginDetailsFromParent").as("course_origin"),
-      new Graph().service("CourseSchedule/getScheduleFromParent").params({ day: formReactive.day.value }).as("schedule"),
-    )
-    .params({ course_query: courseSearch.value.trim() })
-    .get()
-  console.log(req.getData())
-  courses.value = req.getData()
-
-}
-const debouncedSearchCourseFunction = debounce(() => {
+  courseSuggestionLoading.value = true
   console.log('debounced')
   handleSearchCourseWithDay()
-}, 2000)
+
+}, 1500)
+
+let selectedCourseDetails = ref<courseType | null>(null)
+function handleCourseChosen(courseChosen: courseType) {
+  selectedCourseDetails.value = courseChosen
+  currentScreen.value = "added-borrow"
+}
+function handleBackToSearch() {
+  currentScreen.value = "add-borrow"
+}
 </script>
 
 <style scoped></style>

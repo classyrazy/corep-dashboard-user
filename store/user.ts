@@ -89,12 +89,12 @@ const store = () => {
       user.value = await (await req.get()).getData();
       if(!user.value){
         useRouter().push("/login")
-      }
-      if(!user.value?.is_verified){
-        useRouter().push("/email-verification")
       }else{
-        useRouter().push("/")
+        if(!user.value.is_verified){
+          useRouter().push("/email-verification")
+        }
       }
+      
     } catch (error) {
       console.log(error);
     }

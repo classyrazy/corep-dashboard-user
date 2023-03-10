@@ -1,5 +1,4 @@
-import { courseSchedule } from "./courses/schedulesType"
-interface borrowedCourseSuggestionWithScheduleType {
+interface courseType {
     id:number,
     code: string,
     title: string,
@@ -24,11 +23,11 @@ interface borrowedCourseSuggestionWithScheduleType {
     level_id: number,
     unit: number,
     optional_code: string,
-    coordinator: string;
+    coordinator?: string;
     school_id: number,
     updatedAt: string,
     createdAt: string,
 }
 export {
-    borrowedCourseSuggestionWithScheduleType
+    courseType
 }
