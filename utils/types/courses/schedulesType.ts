@@ -1,7 +1,7 @@
 interface courseSchedule {
 course_id: number,
 createdAt: string,
-day: 1| 2| 3|4|5|6|7
+day: "1"| "2"| "3"|"4"|"5"|"6"|"7"
 end_time: string,
 id: number,
 location: string,

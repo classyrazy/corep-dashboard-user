@@ -64,8 +64,8 @@
                                 Time
                                 :
                             </h3>
-                            <p class="text-sm md:text-md text-left dark:text-gray-300 text-db-pry-dark  uppercase">
-                                {{ getGetCurrentDaybasedOnId(i.day) }}
+                            <p class="text-sm md:text-md text-left dark:text-gray-300 text-db-pry-dark ">
+                                <span class="capitalize">{{ getGetCurrentDaybasedOnId(i.day).full }}</span>
                                 {{ i.start_time }} -
                                 {{ i.end_time }}
                             </p>
