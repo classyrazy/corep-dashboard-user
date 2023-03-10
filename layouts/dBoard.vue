@@ -11,11 +11,14 @@
       </div>
       <d-board-side-bar-mobile class="block fixed bottom-0 md:hidden lg:hidden"></d-board-side-bar-mobile>
     </div>
+    <modal-root></modal-root>
+    <alert></alert>
+
   </div>
-  <modal-root></modal-root>
 </template>
 
 <script setup lang="ts">
+import Alert from '../components/core/Alert.vue'
 import DBoardSideBarMobile from "../components/UI/dashboard/dBoardSideBarMobile.vue";
 import DBoardSideBar from "../components/UI/dashboard/dBoardSideBar.vue";
 import DbContent from "../components/UI/db-content.vue";

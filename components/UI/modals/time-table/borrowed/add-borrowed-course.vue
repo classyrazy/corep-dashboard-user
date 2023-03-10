@@ -93,10 +93,10 @@
 </template>
 
 <script setup lang="ts">
-import LeftArrow from "../../../svgs/left-arrow.vue";
-import VInput from "../../../forms/v-input.vue";
-import VButton from "../../../forms/v-button.vue";
-import SearchIcon from "../../../icons/search-icon.vue";
+import LeftArrow from "../../../../svgs/left-arrow.vue";
+import VInput from "../../../../forms/v-input.vue";
+import VButton from "../../../../forms/v-button.vue";
+import SearchIcon from "../../../../icons/search-icon.vue";
 import { ref } from "vue";
 
 const activeDay = ref("");

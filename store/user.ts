@@ -8,7 +8,11 @@ type UserType = {
   is_verified: boolean;
   level: object;
   role: string;
-  school: object;
+  school: {
+    id: number,
+    name: string,
+    [key: string]: any
+  };
   department: object;
   faculty: object;
   user_todo_level: string;
@@ -83,6 +87,14 @@ const store = () => {
     try {
       let req = new Graph().service("User/getLoggedInUser");
       user.value = await (await req.get()).getData();
+      if(!user.value){
+        useRouter().push("/login")
+      }
+      if(!user.value?.is_verified){
+        useRouter().push("/email-verification")
+      }else{
+        useRouter().push("/")
+      }
     } catch (error) {
       console.log(error);
     }
@@ -133,6 +145,13 @@ const store = () => {
     }
     return userToken
   })
+  const getUserVerificationState = computed(() => {
+    let userToken
+    if(user.value){
+      return user.value.is_verified
+    }
+    return null
+  })
   const getUserLoggedInState = computed(() => {
     let userLoggedInState: Ref<string>;
     if (process.client) {
@@ -154,7 +173,8 @@ const store = () => {
     emptyState,
     fetchUserObject,
     getUserToken,
-    getUserLoggedInState
+    getUserLoggedInState,
+    getUserVerificationState
   };
 };
 export const useUserStore = defineStore("user", store);

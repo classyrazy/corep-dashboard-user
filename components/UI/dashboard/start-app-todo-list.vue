@@ -111,7 +111,7 @@ onMounted(() => {
 let startAppTodoLevel = computed(() => store.user?.user_todo_level);
 // let startAppTodoLevel = computed(() => store.userRegTodoStageLevel);
 console.log(startAppTodoLevel.value);
-let modalResult = ref(null);
+let modalResult = ref<null| object>(null);
 let startAppTodoLevelNum = computed(() => {
   console.log("from start app todo level num", startAppTodoLevel.value);
   switch (startAppTodoLevel.value) {
@@ -153,8 +153,8 @@ async function getFaculties() {
 
 let handleTodoClick = async (
   todo: startAppTodoObjType,
-  componentPassed,
-  link
+  componentPassed: object,
+  link: string
 ) => {
   let modalColor = darkMode.value ? "#212939" : "white";
   let modalType: "panel" | "modal" =

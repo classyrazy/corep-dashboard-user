@@ -129,7 +129,7 @@ import VInput from "../components/forms/v-input.vue";
 import { useRouter } from "vue-router";
 import { createToast, withProps } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
-import Graph from "../libs/avanda.ts";
+import Graph from "../libs/avanda";
 import useFormRequest from "../composables/useFormRequest";
 import { useUserStore } from "../store/user";
 
@@ -143,6 +143,7 @@ let levels = ref(null);
 let initialFormData = ref(null);
 
 let formReactive = reactive({
+
   username: {
     value: null,
     error: null,

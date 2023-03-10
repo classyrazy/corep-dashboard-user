@@ -24,7 +24,7 @@ import "@/assets/css/tailwind.css";
 
 definePageMeta({
   layout: "d-board",
-  middleware: ["logged-in", "is-verified"],
+  middleware: ["logged-in"],
 });
 </script>
 

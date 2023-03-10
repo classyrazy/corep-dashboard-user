@@ -51,7 +51,7 @@ module.exports = {
         "db-white": "#ffffff",
         "db-white-light": "#F9F9F9",
         "db-white-dark": "#eeeeee",
-        "db-white-darker": "#eeeeee",
+        "db-white-darker": "#BCC1CD",
         sec: "#F9B700",
         "yellow": "#F9B700"
       },

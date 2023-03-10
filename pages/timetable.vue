@@ -31,7 +31,7 @@ import { useRouter, useRoute } from 'vue-router';
 
 definePageMeta({
   layout: "d-board",
-  middleware: ["logged-in", "is-verified"],
+  middleware: ["logged-in"],
 });
 
 let router = useRouter();

@@ -17,7 +17,7 @@ interface Props {
 
 let props = withDefaults(defineProps<Props>(), {
     bgColor: "none",
-    textColor: "#000",
+    textColor: "currentColor",
     size: 20,
 });
 </script>

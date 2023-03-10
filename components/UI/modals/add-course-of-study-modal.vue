@@ -53,7 +53,10 @@ import { StudyCourseType} from "~~/utils/types/DepartmentTypes"
 import { Ref } from 'vue';
 interface Props {
   darkMode: boolean;
-  faculties: object[];
+  faculties: {
+    id: number;
+    name: string;
+  }[];
 }
 
 let props = defineProps<Props>();

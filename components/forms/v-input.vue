@@ -50,7 +50,7 @@ export default {
   },
   props: {
     value: {
-      type: String,
+      type: Object,
       default: () => ({
         error: null,
         value: null,

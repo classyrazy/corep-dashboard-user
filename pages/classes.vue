@@ -32,7 +32,7 @@ let emptyState = computed(() => store.emptyState);
 
 definePageMeta({
   layout: "d-board",
-  middleware: ["logged-in", "is-verified"],
+  middleware: ["logged-in"],
 });
 </script>
 
