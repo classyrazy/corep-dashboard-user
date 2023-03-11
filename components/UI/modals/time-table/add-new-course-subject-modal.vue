@@ -51,7 +51,7 @@
             </v-input>
           </div>
         </div>
-        <div class="flex gap-6">
+        <div class="flex gap-6 items-center">
           <div class="flex flex-col w-full">
             <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Unit</label>
             <v-input type="number" placeholder="Enter course unit e.g 3" full styleType="modal-input" class=""
