@@ -34,5 +34,10 @@ export default defineNuxtConfig({
       sameSite: 'strict',
     },
     storage: 'sessionStorage'
+  },
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.API_BASEURL,
+    }
   }
 });

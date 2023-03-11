@@ -3,9 +3,10 @@ let sessionToken: string = "";
 if (process.client) {
   sessionToken = localStorage.getItem("session-token") || '';
 }
+const config = useRuntimeConfig()
 
 Graph.setRequestConfig({
-  baseURL: "http://192.168.43.133:5000/",
+  baseURL: config.apiBaseUrl,
   // baseURL: "https://corep-server-v1.onrender.com",
   withCredentials: true,
   headers: {
