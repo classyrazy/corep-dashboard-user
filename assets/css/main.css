@@ -4,3 +4,19 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0.375rem !important;
+    height: 0.375rem !important;
+  }
+  /* background-color: v-bind(colors.scrollthumb) !important;
+    opacity: 1 !important;
+    border-radius: 50px; */
+  ::-webkit-scrollbar-thumb {
+    @apply dark:bg-[#BBB9B6] bg-[#64748b29] opacity-100 rounded-[50px];
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply dark:bg-[#64748b29] bg-[#64748b29] rounded-[50px] mt-4 mb-4;
+  }
+  

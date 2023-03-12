@@ -5,77 +5,71 @@
         Add Course to timetable
       </h1>
       <div
-        class="close_btn dark:border-db-white-dark border-2 w-6 h-6 md:w-10 md:h-10 flex justify-center cursor-pointer items-center rounded-md"
+        class="close_btn dark:border-db-white-dark border w-8 h-8 md:w-10 md:h-10 flex justify-center cursor-pointer items-center rounded-md"
         v-if="!displayBorrowedCourse">
         <close-icon :text-color="darkMode ? 'white' : 'black'" @click="$emit('close')"></close-icon>
       </div>
     </div>
-    <div class="bg-sec w-full h-[1px]"></div>
-
-    <ul class="flex flex-wrap gap-4 w-[90%] mx-auto justify-around mb-4 mt-6">
-      <li v-for="day in days" :key="day.id" :class="[
-        'transition duration-200 ease-in font-semibold md:text-md text-sm rounded-md  text-center py-1 md:py-2 px-2 md:px-1 md:min-w-[100px] cursor-pointer',
-        formReactive.day.value !== day.id ? 'bg-db-pry-light text-white border-b-2 border-yellow' : 'bg-yellow',
-        'border-transparent cursor-pointer',
-      ]" @click="setActiveDay(day.id)">
-        {{ day.name }}
-      </li>
-    </ul>
-    <form class="w-full px-4 md:px-8 mx-auto mt-6">
+    <div class="bg-sec w-full h-[0.4px]"></div>
+    <form class="w-full mx-auto mt-6" @submit.prevent="submitCourseSchedule">
+      <div class="mb-4 flex justify-between items-center md:px-6 px-4">
+        <h1 class="text-lg md:text-xl text-left dark:text-white text-db-pry-dark font-semibold">
+          {{ !tabsToggles.courseDetails && formReactive.courseName.value ? formReactive.courseName.value : `Add Course
+                    Details`}}
+        </h1>
+        <down-icon :color="darkMode ? '#fff' : '#000'" class="cursor-pointer" @click="handleTabToggle('courseDetails')"
+          :class="tabsToggles.courseDetails ? 'rotate-180' : ''"></down-icon>
+      </div>
       <div class="flex flex-col gap-4">
-        <div class="flex flex-col md:flex-row gap-4 md:gap-6">
-          <div class="flex flex-col w-full">
-            <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Code</label>
-            <v-input type="text" placeholder="Enter course code e.g MAT231" full styleType="modal-input" class=""
-              size="medium" :value="formReactive.courseCode">
-            </v-input>
+        <section class="" v-show="tabsToggles.courseDetails">
+          <div class="flex flex-col md:flex-row gap-4 md:gap-6 px-4 md:px-6">
+            <div class="flex flex-col w-full">
+              <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Code</label>
+              <v-input type="text" placeholder="Enter course code e.g MAT231" full styleType="modal-input" class=""
+                size="medium" :value="formReactive.courseCode">
+              </v-input>
+            </div>
+            <div class="flex flex-col w-full">
+              <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Unit</label>
+              <v-input type="number" placeholder="Enter course unit e.g 3" full styleType="modal-input" class=""
+                size="medium" :value="formReactive.unit" max="10" min="1">
+              </v-input>
+
+            </div>
           </div>
-          <div class="flex flex-col w-full">
+          <div class="flex flex-col w-full md:px-6 px-4 mt-4">
             <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Title</label>
             <v-input type="text" placeholder="Enter course name e.g Real Analysis" full styleType="modal-input"
               class="text-white rounded-lg" size="medium" :value="formReactive.courseName">
             </v-input>
           </div>
-        </div>
-        <div class="flex gap-6">
-          <div class="flex flex-col w-full">
-            <label class="dark:text-white text-db-pry-dark text-md mb-1">Start time</label>
-            <v-input type="time" placeholder="From" styleType="modal-input" class="rounded-lg" full size="medium"
-              :value="formReactive.startTime">
-            </v-input>
+        </section>
+        <div class="bg-db-pry-light mt-10 mb-4 w-full h-[0.5px]"></div>
+        <section class="relative">
+          <div class="mb-8 flex justify-between items-center md:px-6 px-4">
+            <h1 class="text-lg md:text-xl text-left dark:text-white text-db-pry-dark font-semibold">
+              Add Course Timelines
+            </h1>
+            <add-time-table-icon :color="darkMode ? '#fff' : '#000'" class="cursor-pointer" :size="20"
+              @click="addNewTimeLine"></add-time-table-icon>
           </div>
-          <div class="flex flex-col w-full">
-            <label class="dark:text-white text-db-pry-dark text-md mb-1">End time</label>
-            <v-input type="time" placeholder="From" styleType="modal-input" class="rounded-lg" full size="medium"
-              :value="formReactive.endTime">
-            </v-input>
+          <div class="" v-if="formReactive.timeline.length">
+            <each-course-timeline v-for="(form, idx) in formReactive.timeline" :day-id="formReactive.timeline[idx].day"
+            :start-time="formReactive.timeline[idx].startTime" :end-time="formReactive.timeline[idx].endTime"
+            :location-type="formReactive.timeline[idx].locationType" :location="formReactive.timeline[idx].location"
+            :is-opened="formReactive.timeline[idx].isOpened" @update:day-id="handleDayIdChange($event, idx)"
+            @update:is-opened="handleToggleTimeline(idx)" @update:start-time="handleStartTimeChange($event, idx)" @update:end-time="handleEndTimeChange($event, idx)"
+            @update:location-type="handleLocationTypeChange($event, idx)" @update:location="handleLocationChange($event, idx)"
+            ></each-course-timeline>
           </div>
+          <div class="flex flex-col justify-center items-center min-h-[150px]" v-else>
+            <h3 class="text-md md:text-lg text-left dark:text-white text-db-pry-dark ">No Timeline Added
+            </h3>
         </div>
-        <div class="flex gap-6 items-center">
-          <div class="flex flex-col w-full">
-            <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Unit</label>
-            <v-input type="number" placeholder="Enter course unit e.g 3" full styleType="modal-input" class=""
-              size="medium" :value="formReactive.unit" max="10" min="1">
-            </v-input>
-          </div>
-          <div class="flex flex-col w-full">
-            <label class="dark:text-white text-db-pry-dark text-md mb-1">Location Type</label>
-            <select
-              class="dark:bg-db-pry-dark dark:text-white bg-white text-db-pry-dark rounded-lg w-full h-12 px-4 focus:border-sec border border-gray-400 ouline-none"
-              v-model="formReactive.locationType.value">
-              <option value="physical">Physical</option>
-              <option value="online">online</option>
-            </select>
-          </div>
-        </div>
-        <div class="flex flex-col w-full">
-          <label class="dark:text-white text-db-pry-dark text-md mb-1">Location</label>
-          <v-input type="text" placeholder="Location" full styleType="modal-input" class="rounded-lg " size="medium"
-            :value="formReactive.location">
-          </v-input>
-        </div>
+        </section>
+
       </div>
-      <div class="flex gap-4 flex-col md:flex-row md:justify-between items-center mt-8 pb-10">
+      <div class="flex gap-4 flex-col md:flex-row md:justify-between items-center mt-8 pb-10 px-4">
         <v-button type="sec" class="w-full md:w-auto">Add Course</v-button>
         <v-button type="border-sec" class="w-full md:w-auto" @click.prevent="handleBorrowedCourse">Borrow
           Course</v-button>
@@ -114,26 +108,28 @@
 </template>
 
 <script setup lang="ts">
+import EachCourseTimeline from './create/each-course-timeline.vue'
+import AddTimeTableIcon from '../../../icons/add-time-table-icon.vue'
+import DownIcon from '../../../svgs/down-icon.vue'
 import CourseBorrowSuggestionList from './borrowed/course-borrow-suggestion-list.vue'
 import ChosenBorrowedCourse from './borrowed/chosen-borrowed-course.vue'
 import CloseIcon from '../../../icons/close-icon.vue'
 import LeftArrow from '../../../svgs/left-arrow.vue'
 import SearchIcon from "../../../icons/search-icon.vue";
-import AddBorrowedCourse from "./borrowed/add-borrowed-course.vue";
 import VInput from "../../../forms/v-input.vue";
 import VButton from "../../../forms/v-button.vue";
-import { useModal } from "vue-modally-v3";
 import { useUserStore } from "../../../../store/user";
 import useUserScreenSize from "../../../../composables/useUserScreenSize";
 import { useRouter, useRoute } from "vue-router";
 import { courseType } from '~~/utils/types/courses/courseType';
 import moment from "moment";
 import _, { debounce } from 'lodash';
-
+import { useTimetableStore } from "~~/store/timetable"
 import Graph from '@avanda/avandajs';
 import { useAlert } from '~~/composables/core/useToast';
 let router = useRouter();
 let store = useUserStore();
+let timetableStore = useTimetableStore();
 let darkMode = computed(() => store.darkMode);
 
 let { getUserScreenSize, computedDeviceType } = useUserScreenSize();
@@ -146,11 +142,17 @@ onMounted(() => {
     handleBorrowedCourse();
   }
 });
+let tabsToggles = ref({
+  courseDetails: true,
+  courseTimelines: true,
+})
+function handleTabToggle(tab: "courseDetails" | "courseTimelines") {
+  tabsToggles.value = {
+    courseDetails: tab === "courseDetails" ? !tabsToggles.value.courseDetails : false,
+    courseTimelines: tab === "courseTimelines",
+  }
+}
 let formReactive = reactive<{
-  day: {
-    value: number | null;
-    error: string | null;
-  },
   courseCode: {
     value: string | null;
     error: string | null;
@@ -159,31 +161,34 @@ let formReactive = reactive<{
     value: string | null;
     error: string | null;
   },
-  startTime: {
-    value: string | null;
-    error: string | null;
-  },
-  endTime: {
-    value: string | null;
-    error: string | null;
-  },
-  locationType: {
-    value: "physical" | "online" | null;
-    error: string | null;
-  },
-  location: {
-    value: string | null;
-    error: string | null;
-  },
   unit: {
     value: number | null;
     error: string | null;
   },
+  timeline: {
+    day: {
+      value: number;
+      error: string | null;
+    },
+    startTime: {
+      value: string | null;
+      error: string | null;
+    },
+    endTime: {
+      value: string | null;
+      error: string | null;
+    },
+    locationType: {
+      value: "physical" | "online";
+      error: string | null;
+    },
+    location: {
+      value: string | null;
+      error: string | null;
+    },
+    isOpened: boolean;
+  }[]
 }>({
-  day: {
-    value: 1,
-    error: null,
-  },
   courseCode: {
     value: null,
     error: null,
@@ -192,26 +197,11 @@ let formReactive = reactive<{
     value: null,
     error: null,
   },
-  startTime: {
-    value: moment(new Date().getTime()).format("HH:mm"),
-    error: null,
-  },
-  endTime: {
-    value: moment(new Date().getTime() + (60 * 60 * 1000)).format("HH:mm"),
-    error: null,
-  },
-  locationType: {
-    value: "physical",
-    error: null,
-  },
-  location: {
-    value: null,
-    error: null,
-  },
   unit: {
     value: 1,
     error: null,
   },
+  timeline: []
 });
 
 let formReactiveBorrowed = reactive<{
@@ -249,20 +239,13 @@ function handleBorrowedCourse() {
 }
 
 const activeDay = ref(1);
-const days = [
-  { id: 1, name: "MON", fullName: "Monday" },
-  { id: 2, name: "TUE", fullName: "Tuesday" },
-  { id: 3, name: "WED", fullName: "Wednesday" },
-  { id: 4, name: "THU", fullName: "Thursday" },
-  { id: 5, name: "FRI", fullName: "Friday" },
-  { id: 6, name: "SAT", fullName: "Saturday" },
-];
+const days = timetableStore.days
 
-function setActiveDay(day: number) {
-  // activeDay.value = day;
-  formReactive.day.value = day;
-  console.log(formReactive)
-}
+// function setActiveDay(day: number) {
+//   // activeDay.value = day;
+//   formReactive.day.value = day;
+//   console.log(formReactive)
+// }
 let courseSearch = reactive({
   value: '',
   error: null,
@@ -311,6 +294,71 @@ function handleCourseChosen(courseChosen: courseType) {
 }
 function handleBackToSearch() {
   currentScreen.value = "add-borrow"
+}
+function handleDayIdChange(ev: number, idx: number): void {
+  console.log({ ev, idx })
+  formReactive.timeline[idx].day.value = ev
+}
+function handleStartTimeChange(ev: string, idx: number): void {
+  console.log({ ev, idx })
+  formReactive.timeline[idx].startTime.value = ev
+}
+function handleEndTimeChange(ev: string, idx: number): void {
+  console.log({ ev, idx })
+  formReactive.timeline[idx].endTime.value = ev
+}
+function handleLocationTypeChange(ev: "physical" | "online", idx: number): void {
+  console.log({ ev, idx })
+  formReactive.timeline[idx].locationType.value = ev
+}
+function handleLocationChange(ev: string, idx: number): void {
+  console.log({ ev, idx })
+  formReactive.timeline[idx].location.value = ev
+}
+function handleToggleTimeline(idx: number) {
+  formReactive.timeline[idx].isOpened = !formReactive.timeline[idx].isOpened
+}
+function addNewTimeLine() {
+  // turn all other is Opend to false
+  formReactive.timeline.forEach((timeline) => {
+    timeline.isOpened = false
+  })
+  formReactive.timeline.push({
+    day: {
+      value: 1,
+      error: null,
+    },
+    startTime: {
+      value: moment(new Date().getTime()).format("HH:mm"),
+      error: null,
+    },
+    endTime: {
+      value: moment(new Date().getTime() + (60 * 60 * 1000)).format("HH:mm"),
+      error: null,
+    },
+    locationType: {
+      value: "physical",
+      error: null,
+    },
+    location: {
+      value: null,
+      error: null,
+    },
+    isOpened: true,
+  })
+  // scroll to bottom after creating
+  setTimeout(() => {
+    let el: HTMLDivElement | null = document.querySelector('.vm__modal__container')
+    if (el) {
+      el.scrollTop = el.scrollHeight
+    }
+  }, 200);
+}
+function removeTimeLine(idx: number) {
+  formReactive.timeline.splice(idx, 1)
+}
+function submitCourseSchedule() {
+  console.log(formReactive)
 }
 </script>
 

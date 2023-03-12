@@ -1,46 +1,45 @@
 <template>
-    <!-- Desktop Login --> 
+    <!-- Desktop Login -->
 
     <div class="flex min-h-screen">
-    <div class="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-6/12">
-      <div class="bg-white rounded-xl max-w-md mx-auto font-inter w-full">
-        <div class="mb-5">
-          <CorepLogText size="290" class="mx-auto justify-center" />
+        <div class="flex items-center w-full max-w-3xl p-8 mx-auto lg:px-12 lg:w-6/12">
+            <div class="bg-white rounded-xl max-w-md mx-auto font-inter w-full">
+                <div class="mb-5">
+                    <CorepLogText size="290" class="mx-auto justify-center" />
+                </div>
+                <form @submit.prevent="submitHandler">
+                    <stack class=" gap-6">
+                        <h2 class="font-bold text-2xl text-left">Log In</h2>
+                        <v-input type="email" placeholder="Enter email addresss" full styleType="white"
+                            class="text-sm rounded-lg" size="small" label="Email Address" :value="formReactive.email">
+                        </v-input>
+                        <v-input type="password" placeholder="Enter Password" full styleType="white"
+                            class="text-sm rounded-lg" size="small" label="Password" iconClick
+                            :value="formReactive.password"></v-input>
+                        <v-button full type="sec" :loading="loading">Log In</v-button>
+                    </stack>
+                </form>
+                <div class="text-center py-5 md:py-8 font-ibmplex">
+                    <p>
+                        Don't have an account?<span class="opacity-70 underline-none ml-1 text-pry-dark">
+                            <router-link to="/signup">signup</router-link>
+                        </span>
+                    </p>
+                </div>
+            </div>
         </div>
-        <form @submit.prevent="submitHandler" >
-                                <stack class=" gap-6">
-                                    <h2 class="font-bold text-2xl text-left">Log In</h2>
-                                    <v-input type="email" placeholder="Enter email addresss" full styleType="white" class="text-sm rounded-lg" size="small" label="Email Address" :value="formReactive.email">
-                                    </v-input>
-                                    <v-input type="password" placeholder="Enter Password" full styleType="white" class="text-sm rounded-lg" size="small" label="Password" iconClick :value="formReactive.password"></v-input>
-                                    <v-button full type="sec" :loading="loading">Log In</v-button>
-                                </stack>
-                            </form>
-        <div class="text-center py-5 md:py-8 font-ibmplex">
-            <p>
-                                Don't have an account?<span class="opacity-70 underline-none ml-1 text-pry-dark">
-                                    <router-link to="/signup">signup</router-link>
-                                </span>
-                            </p>
+        <div class="hidden pt-[25%] bg-cover md:block lg:block lg:w-8/12 bg-pry-dark-hover-light">
+            <layer-bg class="block my-auto overflow-y-hidden px-4 md:px-0"></layer-bg>
+            <div class="text-white md:p-12 md:mx-6">
+                <h1 class="title mb-6">GET A</h1>
+                <h1 class="seam mb-6">SEAMLESS</h1>
+                <h1 class="title1">
+                    <span class="span0">experience attending your </span>
+                    <span class="span1">classes</span>
+                </h1>
+            </div>
         </div>
-      </div>
     </div>
-    <div
-      class="hidden pt-[25%] bg-cover md:block lg:block lg:w-8/12 bg-pry-dark-hover-light"
-    >
-      <layer-bg class="block my-auto overflow-y-hidden px-4 md:px-0"></layer-bg>
-      <div class="text-white md:p-12 md:mx-6">
-        <h1 class="title mb-6">GET A</h1>
-        <h1 class="seam mb-6">SEAMLESS</h1>
-        <h1 class="title1">
-          <span class="span0">experience attending your </span>
-          <span class="span1">classes</span>
-        </h1>
-      </div>
-    </div>
-  </div>
-
-
 </template>
 
 <script setup>
@@ -56,9 +55,7 @@ import UnionSvg from "../components/svgs/union-svg.vue";
 import CircleExclude from "../components/svgs/circle-exclude.vue";
 import VInput from "../components/forms/v-input.vue";
 import { useRouter } from "vue-router";
-import { createToast, withProps } from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
-import Username from "../components/svgs/username.vue"
 
 let router = useRouter();
 
@@ -106,7 +103,7 @@ let { submitForm, form, loading, data } = useFormRequest(
         if (data) {
             if (process.client) {
                 localStorage.setItem("session-token", data.token)
-                
+
             }
             setTimeout(() => {
                 // router.push('/')
@@ -130,7 +127,7 @@ let { submitForm, form, loading, data } = useFormRequest(
 let submitHandler = () => {
     validate();
     if (validate()) {
-    submitForm()
+        submitForm()
     }
 };
 
@@ -147,14 +144,15 @@ let submitHandler = () => {
     flex-direction: column;
     align-items: center;
 }
+
 .center-element {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.title{
+.title {
     color: rgba(255, 255, 255, 1);
     font-size: 40px;
     font-weight: 800;
@@ -163,7 +161,8 @@ let submitHandler = () => {
     min-height: 60px;
     white-space: nowrap;
 }
-.seam{
+
+.seam {
     color: rgba(249, 183, 0, 1);
     font-size: 72px;
     font-weight: 800;
@@ -173,7 +172,7 @@ let submitHandler = () => {
     white-space: nowrap;
 }
 
-.title1{
+.title1 {
     color: rgba(255, 255, 255, 1);
     font-size: 40px;
     font-weight: 700;
@@ -182,11 +181,12 @@ let submitHandler = () => {
     min-height: 120px;
     width: 462px;
 }
-.span0{
+
+.span0 {
     color: rgba(255, 255, 255, 1);
 }
-.span1{
+
+.span1 {
     color: rgba(243, 58, 58, 1);
 }
-
 </style>

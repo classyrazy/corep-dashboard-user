@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
     transition: all 0.25s ease-in-out;
+}
+
+.vm__modal__wrapper .vm__modal__container .vm__modal__box .vm__modal__box_container {
+    @apply rounded-2xl md:rounded-xl
 }
