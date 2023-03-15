@@ -2,10 +2,11 @@
   <div>
     <db-content>
       <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto ">
-        <div class=" mt-6 md:mt-0">
+        <div class=" mt-6 md:mt-0 flex justify-between items-center mb-8">
           <h1 class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold">
             Timetable
           </h1>
+          <v-button type="sec" class="hidden md:block" @click="handleCreateTImeTable">Add Course</v-button>
         </div>
 
         <div class="flex flex-col items-center mt-40 space-y-4" v-if="false">
@@ -13,10 +14,51 @@
           <p class="dark:text-white text-db-pry-dark text-2xl md:text-4xl font-bold">No Timetable yet</p>
           <v-button type="sec" class="bg-[#F9B700]" @click="handleCreateTImeTable">Create Timetable</v-button>
         </div>
-        <div class="h-[70vh] w-full">
+        <div class=" w-full relative" v-if="events.length">
+          <ul class="flex gap-4 w-full mx-auto justify-around mb-6" v-if="computedDeviceType === 'mobile'">
+            <li class="text-lg p-4  w-10 h-10 flex justify-center items-center rounded-md" :class="it.id == currentDayViewId? 'bg-sec': 'dark:text-white'"
+               v-for="it in timetableStore.days" :key="it.id" @click="handleDayViewChange(it.id)">{{it.name.slice(0,1)}}</li>
+          </ul>
+          <!-- :today-style="{ 'background-color': 'red' }" style="{ backgroundColor: event.backgroundColor, color: event.color }" :min-cell-width="200" :min-split-width="200" -->
           <vue-cal :selected-date="currentDate" :time-from="6 * 60" :time-to="21 * 60" :hide-weekdays="[7]"
-            :disable-views="['years', 'year', 'month']" :events="events"
-            :today-style="{ 'background-color': 'red' }" :event-style="{ 'background-color': 'red', 'font-size': '14px' }">
+            :disable-views="disabledtimeTableViews" active-view="day" :events="events"
+            class="dark:bg-db-pry-dark text-white py-6 pb-8 pr-4 md:pr-0 rounded-lg" :time-cell-height="70"
+            hide-view-selector hide-title-bar>
+            <template #time-cell="{ hours, minutes }">
+              <div :class="{ 'vuecal__time-cell-line': true, hours: !minutes }" class="">
+                <strong class="text-sm md:text-base dark:text-white font-inter py-6">{{ moment({
+                  hour: hours, minute:
+                    minutes
+                }).format('h a') }}</strong>
+                <!-- <span  style="font-size: 11px">{{ minutes }}</span> -->
+              </div>
+            </template>
+            <template #event="{ event, view }">
+              <div class="">
+                <!-- <div class="vuecal__event-title" v-html="event.title"></div> -->
+                <!-- {{ view }} -->
+                <!-- <close-icon></close-icon>
+                <hr> -->
+                <!-- <em class="vuecal__event-time">
+                  <strong>Event start: </strong>
+                  <span>{{ event.start.formatTime() }}</span>
+                  <br>
+                  <strong>Event end: </strong>
+                  <span>{{ event.end.formatTime() }}</span>
+                </em> -->
+                <course-event color="#4ea13c,#706292" :end-time="event.end.formatTime()"
+                  :start-time="event.start.formatTime()" :course-code="event.code" :course-name="event.title"
+                  :editable="store.user?.role == 'course-rep' && !event.isBorrowed ? true : false"></course-event>
+              </div>
+            </template>
+            <template v-slot:weekday-heading="{ heading }">
+              <p class="dark:text-white text-base md:text-lg text-db-pry-dark font-semibold">{{ heading.label.substring(0,
+                3) }}</p>
+            </template>
+            <template #no-event>
+              <p class="dark:text-db-white-darker text-base md:text-lg text-db-pry-dark font-medium">No Class 😁</p>
+            </template>
+
           </vue-cal>
         </div>
       </div>
@@ -25,6 +67,10 @@
 </template>
 
 <script setup lang="ts">
+import CircleExclude from '../components/svgs/circle-exclude.vue'
+import UnionSvg from '../components/svgs/union-svg.vue'
+import CloseIcon from '../components/icons/close-icon.vue'
+import CourseEvent from '../components/UI/modals/time-table/view/course-event.vue'
 import AddNewCourseSubjectModal from '../components/UI/modals/time-table/add-new-course-subject-modal.vue'
 import DbContent from "../components/UI/db-content.vue";
 import Timetable from "../components/icons/time-table-icon.vue";
@@ -32,11 +78,16 @@ import VButton from "../components/forms/v-button.vue";
 import "@/assets/css/tailwind.css";
 import { useModal } from "vue-modally-v3"
 import { useUserStore } from "../store/user";
+import { useTimetableStore } from "../store/timetable";
 import useUserScreenSize from "../composables/useUserScreenSize";
 import { useRouter, useRoute } from 'vue-router';
 import VueCal from 'vue-cal'
+import Graph from "~~/libs/avanda"
 import 'vue-cal/dist/vuecal.css'
 import moment from 'moment'
+import { useAlert } from '~~/composables/core/useToast';
+import { useTimetable, TimeTableItem } from '~~/composables/timetable/useTimetable';
+
 
 definePageMeta({
   layout: "d-board",
@@ -46,24 +97,47 @@ definePageMeta({
 let router = useRouter();
 let store = useUserStore();
 let darkMode = computed(() => store.darkMode);
+let timetableStore = useTimetableStore();
 
 let {
   getUserScreenSize,
   computedDeviceType,
 } = useUserScreenSize();
-
-
+let { events,getTimeTableData } = useTimetable()
+let disabledtimeTableViews = ref(["years", "year", "month", "day"]);
+getUserScreenSize();
+if (computedDeviceType.value == 'mobile') {
+  disabledtimeTableViews.value = ["years", "year", "month", "week"]
+}
 onMounted(() => {
-  getUserScreenSize();
-
   let openCreate = useRoute().query?.a
   if (!!openCreate) {
     handleCreateTImeTable()
   }
+  // if(computedDeviceType.value == 'mobile'){
+  // }
+
 });
+const computedUser = computed(() => store.user)
+// watch(computedUser, (val) => {
+//   if (val && val.dept_timetable_id) {
+//     getTimeTableData(1)
+
+//   }
+// })
+watchEffect(() => {
+  if (computedUser.value && computedUser.value.dept_timetable_id) {
+    getTimeTableData(1)
+  }
+})
 
 
 async function handleCreateTImeTable() {
+  if (store.user?.user_todo_level !== 'add-time-table') {
+    if (store.user?.user_todo_level === 'add-course-and-level') {
+      return useAlert().openAlert({ type: 'ERROR', msg: 'Add course of study' })
+    }
+  }
   let modalColor = darkMode.value ? "#212939" : "white";
   let modalType: "panel" | "modal" =
     computedDeviceType.value == "mobile" ? "panel" : "modal";
@@ -77,48 +151,30 @@ async function handleCreateTImeTable() {
   })
 
 }
-// const mondayStartTime = moment({ hour: 14, minute: 0 });
-// get monday date with moment
-const mondayStartTime = moment({ hour: 14, minute: 0 }).day(1);
-const mondayEndTime = moment({ hour: 16, minute: 0 }).day(1);
-const wednesdayStartTime = moment({ hour: 15, minute: 0 });
-const wednesdayEndTime = moment({ hour: 16, minute: 0 });
-const daysOfWeek = [1, 3];
-let events = ref([
-  {
-    start: mondayStartTime.format('YYYY-MM-DD HH:mm'),
-    end: mondayEndTime.format('YYYY-MM-DD HH:mm'),
-    title: 'Need to go shopping for monday',
-    icon: 'shopping_cart', // Custom attribute.
-    content: 'Click to see my shopping list',
-    contentFull: 'My shopping list is rather long:<br><ul><li>Avocados</li><li>Tomatoes</li><li>Potatoes</li><li>Mangoes</li></ul>', // Custom attribute.
-    class: 'leisure'
-  },
-  {
-    start: '2018-11-22 10:00',
-    end: '2018-11-22 15:00',
-    title: 'Golf with John',
-    icon: 'golf_course', // Custom attribute.
-    content: 'Do I need to tell how many holes?',
-    contentFull: 'Okay.<br>It will be a 18 hole golf course.', // Custom attribute.
-    class: 'sport'
-  }
-])
+// let events = ref<TimeTableItem[]>([])
+const currentDate = ref(moment().format('YYYY-MM-DD HH:mm'))
 
-console.info(mondayStartTime.format('YYYY-MM-DD HH:mm'), mondayEndTime.format('YYYY-MM-DD HH:mm'), daysOfWeek, wednesdayEndTime, wednesdayStartTime)
-const currentDate = mondayEndTime.format('YYYY-MM-DD HH:mm')
+let currentDayViewId = ref(moment().day())
+function handleDayViewChange(id: number) {
+  if (computedDeviceType.value !== 'mobile') return
+  currentDayViewId.value = id
+  currentDate.value = moment().day(id).format('YYYY-MM-DD HH:mm')
+}
 
+// async function getTimeTableData(dayId: number) {
+//   try {
+//     let req = await new Graph().service("CourseTimeline/getAllScheduleWithDeptId").fetch(
+//       "*",
+//       new Graph().service("Course/getCourseFromParent").as("course"),
+//       new Graph().service("CourseSchedule/getScheduleFromParent").as("schedule")
+//     ).params({ "department_timetable_id": store.user?.dept_timetable_id }).get()
+//     console.info(transformTimeTableArray(req.getData()))
+//     events.value = transformTimeTableArray(req.getData())
+//   } catch (error: any) {
+//     useAlert().openAlert({ type: 'ERROR', msg: error.getMsg() })
+//   }
+// }
 
 </script>
 
-<style>
-.vuecal__event {
-  background-color: red;
-  color: white;
-  border-radius: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  max-width: 90%;
-  margin: auto;
-}
-</style>
+<style></style>

@@ -4,13 +4,14 @@
       <ul class="flex flex-wrap gap-4 w-full mx-auto">
         <li v-for="day in days" :key="day.id" :class="[
           'transition duration-200 ease-in font-semibold md:text-md text-sm rounded-md  text-center py-1 md:py-2 px-2 md:px-1 md:min-w-[100px] cursor-pointer',
-          dayId.value !== day.id ? `bg-db-pry-light text-white border-b-2 border-yellow ${!isOpened? 'hidden': 'block'}` : 'bg-yellow block',
+          dayId.value !== day.id ? `bg-db-pry-light text-white border-b-2 border-yellow ${!isOpened ? 'hidden' : 'block'}` : 'bg-yellow block',
           'border-transparent cursor-pointer',
         ]" @click="setActiveDay(day.id)">
           {{ day.name }}
         </li>
       </ul>
-      <down-icon :color="darkMode ? '#fff' : '#000'" class="cursor-pointer" @click="setOpened" :class="isOpened ? 'rotate-180' : ''"></down-icon>
+      <down-icon :color="darkMode ? '#fff' : '#000'" class="cursor-pointer ml-4" @click="setOpened"
+        :class="isOpened ? 'rotate-180' : ''"></down-icon>
 
     </div>
     <section class="timeline-form" v-show="isOpened">
@@ -20,12 +21,18 @@
           <v-input type="time" placeholder="From" styleType="modal-input" class="rounded-lg" full size="medium"
             :value="startTime" @custom-change="setStartTime">
           </v-input>
+          <p v-if="startTime.error" class="mt-2 text-xs text-red-600">
+            {{ startTime.error }}
+          </p>
         </div>
         <div class="flex flex-col w-full">
           <label class="dark:text-white text-db-pry-dark text-md mb-1">End time</label>
           <v-input type="time" placeholder="From" styleType="modal-input" class="rounded-lg" full size="medium"
             :value="endTime" @custom-change="setEndTime">
           </v-input>
+          <p v-if="endTime.error" class="mt-2 text-xs text-red-600">
+            {{ endTime.error }}
+          </p>
         </div>
       </div>
       <div class="flex gap-6 items-center md:px-8 px-6 mt-4">
@@ -93,10 +100,6 @@ function setStartTime(time: string) {
 function setEndTime(time: string) {
   emit('update:endTime', time);
 }
-// function setLocationType(type: string) {
-//   console.log({type});
-//   // emit('update:locationType', type);
-// }
 function setLocation(location: string) {
   emit('update:location', location);
 }

@@ -4,7 +4,7 @@
         <h3 class="text-md font-semi-bold dark:text-white">{{ optionalCode? `${code}/${optionalCode}`: code }}</h3>
         <h3 class="text-sm font-light dark:text-db-white-darker">{{title}}</h3>
         <div class="mt-4">
-            <h4 class="text-sm dark:text-db-white-darker">{{facultyName}} {{parentDepartmentName? `---> ${parentDepartmentName}`: ''}}---> {{departmentName}} </h4>
+            <h4 class="text-sm dark:text-db-white-darker">{{facultyName}} {{parentDepartment? `---> ${parentDepartment.name}`: ''}}---> {{departmentName}} </h4>
         </div>
     </li>
 </template>
@@ -20,7 +20,7 @@ interface Props {
     title: string,
     facultyName: string,
     departmentName: string,
-    parentDepartmentName?: string
+    parentDepartment?: parent_departmentObj |null,
     active?: boolean
 }
 

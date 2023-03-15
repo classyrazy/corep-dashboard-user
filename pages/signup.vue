@@ -132,6 +132,8 @@ import "mosha-vue-toastify/dist/style.css";
 import Graph from "../libs/avanda";
 import useFormRequest from "../composables/useFormRequest";
 import { useUserStore } from "../store/user";
+import { useAlert } from '~~/composables/core/useToast';
+
 
 let router = useRouter();
 let schools = ref(null);
@@ -275,6 +277,7 @@ async function requestSchools() {
     schools.value = data;
   } catch (error) {
     console.log(error);
+    useAlert().openAlert({ type: 'ERROR', msg: `Sorry An Error occured` })
   }
 }
 async function requestLevels() {
@@ -283,10 +286,9 @@ async function requestLevels() {
     let data = await (await req.get()).getData();
     levels.value = data;
   } catch (error) {
-    console.log(error);
+    useAlert().openAlert({ type: 'ERROR', msg: `Sorry An Error occured` })
   }
 }
-console.log({ schools }, { levels });
 function setSchool(schoolChosen) {
   formReactive.id.value = schoolChosen;
   formReactive.id.error = null;
@@ -294,10 +296,9 @@ function setSchool(schoolChosen) {
 
 onMounted(() => {
   requestSchools();
-  setTimeout(() => {
+  // setTimeout(() => {
     requestLevels();
-  }, 5000);
-  console.log({ schools });
+  // }, 5000);
 });
 
 let { submitForm, form, loading, data } = useFormRequest(
@@ -309,23 +310,23 @@ let { submitForm, form, loading, data } = useFormRequest(
       if (process.client) {
         localStorage.setItem("session-token", data.token);
       }
-      setTimeout(() => {
-        router.push("/");
-      }, 3000);
+      // setTimeout(() => {
+        location.href = "/email-verification";
+      // }, 1000);
     }
   },
   (error) => {
-    console.log(error);
     let errObj = error.getData();
     console.log(errObj);
     if (errObj) {
       Object.keys(errObj).forEach((key) => {
         formReactive[key].error = errObj[key];
       });
-      console.log({ errObj }, { formReactive });
       return;
     }
-    formReactive.email.error = error.getMsg();
+    // formReactive.email.error = error.getMsg();
+    useAlert().openAlert({ type: 'ERROR', msg: `${error.getMsg()}` })
+
   }
 );
 let submitHandler = () => {

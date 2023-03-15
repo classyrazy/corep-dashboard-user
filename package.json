@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@avanda/avandajs": "^0.1.19",
+    "@formkit/auto-animate": "^1.0.0-beta.6",
     "@kyvg/vue3-notification": "^2.8.0",
     "@pinia/nuxt": "^0.4.6",
     "click-outside-vue3": "^4.0.1",

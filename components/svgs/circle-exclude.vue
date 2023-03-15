@@ -18,9 +18,9 @@
 
 <script setup lang="ts">
 interface Props {
-    bgColor: string;
-    textColor: string;
-    size: number;
+    bgColor?: string;
+    textColor?: string;
+    size?: number;
 }
 
 let props = withDefaults(defineProps<Props>(), {

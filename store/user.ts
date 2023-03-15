@@ -15,7 +15,8 @@ type UserType = {
   };
   department: object;
   faculty: object;
-  user_todo_level: string;
+  user_todo_level: "add-course-and-level" | "add-time-table" | "subscribe-courses" | "completed";
+  dept_timetable_id: number;
 }
 const store = () => {
   let user = ref<UserType | null>(null);

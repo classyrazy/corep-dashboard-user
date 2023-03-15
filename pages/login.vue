@@ -55,7 +55,8 @@ import UnionSvg from "../components/svgs/union-svg.vue";
 import CircleExclude from "../components/svgs/circle-exclude.vue";
 import VInput from "../components/forms/v-input.vue";
 import { useRouter } from "vue-router";
-import "mosha-vue-toastify/dist/style.css";
+import { useAlert } from '~~/composables/core/useToast';
+
 
 let router = useRouter();
 
@@ -121,7 +122,8 @@ let { submitForm, form, loading, data } = useFormRequest(
             console.log({ errObj }, { formReactive });
             return
         }
-        formReactive.email.error = error.getMsg()
+        // formReactive.email.error = error.getMsg()
+        useAlert().openAlert({ type: 'ERROR', msg: `${error.getMsg()}` })
     }
 );
 let submitHandler = () => {

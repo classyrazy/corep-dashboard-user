@@ -9,7 +9,7 @@
       <div class="db-content w-full pb-32 md:pb-0">
         <slot></slot>
       </div>
-      <d-board-side-bar-mobile class="block fixed bottom-0 md:hidden lg:hidden"></d-board-side-bar-mobile>
+      <d-board-side-bar-mobile class="block fixed bottom-[-4px] md:hidden lg:hidden"></d-board-side-bar-mobile>
     </div>
     <modal-root></modal-root>
     <alert></alert>

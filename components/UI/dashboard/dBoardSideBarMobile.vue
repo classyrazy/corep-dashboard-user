@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="w-full z-50">
     <nav class="">
       <div class="upper-sidebar dark:bg-db-pry bg-db-white-light">
         <ul class="mt-10 flex items-end justify-between px-4">
