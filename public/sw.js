@@ -8,6 +8,24 @@ self.addEventListener('activate', () => {
   self.clients.claim()
 })
 
+self.addEventListener('fetch', evt => {
+  if (evt.request.mode === 'navigate') {
+    evt.respondWith(
+      fetch(evt.request)
+        .then(async res => {
+          const cache = await caches.open('pages')
+          cache.put(evt.request.url, res.clone())
+          return res
+        })
+        .catch(() => {
+          return caches.match(evt.request)
+        })
+    )
+  }
+  
+})
+
+
 // Navigation route are handled by network first strategy
 // workbox.routing.registerRoute(
 //   ({ request }) => request.mode === 'navigate',
