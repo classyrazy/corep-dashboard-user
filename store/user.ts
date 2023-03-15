@@ -97,7 +97,10 @@ const store = () => {
       }
       
     } catch (error) {
-      console.log(error);
+      console.log({error});
+      if(error.getData()){
+        useRouter().push(error.getData().next)
+      }
     }
   }
   function changeUserRegTodoStageLevel(level: string) {
