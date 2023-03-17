@@ -296,8 +296,8 @@ let courseSearch = reactive({
 let courseSuggestionLoading = ref(false)
 let displayCourseSearchString = ref('')
 async function handleSearchCourseWithDay() {
-
   try {
+    courseSuggestionLoading.value = true
     let req = await new Graph().service("Course/getCourseScheduleWithQuery")
       .fetch("*",
         new Graph().service("Department/courseOriginDetailsFromParent").as("course_origin")
@@ -324,7 +324,6 @@ const debouncedSearchCourseFunction = debounce(() => {
   let searchQueryBefore: string = '';
   if (searchQueryBefore?.trim() === courseSearch.value.trim()) return
   searchQueryBefore = courseSearch.value.trim()
-  courseSuggestionLoading.value = true
   console.log('debounced')
   handleSearchCourseWithDay()
 

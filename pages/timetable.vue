@@ -46,7 +46,7 @@
                   <strong>Event end: </strong>
                   <span>{{ event.end.formatTime() }}</span>
                 </em> -->
-                <course-event color="#4ea13c,#706292" :end-time="event.end.formatTime()"
+                <course-event :color="event.color" :end-time="event.end.formatTime()"
                   :start-time="event.start.formatTime()" :course-code="event.code" :course-name="event.title"
                   :editable="store.user?.role == 'course-rep' && !event.isBorrowed ? true : false"></course-event>
               </div>
