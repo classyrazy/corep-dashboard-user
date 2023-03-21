@@ -13,7 +13,11 @@ type UserType = {
     name: string,
     [key: string]: any
   };
-  department: object;
+  department: {
+    id: number,
+    name: string,
+    [key: string]: any
+  };
   faculty: object;
   user_todo_level: "add-course-and-level" | "add-time-table" | "subscribe-courses" | "completed";
   dept_timetable_id: number;

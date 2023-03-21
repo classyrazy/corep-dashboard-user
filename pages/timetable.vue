@@ -6,7 +6,13 @@
           <h1 class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold">
             Timetable
           </h1>
-          <v-button type="sec" class="hidden md:block" @click="handleCreateTImeTable">Add Course</v-button>
+          <v-button type="sec" class="" @click="handleCreateTImeTable" :icon="AddIcon"
+            v-if="!(computedDeviceType == 'mobile')">
+            Add Course
+          </v-button>
+          <div class="bg-sec w-10 h-10 flex justify-center items-center rounded-full fixed z-50 bottom-[200px] right-10" v-else>
+            <add-icon :size="24" ></add-icon>
+          </div>
         </div>
 
         <div class="flex flex-col items-center mt-40 space-y-4" v-if="false">
@@ -16,8 +22,9 @@
         </div>
         <div class=" w-full relative" v-if="events.length">
           <ul class="flex gap-4 w-full mx-auto justify-around mb-6" v-if="computedDeviceType === 'mobile'">
-            <li class="text-lg p-4  w-10 h-10 flex justify-center items-center rounded-md" :class="it.id == currentDayViewId? 'bg-sec': 'dark:text-white'"
-               v-for="it in timetableStore.days" :key="it.id" @click="handleDayViewChange(it.id)">{{it.name.slice(0,1)}}</li>
+            <li class="text-lg p-4  w-10 h-10 flex justify-center items-center rounded-md"
+              :class="it.id == currentDayViewId ? 'bg-sec' : 'dark:text-white'" v-for="it in timetableStore.days"
+              :key="it.id" @click="handleDayViewChange(it.id)">{{ it.name.slice(0, 1) }}</li>
           </ul>
           <!-- :today-style="{ 'background-color': 'red' }" style="{ backgroundColor: event.backgroundColor, color: event.color }" :min-cell-width="200" :min-split-width="200" -->
           <vue-cal :selected-date="currentDate" :time-from="6 * 60" :time-to="21 * 60" :hide-weekdays="[7]"
@@ -67,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import AddIcon from '../components/icons/add-icon.vue'
 import CircleExclude from '../components/svgs/circle-exclude.vue'
 import UnionSvg from '../components/svgs/union-svg.vue'
 import CloseIcon from '../components/icons/close-icon.vue'
@@ -103,7 +111,7 @@ let {
   getUserScreenSize,
   computedDeviceType,
 } = useUserScreenSize();
-let { events,getTimeTableData } = useTimetable()
+let { events, getTimeTableData } = useTimetable()
 let disabledtimeTableViews = ref(["years", "year", "month", "day"]);
 getUserScreenSize();
 if (computedDeviceType.value == 'mobile') {
@@ -118,6 +126,7 @@ onMounted(() => {
   // }
 
 });
+console.log(moment("10:20", 'HH:mm').format('HH:mm:ss') > moment("11:20", 'HH:mm').format('HH:mm:ss'))
 const computedUser = computed(() => store.user)
 // watch(computedUser, (val) => {
 //   if (val && val.dept_timetable_id) {
@@ -126,7 +135,7 @@ const computedUser = computed(() => store.user)
 //   }
 // })
 watchEffect(() => {
-  if (computedUser.value && computedUser.value.dept_timetable_id) {
+  if (computedUser.value && computedUser.value.department.id) {
     getTimeTableData(1)
   }
 })
@@ -153,8 +162,16 @@ async function handleCreateTImeTable() {
 }
 // let events = ref<TimeTableItem[]>([])
 const currentDate = ref(moment().format('YYYY-MM-DD HH:mm'))
+// if currentDate is sunday let cuurrent date be mondayt
+if (moment(currentDate.value).day() === 0) {
+  currentDate.value = moment(currentDate.value).day(1).format('YYYY-MM-DD HH:mm')
+}
 
 let currentDayViewId = ref(moment().day())
+if (currentDayViewId.value === 0) {
+  currentDate.value = moment(currentDate.value).day(1).format('YYYY-MM-DD HH:mm')
+}
+console.log(currentDayViewId.value)
 function handleDayViewChange(id: number) {
   if (computedDeviceType.value !== 'mobile') return
   currentDayViewId.value = id

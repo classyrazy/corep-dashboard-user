@@ -1,5 +1,8 @@
 import Graph from "../libs/avanda";
 import { ref, computed } from "vue";
+import { useAlert } from '~~/composables/core/useToast';
+import { isNull } from "lodash";
+
 interface formObj {
   value: null | string;
   error: null | string;
@@ -52,11 +55,13 @@ export default function useFormRequest(
     if (postData) return;
     if (loading.value) return;
     loading.value = true;
-    console.log(form ?? postData);
+    console.log(form || postData);
 
     try {
-      let req = new Graph().service(service);
-      data.value = (await req.post(serverForm.value)).getData();
+      let req = new Graph().service(service).post(serverForm.value);
+      data.value = (await req).getData();
+      useAlert().openAlert({ type: 'SUCCESS', msg: (await req).getMsg() })
+
       clearError();
     } catch (error) {
       if (typeof errorFunc == "function") await errorFunc(error);
@@ -70,9 +75,12 @@ export default function useFormRequest(
     if (loading.value) return;
     loading.value = true;
     let toServerData = ref(postData);
+    let reqMsg = ''
     try {
-      let req = new Graph().service(service);
-      data.value = (await req.post(toServerData.value)).getData();
+      let req = new Graph().service(service).post(toServerData.value);
+      data.value = (await req).getData();
+      // useAlert().openAlert({ type: 'SUCCESS', msg: (await req).getMsg() })
+      reqMsg = (await req).getMsg()
       console.log(data.value);
       clearError();
     } catch (error) {
@@ -80,7 +88,7 @@ export default function useFormRequest(
     }
     loading.value = false;
 
-    if (typeof done == "function") await done(data.value);
+    if (typeof done == "function") await done(data.value, reqMsg);
   }
   return {
     submitForm,

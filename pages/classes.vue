@@ -1,20 +1,21 @@
 <template>
   <div>
     <db-content>
-      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto" >
-       <div class=" mt-6 md:mt-0" >
-         <h1 class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold"> 
-          My Classes
-        </h1>
-       
+      <div class="main-content-index py-6 md:py-auto mx-2 md:mx-auto">
+        <div class=" mt-6 md:mt-0">
+          <h1 class="dark:text-white text-2xl md:text-4xl text-db-pry-dark font-bold">
+            My Classes
+          </h1>
 
-      <div class="flex flex-col items-center mt-40 space-y-4" v-if="emptyState !== false">
-       <classes-mobile-icon :size="120"/>
-       <p class="dark:text-white text-db-pry-dark text-2xl md:text-4xl font-bold">No Classes yet</p>
-       <v-button  type="sec" class="bg-[#F9B700]" >Register your courses</v-button>
+
+          <div class="flex flex-col items-center mt-40 space-y-4" v-if="emptyState !== false">
+            <classes-mobile-icon :size="120" />
+            <p class="dark:text-white text-db-pry-dark text-2xl md:text-4xl font-bold">No Classes yet</p>
+            <v-button type="sec" @click="openSubscribeCourseModal"
+              v-if="store.user?.user_todo_level !== 'completed'">Register your courses</v-button>
+          </div>
+        </div>
       </div>
-      </div>
-    </div>
     </db-content>
   </div>
 </template>
@@ -25,9 +26,9 @@ import ClassesMobileIcon from "../components/icons/classes-icon.vue";
 import VButton from "../components/forms/v-button.vue";
 import "@/assets/css/tailwind.css";
 import { useUserStore } from "../store/user";
-
+import { useCoreModals } from "~~/composables/modals/useCoreModals"
 let store = useUserStore();
-
+const { openSubscribeCourseModal } = useCoreModals()
 let emptyState = computed(() => store.emptyState);
 
 definePageMeta({

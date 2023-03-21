@@ -1,27 +1,16 @@
 <template>
-  <div
-    class="grid grid-auto md:grid-cols-3 gap-4 max-w-[1000px]"
-    v-if="startAppTodoLevel"
-  >
-    <start-app-todo
-      :bg-color="startAppTodo.bgColor"
-      :todo-text="startAppTodo.todoText"
-      :description="startAppTodo.description"
-      :icon="startAppTodo.icon"
-      :link="startAppTodo.link"
-      v-for="startAppTodo in computedTodoArray"
-      :completed="startAppTodo.completed"
-      :key="startAppTodo.id"
-      @click="
+  <div class="grid grid-auto md:grid-cols-3 gap-4 max-w-[1000px]" v-if="startAppTodoLevel">
+    <start-app-todo :bg-color="startAppTodo.bgColor" :todo-text="startAppTodo.todoText"
+      :description="startAppTodo.description" :icon="startAppTodo.icon" :link="startAppTodo.link"
+      v-for="startAppTodo in computedTodoArray" :completed="startAppTodo.completed" :key="startAppTodo.id" @click="
         handleTodoClick(startAppTodo, startAppTodo.modal, startAppTodo.link)
-      "
-      :loading="startAppTodo.id === 1 ? loadingModal : false"
-    >
+      " :loading="startAppTodo.id === 1 ? loadingModal : false">
     </start-app-todo>
   </div>
 </template>
 
 <script setup lang="ts">
+import CourseSubscriptionModal from '../modals/course-subscription/course-subscription-modal.vue'
 import RegisterCoursesIcon from '../../icons/register-courses-icon.vue'
 import StartAppTodo from "./start-app-todo.vue";
 import AddCourseOfStudyIcon from "../../icons/add-course-of-study-icon.vue";
@@ -31,6 +20,7 @@ import AddCourseOfStudyModal from "../modals/add-course-of-study-modal.vue";
 import { useUserStore } from "../../../store/user";
 import Graph from "../../../libs/avanda";
 import useUserScreenSize from "../../../composables/useUserScreenSize";
+import { useAlert } from '~~/composables/core/useToast';
 
 // import startAppTodoObjType from "../../../types/appTodoObj.ts"
 
@@ -85,7 +75,7 @@ let startTodoArray = reactive<startAppTodoObjType[]>([
     description:
       "Select all the courses you are offering, and be notified If any changes occur on each.",
     icon: RegisterCoursesIcon,
-    link: "/timetable?a=register",
+    modal: CourseSubscriptionModal,
     courseRepOnly: false
 
   },
@@ -111,7 +101,7 @@ onMounted(() => {
 let startAppTodoLevel = computed(() => store.user?.user_todo_level);
 // let startAppTodoLevel = computed(() => store.userRegTodoStageLevel);
 console.log(startAppTodoLevel.value);
-let modalResult = ref<null| object>(null);
+let modalResult = ref<null | object>(null);
 let startAppTodoLevelNum = computed(() => {
   console.log("from start app todo level num", startAppTodoLevel.value);
   switch (startAppTodoLevel.value) {
@@ -127,7 +117,7 @@ let startAppTodoLevelNum = computed(() => {
 });
 console.log(startAppTodoLevelNum.value);
 let computedTodoArray = computed(() => {
-  if(store.user?.role !== "course-rep") {
+  if (store.user?.role !== "course-rep") {
     return startTodoArray.filter(todo => todo.courseRepOnly === false)
   }
   if (startAppTodoLevel.value) {
@@ -183,8 +173,28 @@ let handleTodoClick = async (
         store.fetchUserRegStartTodoLevelMode();
       }
     }
-  }else if(link && !todo.completed && !todo.modal){
+  } else if (link && !todo.completed && !todo.modal) {
     router.push(link)
+  } else if (!link && !todo.completed && todo.modal) {
+    if (store.user?.user_todo_level !== 'add-time-table') {
+      if (store.user?.user_todo_level === 'add-course-and-level') {
+        return useAlert().openAlert({ type: 'ERROR', msg: 'Add course of study first' })
+      }
+    }
+    let modal = await useModal(componentPassed, {
+      options: {
+        background: modalColor,
+        width: 1000,
+        blur: false,
+        type: modalType,
+      },
+      props: {
+        darkMode: darkMode.value,
+      },
+    });
+    // if (modalResult.value) {
+    //   store.fetchUserRegStartTodoLevelMode();
+    // }
   }
 };
 </script>

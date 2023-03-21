@@ -73,6 +73,7 @@
           </p>
           <start-app-todo-list class="mt-6 md:mt-4"></start-app-todo-list>
         </div>
+        <div class="main mt-6 md:mt-0" v-else>User has completed all his todos</div>
       </div>
     </div>
   </db-content>
@@ -129,6 +130,6 @@ definePageMeta({
 </script>
 
 <style scoped>
-.header {
-}
+/* .header {
+} */
 </style>

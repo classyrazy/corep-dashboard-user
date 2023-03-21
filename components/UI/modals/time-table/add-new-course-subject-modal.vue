@@ -124,7 +124,8 @@
       <div class="flex flex-col gap-4 md:flex-row items-center pb-10 justify-between w-full px-4">
         <v-button type="border-sec" class="w-full md:w-auto" v-if="currentScreen === 'added-borrow'"
           @click="handleBackToSearch">Back</v-button>
-        <v-button type="sec" class="w-full md:w-auto" v-if="currentScreen === 'added-borrow'" @click="addBorrowedCourse">Add Borrowed
+        <v-button type="sec" class="w-full md:w-auto" v-if="currentScreen === 'added-borrow'" @click="addBorrowedCourse"
+          :loading="addBorrowedCourseLoading">Add Borrowed
           Course</v-button>
       </div>
     </div>
@@ -152,7 +153,8 @@ import { useTimetableStore } from "~~/store/timetable"
 import Graph from '@avanda/avandajs';
 import { useAlert } from '~~/composables/core/useToast';
 import useFormRequest from '~~/composables/useFormRequest';
-import { vAutoAnimate } from "@formkit/auto-animate"
+import { useTimetable } from '~~/composables/timetable/useTimetable';
+
 
 
 
@@ -161,6 +163,7 @@ let router = useRouter();
 let store = useUserStore();
 let timetableStore = useTimetableStore();
 let darkMode = computed(() => store.darkMode);
+let { getTimeTableData } = useTimetable()
 
 let { getUserScreenSize, computedDeviceType } = useUserScreenSize();
 let currentScreen = ref<"add-borrow" | "added-borrow">("add-borrow")
@@ -279,8 +282,9 @@ function handleBorrowedCourse() {
 }
 
 const activeDay = ref(1);
-function closeModal(){
-emit("close")
+function closeModal() {
+  emit("close")
+  getTimeTableData(1)
 }
 const days = timetableStore.days
 
@@ -464,14 +468,11 @@ let { submitForm, loading, data } = useFormRequest(
   formReactive,
   null,
   (data: any) => {
-    if (data) {
-      console.log(data);
-    }
+    closeModal()
   },
   (error: { getData: () => any; getMsg: () => any }) => {
-    console.log(error);
+    useAlert().openAlert({ type: 'ERROR', msg: error.getMsg() })
     let errObj = error.getData();
-    console.log(errObj);
   }
 );
 function submitCourseSchedule() {
@@ -480,15 +481,21 @@ function submitCourseSchedule() {
     submitForm()
   }
 }
+let addBorrowedCourseLoading = ref(false)
 async function addBorrowedCourse() {
   if (selectedCourseDetails.value) {
+    addBorrowedCourseLoading.value = true
     try {
       let req = await new Graph().service("DepartmentTimetable/addBorrowedCourse").params({ course_id: selectedCourseDetails.value.id }).get()
       let res = req.getData()
       useAlert().openAlert({ type: 'SUCCESS', msg: req.getMsg() })
-      console.log({res})
-    } catch (error) {
+      closeModal()
+
+      console.log({ res })
+    } catch (error: any) {
       useAlert().openAlert({ type: 'ERROR', msg: error.getMsg() })
+    } finally {
+      addBorrowedCourseLoading.value = false
     }
   }
 }

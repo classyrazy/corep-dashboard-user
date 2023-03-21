@@ -34,37 +34,43 @@ export const useTimetable = () => {
         const output: TimeTableItem[] = reactive([]);
         inputArr.forEach(item => {
             const course = item.course;
-            item.schedule.forEach((scheduleItem: courseSchedule) => {
-                const outputItem = {
-                    code: course.code,
-                    title: course.title,
-                    unit: course.unit,
-                    color: course.color,
-                    day: scheduleItem.day,
-                    type: scheduleItem.type,
-                    location: scheduleItem.location,
-                    locationtype: scheduleItem.location_type,
-                    start: formatTimeToCalendar(scheduleItem.start_time, parseInt(scheduleItem.day)),
-                    end: formatTimeToCalendar(scheduleItem.end_time, parseInt(scheduleItem.day)),
-                    optionalCode: course.optional_code,
-                    courseId: course.id,
-                    level: course.level_id,
-                    isBorrowed: item.is_borrowed
-                };
-                output.push(outputItem);
-            });
+            // item.schedule.forEach((scheduleItem: courseSchedule) => {
+            const outputItem = {
+                code: course.code,
+                title: course.title,
+                unit: course.unit,
+                color: course.color,
+                day: item.day,
+                type: item.type,
+                location: item.location,
+                locationtype: item.location_type,
+                start: formatTimeToCalendar(item.start_time, parseInt(item.day)),
+                end: formatTimeToCalendar(item.end_time, parseInt(item.day)),
+                optionalCode: course.optional_code,
+                courseId: course.id,
+                level: course.level_id,
+                isBorrowed: item.is_borrowed
+            };
+            output.push(outputItem);
+            // });
         });
         return output;
     }
     async function getTimeTableData(dayId: number) {
         try {
-            let req = await new Graph().service("CourseTimeline/getAllScheduleWithDeptId").fetch(
+            let req = await new Graph().service("CourseSchedule/getTimetableSchedules").fetch(
                 "*",
-                new Graph().service("Course/getCourseFromParent").as("course"),
-                new Graph().service("CourseSchedule/getScheduleFromParent").as("schedule")
-            ).params({ "department_timetable_id": store.user?.dept_timetable_id }).get()
-            console.info(transformTimeTableArray(req.getData()))
+                new Graph().service("Course/getCourseFromParent").as("course")
+            ).get()
+            // let req = await new Graph().service("CourseTimeline/getAllScheduleWithDeptId").fetch(
+            //     "*",
+            //     new Graph().service("Course/getCourseFromParent").as("course"),
+            //     new Graph().service("CourseSchedule/getScheduleFromParent").as("schedule")
+            // ).params({ "department_timetable_id": store.user?.dept_timetable_id }).get()
+            // console.log(transformTimeTableArray(req.getData()))
+            // console.info(transformTimeTableArray(req.getData()))
             events.value = transformTimeTableArray(req.getData())
+            // console.log(events)
             return events
         } catch (error: any) {
             useAlert().openAlert({ type: 'ERROR', msg: error.getMsg() })
