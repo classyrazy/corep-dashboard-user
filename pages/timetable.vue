@@ -10,7 +10,7 @@
             v-if="!(computedDeviceType == 'mobile')">
             Add Course
           </v-button>
-          <div class="bg-sec w-10 h-10 flex justify-center items-center rounded-full fixed z-50 bottom-[200px] right-10" v-else>
+          <div class="bg-sec w-10 h-10 flex justify-center items-center rounded-full fixed z-50 bottom-[200px] right-10" @click="handleCreateTImeTable"  v-else>
             <add-icon :size="24" ></add-icon>
           </div>
         </div>
@@ -135,7 +135,7 @@ const computedUser = computed(() => store.user)
 //   }
 // })
 watchEffect(() => {
-  if (computedUser.value && computedUser.value.department.id) {
+  if (computedUser.value && computedUser.value.department && computedUser.value.department.id) {
     getTimeTableData(1)
   }
 })

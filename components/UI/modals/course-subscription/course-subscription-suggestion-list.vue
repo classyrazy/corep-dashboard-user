@@ -11,6 +11,8 @@
         <div class="flex flex-col justify-center items-center min-h-[300px]" v-else-if="!courseSuggestion.length && !loading">
             <h3 class="text-md md:text-lg text-left dark:text-white text-db-pry-dark " v-if="!searchTerm">Nothing here yet
             </h3>
+            <p class="text-md md:text-lg dark:text-white text-db-pry-dark text-center" v-if="!searchTerm">You dont have any course in your department timetable, search for courses you want to subscribe to
+            </p>
             <h3 class="text-md md:text-lg text-left dark:text-white text-db-pry-dark" v-else>Can't find course
                 "{{ searchTerm }}"</h3>
             </div>

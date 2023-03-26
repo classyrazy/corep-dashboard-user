@@ -38,6 +38,7 @@ import { useAlert } from '~~/composables/core/useToast';
 import { useUserStore } from '~~/store/user'
 import SearchIcon from "../../../icons/search-icon.vue";
 import useFormRequest from '~~/composables/useFormRequest'
+import { useFirebaseNotification } from "~~/composables/core/useFirebaseNotification"
 
 
 interface Props {
@@ -45,11 +46,12 @@ interface Props {
 
 }
 let props = defineProps<Props>()
+let emit = defineEmits(['close'])
 let store = useUserStore()
 let courseSuggestionLoading = ref(false)
 let loadingSubmitData = ref(false)
 let darkMode = computed(() => store.darkMode);
-
+let {saveMessagesDeviceToken} = useFirebaseNotification()
 let courseSearch = reactive({
   value: "",
   error: null
@@ -107,7 +109,7 @@ const debouncedSearchCourseFunction = debounce(() => {
   courseSuggestionLoading.value = true
   handleSearchCourseWithDay()
 
-}, 1500)
+}, 500)
 async function handlefetchCourseSuggestionFromTimetable() {
   courseSuggestionLoading.value = true
   try {
@@ -132,11 +134,15 @@ async function handlefetchCourseSuggestionFromTimetable() {
     })
   } catch (error) {
     console.log(error)
-    useAlert().openAlert({ type: 'ERROR', msg: `Oops, Something went wrong 🤭` })
+    useAlert().openAlert({ type: 'ERROR', msg: `${error.getMsg() ||'Oops, Something went wrong 🤭'}` })
 
   } finally {
     courseSuggestionLoading.value = false
   }
+}
+function closeModal() {
+  emit("close")
+  saveMessagesDeviceToken()
 }
 onMounted(() => {
   handlefetchCourseSuggestionFromTimetable()
@@ -157,23 +163,24 @@ function handleSubmitCourseChosen() {
   }
   loadingSubmitData.value = true
   let { submitData, data } = useFormRequest(
-  "CourseSubscription/subscribeToCourses",
-  null,
-  { courses: computedChosenCourseId.value },
-  (data: any, reqMsg: string) => {
-    console.log(data);
-    loadingSubmitData.value = false
-    if (data) {
-      useAlert().openAlert({ type: 'SUCCESS', msg: reqMsg })
-      store.fetchUser()
-    }
-  },
-  (error: any) => {
-    loadingSubmitData.value = false
-    useAlert().openAlert({ type: 'Alert', msg: `${error.getMsg() || 'Something went wrong'}` })
+    "CourseSubscription/subscribeToCourses",
+    null,
+    { courses: computedChosenCourseId.value },
+    (data: any, reqMsg: string) => {
+      console.log(data);
+      loadingSubmitData.value = false
+      if (data) {
+        useAlert().openAlert({ type: 'SUCCESS', msg: reqMsg })
+        store.fetchUser()
+        closeModal()
+      }
+    },
+    (error: any) => {
+      loadingSubmitData.value = false
+      useAlert().openAlert({ type: 'Alert', msg: `${error.getMsg() || 'Something went wrong'}` })
 
-  }
-);
+    }
+  );
 
   console.log(chosenCourses.value)
   submitData();

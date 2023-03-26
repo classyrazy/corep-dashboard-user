@@ -1,7 +1,7 @@
 <template>
 	<transition appear name="toast">
 		<div v-if="active" :class="[
-			`overflow-hidden max-w-[90%] shadow-xl fixed top-4 right-4 p-4 py-5 rounded-md box border border-dark  dark:bg-pry-dark-hover-light z-[900000000000000]`,
+			`overflow-hidden max-w-[90%] shadow-xl fixed top-4 right-4 p-4 py-5 rounded-md box border border-dark  bg-white dark:bg-pry-dark-hover-light z-[900000000000000]`,
 		]">
 			<div :style="`width:${BORDER_WIDTH}%`"
 				:class="[`${BG} h-1  absolute  bottom-0 left-0 transition-all duration-300`]" />

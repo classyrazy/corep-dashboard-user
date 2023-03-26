@@ -50,6 +50,7 @@ import Graph from "../../../libs/avanda";
 import CourseOfStudyListModalView from "./course-of-study-list-modal-view.vue";
 import useFormRequest from "../../../composables/useFormRequest";
 import { StudyCourseType} from "~~/utils/types/DepartmentTypes"
+import { useUserStore } from '~~/store/user';
 import { Ref } from 'vue';
 interface Props {
   darkMode: boolean;
@@ -68,6 +69,7 @@ let searchValue = ref<string | null>(null);
 let returnedData = ref(null);
 let error = ref(null);
 let showError = ref<boolean>(false);
+let store = useUserStore()
 let loadingDepartments = ref(false);
 let loadingSubmitData = ref(false);
 async function handleChosenFaculty(facultyIdpassed: number) {
@@ -131,6 +133,7 @@ function handleSubmitCourseChosen() {
         returnedData.value = data;
         loadingSubmitData.value = false;
         emit("close", returnedData.value);
+        store.fetchUser()
       }
     },
     (error) => {

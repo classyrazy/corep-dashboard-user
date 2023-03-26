@@ -68,7 +68,7 @@
             <h1 class="text-lg md:text-xl text-left dark:text-white text-db-pry-dark font-semibold">
               Add Course Timelines
             </h1>
-            <add-time-table-icon :color="darkMode ? '#fff' : '#000'" class="cursor-pointer" :size="20"
+            <add-time-table-icon :text-color="darkMode ? '#fff' : '#000'" class="cursor-pointer" :size="20"
               @click="addNewTimeLine"></add-time-table-icon>
           </div>
           <div class="" v-if="formReactive.timeline.length">
@@ -115,7 +115,8 @@
           style-type="modal-input" :icon="SearchIcon" placeholder="Search for Courses by title, code" full iconLeft
           :value="courseSearch" @custom-change="debouncedSearchCourseFunction"></v-input>
       </div>
-      <chosen-borrowed-course class="mt-4 mb-6" v-if="currentScreen === 'added-borrow' && selectedCourseDetails"
+      <chosen-borrowed-course class="mt-4 mb-6 max-h-[400px] overflow-y-auto"
+        v-if="currentScreen === 'added-borrow' && selectedCourseDetails"
         :course-details="selectedCourseDetails"></chosen-borrowed-course>
       <course-borrow-suggestion-list class="mt-4 mb-6 mx-4" @course-chosen="handleCourseChosen"
         :search-term="displayCourseSearchString" v-if="currentScreen === 'add-borrow'"
@@ -154,7 +155,7 @@ import Graph from '@avanda/avandajs';
 import { useAlert } from '~~/composables/core/useToast';
 import useFormRequest from '~~/composables/useFormRequest';
 import { useTimetable } from '~~/composables/timetable/useTimetable';
-
+import { useQuickFunction } from '~~/composables/core/useQuickFunctions'
 
 
 
@@ -164,6 +165,7 @@ let store = useUserStore();
 let timetableStore = useTimetableStore();
 let darkMode = computed(() => store.darkMode);
 let { getTimeTableData } = useTimetable()
+let {getGetCurrentDaybasedOnId} = useQuickFunction()
 
 let { getUserScreenSize, computedDeviceType } = useUserScreenSize();
 let currentScreen = ref<"add-borrow" | "added-borrow">("add-borrow")
@@ -331,7 +333,7 @@ const debouncedSearchCourseFunction = debounce(() => {
   console.log('debounced')
   handleSearchCourseWithDay()
 
-}, 1500)
+}, 500)
 
 let selectedCourseDetails = ref<courseType | null>(null)
 function handleCourseChosen(courseChosen: courseType) {
@@ -358,7 +360,7 @@ function handleLocationTypeChange(ev: "physical" | "online", idx: number): void 
   formReactive.timeline[idx].locationType.value = ev
 }
 function handleLocationChange(ev: string, idx: number): void {
-  console.log({ ev, idx })
+  console.log({ ev, idx , formReactive})
   formReactive.timeline[idx].location.value = ev
 }
 function handleToggleTimeline(idx: number) {
@@ -375,11 +377,11 @@ function addNewTimeLine() {
       error: null,
     },
     startTime: {
-      value: moment(new Date().getTime()).format("HH:mm"),
+      value: '',
       error: null,
     },
     endTime: {
-      value: moment(new Date().getTime() + (60 * 60 * 1000)).format("HH:mm"),
+      value: '',
       error: null,
     },
     locationType: {
@@ -428,6 +430,10 @@ function validateForm() {
     formReactive.courseUnit.error = "course unit is required"
     isValid = false
   }
+  if (formReactive.timeline.length === 0) {
+    useAlert().openAlert({ type: 'ERROR', msg: `You have to add course timelines` })
+    isValid = false
+  }
   // check if day inside timeline is unique
   let dayArr = formReactive.timeline.map((timeline) => timeline.day.value)
   let isDayUnique = dayArr.every((day, idx) => dayArr.indexOf(day) === idx)
@@ -436,17 +442,21 @@ function validateForm() {
     isValid = false
   }
   formReactive.timeline.forEach((timeline, idx) => {
-    if (timeline.startTime.value === null) {
-      timeline.startTime.error = "Start time is required"
+    if (!timeline.startTime.value?.trim()) {
+      timeline.startTime.error = "Class start time is required"
       isValid = false
     } else {
       timeline.startTime.error = null
     }
-    if (timeline.endTime.value === null) {
-      timeline.endTime.error = "End time is required"
+    if (!timeline.endTime.value?.trim()) {
+      timeline.endTime.error = "Class end time is required"
       isValid = false
     } else {
       timeline.endTime.error = null
+    }
+    if (!moment(moment(timeline.startTime.value, "HH:mm").toDate()).isBefore(moment(moment(timeline.endTime.value,"HH:mm").toDate()))) {
+      useAlert().openAlert({ type: 'ERROR', msg: `${getGetCurrentDaybasedOnId(JSON.stringify(timeline.day.value)).full} has a time defect` })
+      isValid = false
     }
     if (timeline.locationType.value === null) {
       timeline.locationType.error = "Location type is required"
@@ -468,7 +478,9 @@ let { submitForm, loading, data } = useFormRequest(
   formReactive,
   null,
   (data: any) => {
-    closeModal()
+    if (data) {
+      closeModal()
+    }
   },
   (error: { getData: () => any; getMsg: () => any }) => {
     useAlert().openAlert({ type: 'ERROR', msg: error.getMsg() })
@@ -486,12 +498,10 @@ async function addBorrowedCourse() {
   if (selectedCourseDetails.value) {
     addBorrowedCourseLoading.value = true
     try {
-      let req = await new Graph().service("DepartmentTimetable/addBorrowedCourse").params({ course_id: selectedCourseDetails.value.id }).get()
+      let req = await new Graph().service("Course/addBorrowedCourse").params({ course_id: selectedCourseDetails.value.id }).get()
       let res = req.getData()
       useAlert().openAlert({ type: 'SUCCESS', msg: req.getMsg() })
       closeModal()
-
-      console.log({ res })
     } catch (error: any) {
       useAlert().openAlert({ type: 'ERROR', msg: error.getMsg() })
     } finally {
@@ -501,4 +511,27 @@ async function addBorrowedCourse() {
 }
 </script>
 
-<style scoped></style>
+<style>
+:root{
+  --db-pry-dark : #212939;
+  --db-pry-light : #3B3F4D;
+}
+.mx-datepicker{
+  @apply w-full
+}
+.start-time-input {
+  @apply outline-none p-3 dark:bg-db-pry-dark dark:text-white text-db-pry-dark focus:border-sec border border-gray-400 rounded-md w-full inline-block
+}
+.mx-icon-calendar svg{
+  @apply dark:invert invert-0
+}
+.mx-datepicker-main.mx-datepicker-popup.start-time-input-picker{
+  @apply rounded-lg border border-sec
+}
+.mx-datepicker-main.mx-datepicker-popup.start-time-input-picker .mx-time{
+ background-color: v-bind(darkMode? '#212939' : 'white');
+}
+/* .mx-datepicker-main.mx-datepicker-popup.start-time-input-picker .mx-datepicker-content .mx-time .mx-scrollbar-wrap{
+  @apply border border-sec
+}  */
+</style>
