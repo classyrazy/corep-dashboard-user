@@ -34,6 +34,7 @@ export const useFirebaseNotification = () => {
                         new Notification(payload.notification.title, {
                             body: payload.notification.body,
                         })
+                        alert(payload.notification.body)
                     }
                 })
             } catch (error) {

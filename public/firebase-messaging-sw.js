@@ -1,9 +1,7 @@
-// import { useRuntimeConfig } from "nuxt/app";
 importScripts('https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/8.1.1/firebase-messaging.js');
 
 
-// const config = useRuntimeConfig()
 
 // Your web app's Firebase configuration
 const firebaseConfig = {

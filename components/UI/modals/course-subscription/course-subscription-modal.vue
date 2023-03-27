@@ -132,7 +132,7 @@ async function handlefetchCourseSuggestionFromTimetable() {
         ...course.course
       }
     })
-  } catch (error) {
+  } catch (error: any) {
     console.log(error)
     useAlert().openAlert({ type: 'ERROR', msg: `${error.getMsg() ||'Oops, Something went wrong 🤭'}` })
 

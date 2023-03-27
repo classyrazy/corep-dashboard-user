@@ -38,7 +38,7 @@ onMounted(() => {
       throw new Error("serviceWorker is not supported in current browser!");
     }
     navigator.serviceWorker.register("/sw.js");
-    navigator.serviceWorker.register("/firebase-messaging-sw.js");
+    // navigator.serviceWorker.register("/firebase-messaging-sw.js");
     //   })
   }
   //   store.fetchUser();
