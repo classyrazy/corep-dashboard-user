@@ -24,12 +24,17 @@ export const useFirebaseNotification = () => {
     async function saveMessagesDeviceToken() {
         let fcmToken = await getToken(messaging, { vapidKey: config.VITE_FIREBASE_VAPID_KEY as string })
         console.log("fcmToken", fcmToken)
+        useAlert().openAlert({ type: "Alert", msg: "new foreground notification after fcmtoken has been gotten" });
         if (fcmToken) {
             try {
                 let req = await new Graph().service("CourseSubscription/notificationPermissionAccepted").params({ token: fcmToken }).get();
                 req.getData()
+                alert(fcmToken)
                 onMessage(messaging, (payload) => {
                     console.log("new foreground notification", payload)
+                    useAlert().openAlert({ type: "Alert", msg: "new foreground notification inside on message" });
+                    alert(payload.notification.body)
+
                     if (payload) {
                         new Notification(payload.notification.title, {
                             body: payload.notification.body,
