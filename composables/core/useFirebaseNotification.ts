@@ -29,18 +29,17 @@ export const useFirebaseNotification = () => {
             try {
                 let req = await new Graph().service("CourseSubscription/notificationPermissionAccepted").params({ token: fcmToken }).get();
                 req.getData()
-                alert(fcmToken)
                 onMessage(messaging, (payload) => {
                     console.log("new foreground notification", payload)
                     useAlert().openAlert({ type: "Alert", msg: "new foreground notification inside on message" });
-                    alert(payload.notification.body)
+                    // alert(payload.notification.body)
 
-                    if (payload) {
-                        new Notification(payload.notification.title, {
-                            body: payload.notification.body,
+                    // if (payload) {
+                        new Notification(payload.notification?.title || "new notification", {
+                            body: payload.notification?.body,
                         })
-                        alert(payload.notification.body)
-                    }
+                        // alert(payload.notification?.body)
+                    // }
                 })
             } catch (error) {
                 useAlert().openAlert({ type: "Alert", msg: "Something went wrong please try again" });
