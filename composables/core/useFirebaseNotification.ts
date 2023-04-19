@@ -40,8 +40,8 @@ export const useFirebaseNotification = () => {
                         new Notification(payload.notification?.title || "new notification", {
                             body: payload.notification?.body,
                         })
-                        if(computedDeviceType.value === "mobile" && payload.notification?.body){
-                            useAlert().openAlert({ type: "Alert", msg: payload.notification?.body });
+                        if(computedDeviceType.value === "mobile"){
+                            useAlert().openAlert({ type: "Alert", msg: payload.notification?.body as string });
                         }
                         // alert(payload.notification?.body)
                     // }
