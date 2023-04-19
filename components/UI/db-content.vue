@@ -1,5 +1,5 @@
 <template>
-    <div class="md:overflow-y-auto w-full md:h-screen md:p-8 pt-4 px-2 md:px-auto md:pt-auto">
+    <div class="md:overflow-y-auto w-full md:h-screen md:px-auto md:pt-auto" :class="type == 'default'? 'md:p-8 pt-4 px-2': ''">
         <slot :user-store="user" :mode="store.darkMode"></slot>
     </div>
 </template>
@@ -7,17 +7,17 @@
 <script setup lang="ts">
 import { useUserStore } from '../../store/user'
 import { storeToRefs } from 'pinia'
+
+interface Props {
+    type: "default" | "no-style"
+}
+const props = withDefaults(defineProps<Props>(), {
+    type: "default"
+})
 let store = useUserStore()
 
-// const soreDetails = storeToRefs(store)
 const user = computed(() =>  store.user)
 
-// const user = computed(() => {
-//     return store.user
-// })
-// const getMode = computed(() => {
-//     return store.getMode
-// })
 
 onMounted(() => {
     if(!user.value){

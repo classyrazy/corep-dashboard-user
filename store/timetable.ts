@@ -8,6 +8,7 @@ const store = () => {
     { id: 4, name: "THU", fullName: "Thursday" },
     { id: 5, name: "FRI", fullName: "Friday" },
     { id: 6, name: "SAT", fullName: "Saturday" },
+    { id: 7, name: "SUN", fullName: "Sunday"}
   ];
 
   

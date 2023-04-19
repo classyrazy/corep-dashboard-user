@@ -21,11 +21,11 @@
 </template>
 
 <script setup lang="ts">
-import DbContent from "../components/UI/db-content.vue";
-import ClassesMobileIcon from "../components/icons/classes-icon.vue";
-import VButton from "../components/forms/v-button.vue";
+import DbContent from "../../components/UI/db-content.vue";
+import ClassesMobileIcon from "../../components/icons/classes-icon.vue";
+import VButton from "../../components/forms/v-button.vue";
 import "@/assets/css/tailwind.css";
-import { useUserStore } from "../store/user";
+import { useUserStore } from "../../store/user";
 import { useCoreModals } from "~~/composables/modals/useCoreModals"
 let store = useUserStore();
 const { openSubscribeCourseModal } = useCoreModals()

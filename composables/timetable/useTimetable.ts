@@ -4,6 +4,7 @@ import Graph from "~~/libs/avanda";
 import { useUserStore } from "~~/store/user";
 import { useAlert } from "../core/useToast";
 export interface TimeTableItem {
+    id: number;
     code: string;
     title: string;
     unit: number;
@@ -36,6 +37,7 @@ export const useTimetable = () => {
             const course = item.course;
             // item.schedule.forEach((scheduleItem: courseSchedule) => {
             const outputItem = {
+                id: item.id,
                 code: course.code,
                 title: course.title,
                 unit: course.unit,
@@ -58,7 +60,7 @@ export const useTimetable = () => {
     }
     async function getTimeTableData(dayId: number) {
         try {
-            let req = await new Graph().service("CourseSchedule/getTimetableSchedules").fetch(
+            let req = await new Graph().service("Schedule/getTimetableSchedules").fetch(
                 "*",
                 new Graph().service("Course/getCourseFromParent").as("course")
             ).get()

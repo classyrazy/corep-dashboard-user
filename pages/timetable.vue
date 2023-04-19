@@ -10,8 +10,9 @@
             v-if="!(computedDeviceType == 'mobile')">
             Add Course
           </v-button>
-          <div class="bg-sec w-10 h-10 flex justify-center items-center rounded-full fixed z-50 bottom-[200px] right-10" @click="handleCreateTImeTable"  v-else>
-            <add-icon :size="24" ></add-icon>
+          <div class="bg-sec w-10 h-10 flex justify-center items-center rounded-full fixed z-50 bottom-[200px] right-10"
+            @click="handleCreateTImeTable" v-else>
+            <add-icon :size="24"></add-icon>
           </div>
         </div>
 
@@ -27,7 +28,7 @@
               :key="it.id" @click="handleDayViewChange(it.id)">{{ it.name.slice(0, 1) }}</li>
           </ul>
           <!-- :today-style="{ 'background-color': 'red' }" style="{ backgroundColor: event.backgroundColor, color: event.color }" :min-cell-width="200" :min-split-width="200" -->
-          <vue-cal :selected-date="currentDate" :time-from="6 * 60" :time-to="21 * 60" :hide-weekdays="[7]"
+          <vue-cal :selected-date="currentDate" :time-from="6 * 60" :time-to="21 * 60" 
             :disable-views="disabledtimeTableViews" active-view="day" :events="events"
             class="dark:bg-db-pry-dark text-white py-6 pb-8 pr-4 md:pr-0 rounded-lg" :time-cell-height="70"
             hide-view-selector hide-title-bar>
@@ -52,8 +53,9 @@
                   <br>
                   <strong>Event end: </strong>
                   <span>{{ event.end.formatTime() }}</span>
+                  
                 </em> -->
-                <course-event :color="event.color" :end-time="event.end.formatTime()"
+                <course-event :color="event.color" :end-time="event.end.formatTime()" @click="handleEventClick(event)"
                   :start-time="event.start.formatTime()" :course-code="event.code" :course-name="event.title"
                   :editable="store.user?.role == 'course-rep' && !event.isBorrowed ? true : false"></course-event>
               </div>
@@ -74,6 +76,7 @@
 </template>
 
 <script setup lang="ts">
+import ViewSchedulePreview from '../components/UI/modals/schedules/view-schedule-preview.vue'
 import AddIcon from '../components/icons/add-icon.vue'
 import CircleExclude from '../components/svgs/circle-exclude.vue'
 import UnionSvg from '../components/svgs/union-svg.vue'
@@ -104,6 +107,7 @@ definePageMeta({
 
 let router = useRouter();
 let store = useUserStore();
+
 let darkMode = computed(() => store.darkMode);
 let timetableStore = useTimetableStore();
 
@@ -176,6 +180,25 @@ function handleDayViewChange(id: number) {
   if (computedDeviceType.value !== 'mobile') return
   currentDayViewId.value = id
   currentDate.value = moment().day(id).format('YYYY-MM-DD HH:mm')
+}
+
+async function handleEventClick(eventDet: object) {
+  console.log({eventDet})
+  let modalColor = darkMode.value ? "#212939" : "white";
+  let modalType: "panel" | "modal" =
+    computedDeviceType.value == "mobile" ? "panel" : "modal";
+  let modal = await useModal(ViewSchedulePreview, {
+    options: {
+      width: 400,
+      background: modalColor,
+      blur: false,
+      type: modalType,
+    },
+    props: {
+      schedule:eventDet,
+    }
+  })
+
 }
 
 // async function getTimeTableData(dayId: number) {

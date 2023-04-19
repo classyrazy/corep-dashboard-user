@@ -46,6 +46,8 @@ export default defineNuxtConfig({
       VITE_FIREBASE_APP_ID: process.env.VITE_FIREBASE_APP_ID,
       VITE_FIREBASE_MEASUREMENT_ID: process.env.VITE_FIREBASE_MEASUREMENT_ID,
       VITE_FIREBASE_VAPID_KEY: process.env.VITE_FIREBASE_VAPID_KEY,
+      NAME_SPACE: process.env.NAME_SPACE,
+      
     }
   }
 });

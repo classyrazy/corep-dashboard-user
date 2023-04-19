@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="w-full" :class="darkMode ? 'dark' : ''">
     <div
       class="upper flex justify-between md:px-4 dark:border-b-db-white-dark border-b-2"

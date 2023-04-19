@@ -25,6 +25,13 @@ self.addEventListener('fetch', evt => {
   
 })
 
+self.addEventListener('push', evt => {
+  const data = evt.data.json()
+  self.registration.showNotification(data.title, {
+    body: data.body,
+  })
+})
+
 
 // Navigation route are handled by network first strategy
 // workbox.routing.registerRoute(

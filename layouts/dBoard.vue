@@ -21,7 +21,6 @@
 import Alert from '../components/core/Alert.vue'
 import DBoardSideBarMobile from "../components/UI/dashboard/dBoardSideBarMobile.vue";
 import DBoardSideBar from "../components/UI/dashboard/dBoardSideBar.vue";
-import DbContent from "../components/UI/db-content.vue";
 import { useUserStore } from "../store/user";
 // const themeFromLocalStorage = localStorage.getItem("theme");
 let storeData = useUserStore();

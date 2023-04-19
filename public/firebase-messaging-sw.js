@@ -15,15 +15,18 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
-messaging.onBackgroundMessage((payload) => {
+messaging.onBackgroundMessage( async (payload) => {
 console.log('[firebase-messaging-sw.js] Received background message ', payload);
 const notificationTitle = payload.notification.title;
 const notificationOptions = {
 body: payload.notification.body,
 };
-return self.registration.showNotification(notificationTitle,
-notificationOptions);
+return await self.registration.showNotification(notificationTitle,
+  notificationOptions);
 });
+messaging.onMessage((payload) => {
+  alert(payload)
+})
 // self.addEventListener('notificationclick', event => {
 //    console.log(event)
 // });
