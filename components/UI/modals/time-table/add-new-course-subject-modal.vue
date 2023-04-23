@@ -1,7 +1,7 @@
 <template>
   <div class="" v-if="!displayBorrowedCourse">
     <transition-group name="slide">
-      <div class="py-6 px-2 md:p-6 flex justify-between items-center dark:text-white">
+      <div class="py-6 px-4 md:p-6 flex justify-between items-center dark:text-white">
         <h1 class="text-xl md:text-2xl text-left dark:text-white text-db-pry-dark font-semibold">
           Add Course to timetable
         </h1>
@@ -14,12 +14,11 @@
       <div class="bg-sec w-full h-[0.4px]"></div>
       <form class="w-full mx-auto mt-6" @submit.prevent="submitCourseSchedule">
         <!-- <transition-group name="slide"> -->
-        <div class="flex flex-col gap-4" :key="1">
+        <div class="flex flex-col gap-4 h-[350px] md:h-[500px] overflow-y-auto" :key="1">
           <div class="mb-4 flex justify-between items-center md:px-6 px-4">
             <h1 class="text-lg md:text-xl text-left dark:text-white text-db-pry-dark font-semibold">
               {{ !tabsToggles.courseDetails && formReactive.courseTitle.value ? formReactive.courseTitle.value : `Add
-                            Course
-                            Details`}}
+              Course Details`}}
             </h1>
             <down-icon :color="darkMode ? '#fff' : '#000'" class="cursor-pointer"
               @click="handleTabToggle('courseDetails')"
@@ -28,6 +27,21 @@
           <!-- <div class="flex flex-col gap-4"> -->
           <!-- <transition name="slide" appear :duration="500"> -->
           <section class="" v-show="tabsToggles.courseDetails" ref="dropdown">
+            <div class="flex flex-col md:flex-row gap-4 md:gap-6 px-4 md:px-6 mb-4">
+              <div class="flex flex-col w-full">
+                <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Title</label>
+                <v-input type="text" placeholder="Enter course name e.g Real Analysis" full styleType="modal-input"
+                  class="text-white rounded-lg" size="medium" :value="formReactive.courseTitle">
+                </v-input>
+              </div>
+              <div class="flex flex-col w-full">
+                <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Unit</label>
+                <v-input type="number" placeholder="Enter course course unit e.g 3" full styleType="modal-input" class=""
+                  size="medium" :value="formReactive.courseUnit" max="10" min="1">
+                </v-input>
+
+              </div>
+            </div>
             <div class="flex flex-col md:flex-row gap-4 md:gap-6 px-4 md:px-6">
               <div class="flex flex-col w-full">
                 <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Code</label>
@@ -42,55 +56,39 @@
                 </v-input>
               </div>
             </div>
-            <div class="flex flex-col md:flex-row gap-4 md:gap-6 px-4 md:px-6">
-              <div class="flex flex-col w-full">
-                <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Unit</label>
-                <v-input type="number" placeholder="Enter course course unit e.g 3" full styleType="modal-input" class=""
-                  size="medium" :value="formReactive.courseUnit" max="10" min="1">
-                </v-input>
-
-              </div>
-              <div class="flex flex-col w-full">
-                <label class="dark:text-white text-db-pry-dark text-md mb-1">Course Title</label>
-                <v-input type="text" placeholder="Enter course name e.g Real Analysis" full styleType="modal-input"
-                  class="text-white rounded-lg" size="medium" :value="formReactive.courseTitle">
-                </v-input>
-              </div>
-
+          </section>
+          <section class="relative">
+            <div class="bg-db-pry-light mt-6 mb-4 w-full h-[1px]"></div>
+            <div class="mb-8 flex justify-between items-center md:px-6 px-4">
+              <h1 class="text-lg md:text-xl text-left dark:text-white text-db-pry-dark font-semibold">
+                Add Course Timelines
+              </h1>
+              <add-time-table-icon :text-color="darkMode ? '#fff' : '#000'" class="cursor-pointer" :size="20"
+                @click="addNewTimeLine"></add-time-table-icon>
+            </div>
+            <div class="" v-if="formReactive.timeline.length">
+              <!-- <transition-group name="slide" appear> -->
+              <each-course-timeline v-for="(form, idx) in formReactive.timeline" :day-id="formReactive.timeline[idx].day"
+                :start-time="formReactive.timeline[idx].startTime" :end-time="formReactive.timeline[idx].endTime"
+                :location-type="formReactive.timeline[idx].locationType" :location="formReactive.timeline[idx].location"
+                :is-opened="formReactive.timeline[idx].isOpened" @update:day-id="handleDayIdChange($event, idx)"
+                @update:is-opened="handleToggleTimeline(idx)" @update:start-time="handleStartTimeChange($event, idx)"
+                @update:end-time="handleEndTimeChange($event, idx)"
+                @update:location-type="handleLocationTypeChange($event, idx)"
+                @update:location="handleLocationChange($event, idx)"></each-course-timeline>
+              <!-- </transition-group> -->
+            </div>
+            <div class="flex flex-col justify-center items-center min-h-[150px]" v-else>
+              <h3 class="text-md md:text-lg text-left dark:text-white text-db-pry-dark ">No Timeline Added
+              </h3>
             </div>
           </section>
         </div>
         <!-- </transition-group> -->
         <!-- </transition> -->
-        <div class="bg-db-pry-light mt-10 mb-4 w-full h-[0.5px]"></div>
-        <section class="relative">
-          <div class="mb-8 flex justify-between items-center md:px-6 px-4">
-            <h1 class="text-lg md:text-xl text-left dark:text-white text-db-pry-dark font-semibold">
-              Add Course Timelines
-            </h1>
-            <add-time-table-icon :text-color="darkMode ? '#fff' : '#000'" class="cursor-pointer" :size="20"
-              @click="addNewTimeLine"></add-time-table-icon>
-          </div>
-          <div class="" v-if="formReactive.timeline.length">
-            <!-- <transition-group name="slide" appear> -->
-            <each-course-timeline v-for="(form, idx) in formReactive.timeline" :day-id="formReactive.timeline[idx].day"
-              :start-time="formReactive.timeline[idx].startTime" :end-time="formReactive.timeline[idx].endTime"
-              :location-type="formReactive.timeline[idx].locationType" :location="formReactive.timeline[idx].location"
-              :is-opened="formReactive.timeline[idx].isOpened" @update:day-id="handleDayIdChange($event, idx)"
-              @update:is-opened="handleToggleTimeline(idx)" @update:start-time="handleStartTimeChange($event, idx)"
-              @update:end-time="handleEndTimeChange($event, idx)"
-              @update:location-type="handleLocationTypeChange($event, idx)"
-              @update:location="handleLocationChange($event, idx)"></each-course-timeline>
-            <!-- </transition-group> -->
-          </div>
-          <div class="flex flex-col justify-center items-center min-h-[150px]" v-else>
-            <h3 class="text-md md:text-lg text-left dark:text-white text-db-pry-dark ">No Timeline Added
-            </h3>
-          </div>
-        </section>
 
         <!-- </div> -->
-        <div class="flex gap-4 flex-col md:flex-row md:justify-between items-center mt-8 pb-10 px-4">
+        <div class="flex gap-4 flex-col md:flex-row-reverse md:justify-between items-center mt-8 pb-10 px-4">
           <v-button type="sec" class="w-full md:w-auto" :loading="loading">Add Course</v-button>
           <v-button type="border-sec" class="w-full md:w-auto" @click.prevent="handleBorrowedCourse">Borrow
             Course</v-button>
@@ -104,7 +102,7 @@
     <div class="flex flex-col">
       <span class="flex items-center gap-4 px-6">
         <left-arrow :text-color="darkMode ? 'white' : 'black'" class="cursor-pointer"
-          @click="displayBorrowedCourse = false" />
+          @click="handleLeftArrowBack" />
         <h1 class="text-xl md:text-2xl text-left dark:text-white text-db-pry-dark font-semibold">
           Borrow Course
         </h1>
@@ -124,7 +122,7 @@
         :dark-mode="darkMode"></course-borrow-suggestion-list>
       <div class="flex flex-col gap-4 md:flex-row items-center pb-10 justify-between w-full px-4">
         <v-button type="border-sec" class="w-full md:w-auto" v-if="currentScreen === 'added-borrow'"
-          @click="handleBackToSearch">Back</v-button>
+          @click="displayBorrowedCourse = false">Back</v-button>
         <v-button type="sec" class="w-full md:w-auto" v-if="currentScreen === 'added-borrow'" @click="addBorrowedCourse"
           :loading="addBorrowedCourseLoading">Add Borrowed
           Course</v-button>
@@ -165,7 +163,7 @@ let store = useUserStore();
 let timetableStore = useTimetableStore();
 let darkMode = computed(() => store.darkMode);
 let { getTimeTableData } = useTimetable()
-let {getGetCurrentDaybasedOnId} = useQuickFunction()
+let { getGetCurrentDaybasedOnId } = useQuickFunction()
 
 let { getUserScreenSize, computedDeviceType } = useUserScreenSize();
 let currentScreen = ref<"add-borrow" | "added-borrow">("add-borrow")
@@ -343,6 +341,13 @@ function handleCourseChosen(courseChosen: courseType) {
 function handleBackToSearch() {
   currentScreen.value = "add-borrow"
 }
+function handleLeftArrowBack(){
+  if(currentScreen.value === "added-borrow"){
+    currentScreen.value = "add-borrow"
+  }else{
+    displayBorrowedCourse.value = false
+  }
+}
 function handleDayIdChange(ev: number, idx: number): void {
   console.log({ ev, idx })
   formReactive.timeline[idx].day.value = ev
@@ -360,7 +365,7 @@ function handleLocationTypeChange(ev: "physical" | "online", idx: number): void 
   formReactive.timeline[idx].locationType.value = ev
 }
 function handleLocationChange(ev: string, idx: number): void {
-  console.log({ ev, idx , formReactive})
+  console.log({ ev, idx, formReactive })
   formReactive.timeline[idx].location.value = ev
 }
 function handleToggleTimeline(idx: number) {
@@ -454,7 +459,7 @@ function validateForm() {
     } else {
       timeline.endTime.error = null
     }
-    if (!moment(moment(timeline.startTime.value, "HH:mm").toDate()).isBefore(moment(moment(timeline.endTime.value,"HH:mm").toDate()))) {
+    if (!moment(moment(timeline.startTime.value, "HH:mm").toDate()).isBefore(moment(moment(timeline.endTime.value, "HH:mm").toDate()))) {
       useAlert().openAlert({ type: 'ERROR', msg: `${getGetCurrentDaybasedOnId(JSON.stringify(timeline.day.value)).full} has a time defect` })
       isValid = false
     }
@@ -512,26 +517,28 @@ async function addBorrowedCourse() {
 </script>
 
 <style>
-:root{
-  --db-pry-dark : #212939;
-  --db-pry-light : #3B3F4D;
+:root {
+  --db-pry-dark: #212939;
+  --db-pry-light: #3B3F4D;
 }
-.mx-datepicker{
+
+.mx-datepicker {
   @apply w-full
 }
+
 .start-time-input {
   @apply outline-none p-3 dark:bg-db-pry-dark dark:text-white text-db-pry-dark focus:border-sec border border-gray-400 rounded-md w-full inline-block
 }
-.mx-icon-calendar svg{
+
+.mx-icon-calendar svg {
   @apply dark:invert invert-0
 }
-.mx-datepicker-main.mx-datepicker-popup.start-time-input-picker{
+
+.mx-datepicker-main.mx-datepicker-popup.start-time-input-picker {
   @apply rounded-lg border border-sec
 }
-.mx-datepicker-main.mx-datepicker-popup.start-time-input-picker .mx-time{
- background-color: v-bind(darkMode? '#212939' : 'white');
+
+.mx-datepicker-main.mx-datepicker-popup.start-time-input-picker .mx-time {
+  background-color: v-bind(darkMode? '#212939' : 'white');
 }
-/* .mx-datepicker-main.mx-datepicker-popup.start-time-input-picker .mx-datepicker-content .mx-time .mx-scrollbar-wrap{
-  @apply border border-sec
-}  */
 </style>

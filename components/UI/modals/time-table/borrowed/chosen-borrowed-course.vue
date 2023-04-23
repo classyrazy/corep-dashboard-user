@@ -123,7 +123,7 @@ let fetchingSchedule = ref(false)
 async function handleGetScheduleDetails() {
     try {
         fetchingSchedule.value = true
-        let req = await new Graph().service("CourseSchedule/getScheduleOfCourse").params({ course_id: props.courseDetails.id }).get()
+        let req = await new Graph().service("Schedule/getScheduleOfCourse").params({ course_id: props.courseDetails.id }).get()
         scheduleDetails.value = req.getData()
     } catch (error: any) {
         useAlert().openAlert({ type: 'ERROR', msg: `${error.getMsg()}` })

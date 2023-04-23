@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div class="py-6 px-2 md:p-6 flex justify-between items-center dark:text-white">
+        <div class="py-6 px-4 md:p-6 flex justify-between items-center dark:text-white">
             <h1 class="text-lg md:text-xl text-left dark:text-white text-db-pry-dark font-semibold">
                 {{schedule.type == "course"? "Course Schedule": "Your Schedule" }}
             </h1>
-            <div class="close_btn dark:border-db-white-dark w-4 h-4 md:w-6 md:h-6 flex justify-center cursor-pointer items-center rounded-md">
+            <div class="close_btn dark:border-db-white-dark w-6 h-6 flex justify-center cursor-pointer items-center rounded-md">
                 <close-icon :text-color="darkMode ? 'white' : 'black'" @click="$emit('close')"></close-icon>
             </div>
         </div>

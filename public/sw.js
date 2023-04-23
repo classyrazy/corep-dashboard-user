@@ -28,12 +28,13 @@ self.addEventListener('fetch', evt => {
 self.addEventListener('push', (event) => {
   console.log('Foreground message received:', event.data.text())
   const payload = JSON.parse(event.data.text())
-  const notificationTitle = payload.notification.title;
+  const notificationTitle = payload.data.title;
   const notificationOptions = {
-    body: payload.notification.body,
+    body: payload.data.body,
   };
-  return self.registration.showNotification(notificationTitle,
-    notificationOptions);
+  // return self.registration.showNotification(notificationTitle,
+  //   notificationOptions);
+  e.waitUntil(self.registration.showNotification(notificationTitle, notificationOptions))
 })
 
 

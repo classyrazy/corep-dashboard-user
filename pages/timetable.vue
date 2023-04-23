@@ -22,7 +22,7 @@
           <v-button type="sec" class="bg-[#F9B700]" @click="handleCreateTImeTable">Create Timetable</v-button>
         </div>
         <div class=" w-full relative" v-if="events.length">
-          <ul class="flex gap-4 w-full mx-auto justify-around mb-6" v-if="computedDeviceType === 'mobile'">
+          <ul class="flex gap-4 w-full max-w-[1000px] mx-auto justify-around mb-6 overflow-x-auto" v-if="computedDeviceType === 'mobile'">
             <li class="text-lg p-4  w-10 h-10 flex justify-center items-center rounded-md"
               :class="it.id == currentDayViewId ? 'bg-sec' : 'dark:text-white'" v-for="it in timetableStore.days"
               :key="it.id" @click="handleDayViewChange(it.id)">{{ it.name.slice(0, 1) }}</li>
