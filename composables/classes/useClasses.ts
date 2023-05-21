@@ -116,7 +116,7 @@ export const useClasses = () => {
       let minutes = duration.minutes();
       console.log(duration, "duration", hours, minutes);
       if (minutes === 0) {
-        timeDiff.value = `${hours}hrs`;
+        timeDiff.value = `${hours}${hours >1 ? "hrs" : "hr"}`;
       } else {
         timeDiff.value = `${hours}hrs${minutes}min`;
       }

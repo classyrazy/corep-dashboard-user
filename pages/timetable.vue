@@ -55,7 +55,7 @@
                   <span>{{ event.end.formatTime() }}</span>
                   
                 </em> -->
-                <course-event :color="event.color" :end-time="event.end.formatTime()" @click="handleEventClick(event)"
+                <course-event :color="event.color" :end-time="event.end.formatTime()" @click="handleEventClick(event)" tabindex="0" @keydown.enter="handleEventClick(event)"
                   :start-time="event.start.formatTime()" :course-code="event.code" :course-name="event.title"
                   :editable="store.user?.role == 'course-rep' && !event.isBorrowed ? true : false"></course-event>
               </div>

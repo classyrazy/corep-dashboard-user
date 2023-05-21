@@ -1,7 +1,7 @@
 <template>
     <section class="w-full grad min-h-[200px] relative" :style="styleObject">
         <div
-            class="relative back-glass-bg-light w-10 h-10 p-2 rounded-sm flex justify-center items-center mx-8 top-4" @click="handleGoBack">
+            class="relative back-glass-bg-light w-10 h-10 p-2 rounded-sm flex justify-center items-center mx-8 top-4" @click="handleGoBack" tabindex="0" @keydown.enter="handleGoBack">
             <back-icon class="text-db-pry-dark dark:text-db-white-light w-6"></back-icon>
         </div>
         <div class="mt-10 ml-20">
@@ -9,7 +9,7 @@
             <p class="text-2xl font-semibold text-white mt-4 font-inter">{{ courseDetails.optional_code ?
                 `${courseDetails.code} /${courseDetails.optional_code}` : courseDetails.code }}</p>
         </div>
-        <p class="w-full flex justify-end pr-10 text-2xl dark;text-white">{{duration}}</p>
+        <p class="w-full flex justify-end pr-10 text-2xl dark:text-white">{{duration}}</p>
     </section>
 </template>
 

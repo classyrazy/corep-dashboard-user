@@ -2,24 +2,24 @@
     <aside class="dark:bg-db-pry-dark bg-db-white-light  max-w-[60%] rounded-md ml-20 mt-6">
         <h2 class="text-lg dark:text-white text-db-pry-dark border-b border-sec dark:border-db-white-darker py-4 px-2">Class
             Details</h2>
-        <div class="course-details-wrapper flex flex-col gap-4  text-white p-4">
+        <div class="course-details-wrapper flex flex-col gap-4 text-white p-4">
             <div class="course-row flex justify-between py-2">
                 <h3 class="dark:text-db-white-darker text-pry-dark">Time :</h3>
-                <p class="font-inter text-pry-dark">{{ computedTime?.day }} --> {{computedTime?.startTime}} - {{ computedTime?.endTime }}</p>
+                <p class="font-inter dark:text-db-white text-pry-dark">{{ computedTime?.day }} --> {{computedTime?.startTime}} - {{ computedTime?.endTime }}</p>
             </div>
             <div class="course-row flex justify-between py-2">
                 <h3 class="dark:text-db-white-darker text-pry-dark">Status :</h3>
-                <span class="font-inter dark:bg-db-pry-light bg-db-white-dark px-2 py-1 text-sm rounded-md capitalize text-pry-dark">{{details?.status}}</span>
+                <span class="font-inter dark:bg-db-pry-light bg-db-white-dark px-2 py-1 text-sm rounded-md capitalize text-pry-dark dark:text-db-white">{{details?.status}}</span>
             </div>
             <div class="course-row flex justify-between py-2">
                 <h3 class="dark:text-db-white-darker text-pry-dark">Location :</h3>
-                <p class="font-inter text-pry-dark">
-                    <span class="dark:bg-db-pry-light bg-db-white-dark px-2 py-1 text-sm rounded-md capitalize text-pry-dark">{{details?.location_type}}</span> --> {{details?.location}}
+                <p class="font-inter text-pry-dark dark:text-db-white">
+                    <span class="dark:bg-db-pry-light bg-db-white-dark px-2 py-1 text-sm rounded-md capitalize text-pry-dark dark:text-db-white">{{details?.location_type}}</span> --> {{details?.location}}
                 </p>
             </div>
             <div class="course-row flex justify-between py-2">
                 <h3 class="dark:text-db-white-darker text-pry-dark">Attendace :</h3>
-                <span class="font-inter dark:bg-db-pry-light bg-db-white-dark text-pry-dark px-2 py-1 text-sm rounded-md">Compulsory</span>
+                <span class="font-inter dark:bg-db-pry-light bg-db-white-dark text-pry-dark px-2 py-1 text-sm rounded-md dark:text-db-white">Compulsory</span>
             </div>
         </div>
     </aside>

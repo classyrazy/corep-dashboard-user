@@ -11,7 +11,7 @@
                 <p class="w-1/2 mx-auto mt-4">Tell people what's going on in the class or Ask question about the class if you have any</p>
             </div>
         </div>
-        <div class="dark:bg-db-pry bg-db-white-dark absolute bottom-0 space-x-8 grad">
+        <div class="dark:bg-db-pry bg-db-white-dark absolute bottom-0 space-x-8 ">
             <form class="grid grid-cols-12 items-center max-w-full mx-10 mb-6 dark:bg-db-pry-light bg-db-white gap-2 p-3 rounded-md" @submit.prevent="handleSubmitFlagMessage">
             <textarea v-model="formReactive.message.value"
                 class="col-span-11 dark:bg-db-pry-light bg-db-white py-4 px-2 outline-none w-full resize-none h-20 dark:text-white"
@@ -52,6 +52,6 @@ onMounted(() => {
 
 <style scoped>
 .grad {
-    background-image: linear-gradient(90deg,hsla(0,0%,100%,0) 13.94%,#eee 54.73%);
+    background-image: linear-gradient(90deg,hsla(0,0%,100%,0) 13.94%,# 54.73%);
 }
 </style>

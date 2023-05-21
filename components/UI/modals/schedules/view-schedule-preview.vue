@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="py-4 px-4">
-            <v-button type="sec" class="w-full" :icon="ExternalLinkIcon" @click="handleViewFullSchedule">
+            <v-button type="sec" class="w-full" :icon="ExternalLinkIcon" @click="handleViewFullSchedule" tabindex="0" @keydown.enter="handleViewFullSchedule">
             View Full Details
           </v-button>
         </div>
