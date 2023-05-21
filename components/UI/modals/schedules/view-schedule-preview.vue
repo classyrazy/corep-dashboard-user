@@ -36,20 +36,10 @@ import VButton from '../../../forms/v-button.vue'
 import CloseIcon from '../../../icons/close-icon.vue'
 import { useUserStore } from "../../../../store/user";
 import { useClasses } from '~~/composables/classes/useClasses';
+import { TimeTableItem } from '~~/composables/timetable/useTimetable';
 import moment from 'moment';
 interface Props {
-    schedule: {
-        title: string,
-        type: "course" | "user",
-        id: number,
-        start: string,
-        end: string,
-        color: string,
-        code?: string,
-        optionalCode?: string,
-        details?: string,
-        day: string,
-    };
+    schedule: TimeTableItem;
 }
 const props = defineProps<Props>();
 let store = useUserStore();
@@ -66,7 +56,7 @@ const computedCode = computed(() => {
 
 function handleViewFullSchedule() {
     emit('close');
-    routeToClassWithEventId(props.schedule.id);
+    routeToClassWithEventId(props.schedule.id,props.schedule.courseId);
 }
 
 

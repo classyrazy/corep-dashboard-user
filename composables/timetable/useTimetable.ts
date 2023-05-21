@@ -81,6 +81,7 @@ export const useTimetable = () => {
     return {
         transformTimeTableArray,
         getTimeTableData,
-        events
+        events,
+        formatTimeToCalendar
     }
 }

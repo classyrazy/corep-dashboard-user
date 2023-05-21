@@ -61,33 +61,33 @@ export const useQuickFunction = () => {
     }
     function regulateColor(colorString:string, factor: number) {
         // Split the color string into individual color values
-        var colors = colorString.split(',');
+        let colors = colorString.split(',');
 
         // Calculate the average brightness of all the colors
-        var brightness = 0;
-        for (var i = 0; i < colors.length; i++) {
-            var r = parseInt(colors[i].slice(1, 3), 16);
-            var g = parseInt(colors[i].slice(3, 5), 16);
-            var b = parseInt(colors[i].slice(5, 7), 16);
+        let brightness = 0;
+        for (let i = 0; i < colors.length; i++) {
+            let r = parseInt(colors[i].slice(1, 3), 16);
+            let g = parseInt(colors[i].slice(3, 5), 16);
+            let b = parseInt(colors[i].slice(5, 7), 16);
             brightness += (r + g + b) / 3;
         }
         brightness /= colors.length;
 
         // Calculate the new RGB values for each color based on the regulation factor
         var newColors = [];
-        for (var i = 0; i < colors.length; i++) {
-            var r = parseInt(colors[i].slice(1, 3), 16);
-            var g = parseInt(colors[i].slice(3, 5), 16);
-            var b = parseInt(colors[i].slice(5, 7), 16);
-            var newR = Math.round(r + (brightness - r) * factor);
-            var newG = Math.round(g + (brightness - g) * factor);
-            var newB = Math.round(b + (brightness - b) * factor);
-            var newHex = "#" + ((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1);
+        for (let i = 0; i < colors.length; i++) {
+            let r = parseInt(colors[i].slice(1, 3), 16);
+            let g = parseInt(colors[i].slice(3, 5), 16);
+            let b = parseInt(colors[i].slice(5, 7), 16);
+            let newR = Math.round(r + (brightness - r) * factor);
+            let newG = Math.round(g + (brightness - g) * factor);
+            let newB = Math.round(b + (brightness - b) * factor);
+            let newHex = "#" + ((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1);
             newColors.push(newHex);
         }
 
         // Join the new color values back into a comma-separated string
-        var newColorString = newColors;
+        let newColorString = newColors;
 
         return newColorString;
     }
