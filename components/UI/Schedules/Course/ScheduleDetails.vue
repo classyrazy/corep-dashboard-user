@@ -1,5 +1,5 @@
 <template>
-    <aside class="dark:bg-db-pry-dark bg-db-white-light  max-w-[60%] rounded-md ml-20 mt-6">
+    <aside class="dark:bg-db-pry-dark bg-db-white-light w-[90%] md:max-w-[60%] mx-auto px-2 rounded-md md:ml-20 mt-6">
         <h2 class="text-lg dark:text-white text-db-pry-dark border-b border-sec dark:border-db-white-darker py-4 px-2">Class
             Details</h2>
         <div class="course-details-wrapper flex flex-col gap-4 text-white p-4">

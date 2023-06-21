@@ -2,8 +2,8 @@
     <db-content v-slot="slotProps" type="no-style">
         <schedule-gradient-view class="first" :course-details="coursePreamble" :duration="timeDiff"></schedule-gradient-view>
 
-        <Tabs :tabs="tabItems" class="flex w-full border-b mt-8 border-db-white-darker"
-            tb-header-item-style="dark:text-white min-w-[200px] py-2 text-center ml-8 first:ml-20 text-lg cursor-pointer rounded-tl-md rounded-tr-md"
+        <Tabs :tabs="tabItems" class="flex w-full border-b mt-8 border-db-white-darker overflow-x-auto"
+            tb-header-item-style="dark:text-white min-w-[120px] md:min-w-[200px] py-2 text-center ml-4 md:ml-8 md:first:ml-20 text-lg cursor-pointer rounded-tl-md rounded-tr-md"
             @changed="handleTabChange" />
         <keep-alive>
             <component :is="tabs[tab]" class=""></component>
@@ -58,6 +58,9 @@ console.log({ coursePreamble })
 </script>
 
 <style>
+/* *{
+    @apply border border-red-400;
+} */
 .tab-active {
     @apply border-t border-r border-l border-sec;
 }

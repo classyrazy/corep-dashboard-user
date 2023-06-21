@@ -1,10 +1,10 @@
 <template>
     <section class="w-full grad min-h-[200px] relative" :style="styleObject">
         <div
-            class="relative back-glass-bg-light w-10 h-10 p-2 rounded-sm flex justify-center items-center mx-8 top-4" @click="handleGoBack" tabindex="0" @keydown.enter="handleGoBack">
+            class="relative back-glass-bg-light md:w-10 md:h-10 p-2 w-12 h-12 rounded-sm flex justify-center items-center mx-8 top-4" @click="handleGoBack" tabindex="0" @keydown.enter="handleGoBack">
             <back-icon class="text-db-pry-dark dark:text-db-white-light w-6"></back-icon>
         </div>
-        <div class="mt-10 ml-20">
+        <div class="mt-10 ml-10 md:ml-20">
             <h1 class="schedule-title text-4xl font-bold text-white font-inter">{{ courseDetails.title }}</h1>
             <p class="text-2xl font-semibold text-white mt-4 font-inter">{{ courseDetails.optional_code ?
                 `${courseDetails.code} /${courseDetails.optional_code}` : courseDetails.code }}</p>

@@ -1,6 +1,6 @@
 
 <template>
-	<div>
+	<div class="">
 		<span v-for="(tab, idx) in (tabs as string[])" :key="tab" :class="['tab-item', tbHeaderItemStyle, idx==selectedIndex ? 'tab-active' :''] " @click="onClick(idx)" tabindex="1" @keydown.enter="onClick(idx)">{{ tab }}</span>
 	</div>
 </template>

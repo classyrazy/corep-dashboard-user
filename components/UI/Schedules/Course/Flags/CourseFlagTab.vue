@@ -8,21 +8,22 @@
             <loader-icon class="center-element" :size="50" :color="darkMode ? '#fff' : '#212939'" v-else-if="!flags.length && loading"></loader-icon>
             <div class="w-full text-center dark:text-white mt-8" v-else>
                 <h4 class="text-xl font-semibold">No Flags yet</h4>
-                <p class="w-1/2 mx-auto mt-4">Tell people what's going on in the class or Ask question about the class if you have any</p>
+                <p class="w-2/3 md:w-1/2 mx-auto mt-4 ">Tell people what's going on in the class or Ask question about the class if you have any</p>
             </div>
         </div>
-        <div class="dark:bg-db-pry bg-db-white-dark absolute bottom-0 space-x-8 ">
-            <form class="grid grid-cols-12 items-center max-w-full mx-10 mb-6 dark:bg-db-pry-light bg-db-white gap-2 p-3 rounded-md" @submit.prevent="handleSubmitFlagMessage">
+        <div class="dark:bg-db-pry bg-db-white-dark absolute bottom-24 md:bottom-0 md:space-x-8 ">
+            <form class="grid grid-cols-12 items-center max-w-full mx-3 md:mx-10 mb-6 dark:bg-db-pry-light bg-db-white gap-2 p-3 rounded-md" @submit.prevent="handleSubmitFlagMessage">
             <textarea v-model="formReactive.message.value"
-                class="col-span-11 dark:bg-db-pry-light bg-db-white py-4 px-2 outline-none w-full resize-none h-20 dark:text-white"
+                class="md:col-span-11 col-span-10 dark:bg-db-pry-light bg-db-white py-4 px-2 outline-none w-full resize-none h-20 dark:text-white"
                 placeholder="What is happening in class or what questions do you have question about this course? Tell Us here"></textarea>
-            <v-button type="border-sec" class="col-span-1">Send</v-button>
+            <v-button type="sec" class="md:col-span-1 col-span-2"><send-icon/></v-button>
         </form>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import SendIcon from '../../../../icons/send-icon.vue'
 import LoaderIcon from '../../../../svgs/loader-icon.vue'
 import VButton from '../../../../forms/v-button.vue'
 import FlagMessage from './FlagMessage.vue'
