@@ -68,7 +68,7 @@
             </div>
             <div class="" v-if="formReactive.timeline.length">
               <!-- <transition-group name="slide" appear> -->
-              <each-course-timeline v-for="(form, idx) in formReactive.timeline" :day-id="formReactive.timeline[idx].day"
+              <each-course-timeline v-for="(form, idx) in formReactive.timeline" :day-id="formReactive.timeline[idx].day" :key="idx"
                 :start-time="formReactive.timeline[idx].startTime" :end-time="formReactive.timeline[idx].endTime"
                 :location-type="formReactive.timeline[idx].locationType" :location="formReactive.timeline[idx].location"
                 :is-opened="formReactive.timeline[idx].isOpened" @update:day-id="handleDayIdChange($event, idx)"

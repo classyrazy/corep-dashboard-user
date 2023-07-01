@@ -28,7 +28,7 @@
               :key="it.id" @click="handleDayViewChange(it.id)">{{ it.name.slice(0, 1) }}</li>
           </ul>
           <!-- :today-style="{ 'background-color': 'red' }" style="{ backgroundColor: event.backgroundColor, color: event.color }" :min-cell-width="200" :min-split-width="200" -->
-          <vue-cal :selected-date="currentDate" :time-from="6 * 60" :time-to="21 * 60" 
+          <vue-cal :selected-date="currentDate" :time-from="6 * 60" :time-to="21 * 60"
             :disable-views="disabledtimeTableViews" active-view="day" :events="events"
             class="dark:bg-db-pry-dark text-white py-6 pb8 pr-4 md:pr-0 rounded-lg" :time-cell-height="70"
             hide-view-selector hide-title-bar>
@@ -117,10 +117,18 @@ let {
 } = useUserScreenSize();
 let { events, getTimeTableData } = useTimetable()
 let disabledtimeTableViews = ref(["years", "year", "month", "day"]);
-getUserScreenSize();
+// getUserScreenSize();
 if (computedDeviceType.value == 'mobile') {
   disabledtimeTableViews.value = ["years", "year", "month", "week"]
 }
+watch(computedDeviceType, (val) => {
+  if (val == 'mobile') {
+    disabledtimeTableViews.value = ["years", "year", "month", "week"]
+  } else {
+    disabledtimeTableViews.value = ["years", "year", "month", "day"]
+  }
+  console.log({val}, disabledtimeTableViews.value)
+})
 onMounted(() => {
   let openCreate = useRoute().query?.a
   if (!!openCreate) {

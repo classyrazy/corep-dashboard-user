@@ -35,6 +35,9 @@ export default defineNuxtConfig({
     },
     storage: 'sessionStorage'
   },
+  alias: {
+    'class-validator': 'class-validator/cjs/index.js',
+  },
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.API_BASEURL,

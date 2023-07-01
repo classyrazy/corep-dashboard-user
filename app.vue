@@ -1,7 +1,7 @@
 <template>
     <div>
         <CoreAlert />
-        <NuxtLoadingIndicator />
+        <NuxtLoadingIndicator color="#F9B700" />
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>

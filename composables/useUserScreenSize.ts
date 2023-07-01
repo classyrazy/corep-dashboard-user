@@ -1,32 +1,43 @@
 export default function useUserScreenSize() {
-  let screenSize = ref<number>(0);
-  let deviceType = ref<null | "mobile"| "tablet"| "desktop">(null);
+  let screenSize = ref<number>(window.innerWidth);
+  let deviceType = ref<null | "mobile" | "tablet" | "desktop">(null);
   function getUserScreenSize() {
     if (process.client) {
       screenSize.value = window.innerWidth;
-      window.addEventListener("resize", () => {
-        screenSize.value = window.innerWidth;
-      });
     }
-    console.log(screenSize.value);
   }
   let computedScreenSize = computed<number>(() => {
     return screenSize.value;
   });
-  let computedDeviceType = computed(() => {
-    if (computedScreenSize.value <= 768) {
+  // let computedDeviceType = computed(() => {
+  //   if (screenSize.value <= 768) {
+  //     deviceType.value = "mobile";
+  //   } else if (
+  //     screenSize.value > 768 &&
+  //     screenSize.value <= 1024
+  //   ) {
+  //     deviceType.value = "tablet";
+  //   } else {
+  //     deviceType.value = "desktop";
+  //   }
+  //   return deviceType.value;
+  // });
+  watchEffect(() => {
+    if (screenSize.value <= 768) {
       deviceType.value = "mobile";
     } else if (
-      computedScreenSize.value > 768 &&
-      computedScreenSize.value <= 1024
+      screenSize.value > 768 &&
+      screenSize.value <= 1024
     ) {
       deviceType.value = "tablet";
     } else {
       deviceType.value = "desktop";
     }
-    return deviceType.value;
-  });
-
+  })
+  const computedDeviceType = computed(() => {
+    return deviceType.value
+  })
+  window.addEventListener("resize", getUserScreenSize);
   return {
     screenSize,
     getUserScreenSize,
