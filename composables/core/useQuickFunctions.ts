@@ -92,9 +92,24 @@ export const useQuickFunction = () => {
         return newColorString;
     }
 
+    type appTodoTypes = "add-course-and-level" | "add-time-table" | "subscribe-courses" | "completed"
+    function getAppTodoInNumber(level: appTodoTypes) {
+        switch (level) {
+            case "add-course-and-level":
+                return 1;
+            case "add-time-table":
+                return 2;
+            case "subscribe-courses":
+                return 3;
+            case "completed":
+                return 4;
+        }
+    }
+
     return {
         getGetCurrentDaybasedOnId,
         convertToRgba,
-        regulateColor
+        regulateColor,
+        getAppTodoInNumber,
     }
 }

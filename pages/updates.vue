@@ -12,7 +12,7 @@
           <announcement-icon class="text-white" :size="120" />
           <p class="dark:text-white text-db-pry-dark text-2xl md:text-4xl font-bold">No updates yet</p>
           <p class="dark:text-white text-db-pry-dark text-lg md:text-lg font-light text-center w-1/2">Updates allows you to share accurate and timely updates, assignments, tests, and course information with their coursemates</p>
-          <v-button type="sec" @click="createNewUpdate">Create Your First Update</v-button>
+          <v-button type="sec" @click="openCreateNewUpdateModal">Create Your First Update</v-button>
         </div>
       </div>
     </db-content>
@@ -33,7 +33,7 @@ definePageMeta({
   layout: "d-board",
   middleware: ["logged-in"],
 });
-const {createNewUpdate} = useUpdates()
+const {openCreateNewUpdateModal} = useUpdates()
 </script>
   
   

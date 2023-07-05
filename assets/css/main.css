@@ -55,3 +55,26 @@
 
   @apply dark:bg-white rounded-md h-full w-full md:mx-auto shadow-md;
 }
+
+#editor-con > .ql-toolbar.ql-snow {
+  border: 0 !important;
+}
+.ql-formats button:hover{
+  @apply !bg-sec
+}
+.ql-formats button.ql-active{
+  @apply !bg-sec
+}
+.ql-formats button{
+  @apply !rounded-sm
+}
+
+.ql-snow .ql-stroke{
+  @apply dark:stroke-db-white-darker stroke-slate-400
+}
+.ql-formats button:hover .ql-stroke{
+  @apply !stroke-black
+}
+.ql-formats button.ql-active .ql-stroke{
+  @apply !stroke-black
+}
