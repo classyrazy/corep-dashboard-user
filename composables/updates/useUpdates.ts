@@ -39,6 +39,10 @@ export const formReactive = reactive({
     chosenCourse:{
         value: 1,
         error: null
+    },
+    updateContent:{
+        value: null,
+        error: null
     }
 })
 export const useUpdates = () => {

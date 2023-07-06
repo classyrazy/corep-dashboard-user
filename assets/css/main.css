@@ -58,6 +58,10 @@
 
 #editor-con > .ql-toolbar.ql-snow {
   border: 0 !important;
+  @apply !sticky !top-0 !z-10 !bg-white dark:!bg-db-pry-dark dark:!text-white !text-black;
+}
+.ql-editor{
+  @apply dark:text-white text-black !pt-1 min-h-[150px]
 }
 .ql-formats button:hover{
   @apply !bg-sec
@@ -66,7 +70,7 @@
   @apply !bg-sec
 }
 .ql-formats button{
-  @apply !rounded-sm
+  @apply !rounded-sm !mx-2
 }
 
 .ql-snow .ql-stroke{
@@ -77,4 +81,22 @@
 }
 .ql-formats button.ql-active .ql-stroke{
   @apply !stroke-black
+}
+.ql-snow a{
+  @apply !text-blue-400
+}
+.ql-editor ol, .ql-editor ul{
+  @apply !pl-0
+}
+.ql-editor li:not(.ql-direction-rtl)::before{
+  @apply !text-sec
+}
+.ql-tooltip{
+  @apply !rounded-md dark:!bg-db-pry-light dark:text-white
+}
+.ql-editor.ql-blank::before{
+  @apply !text-gray-400
+}
+.ql-snow .ql-tooltip::before{
+  @apply dark:!text-white text-black
 }

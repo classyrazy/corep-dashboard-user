@@ -8,10 +8,10 @@
           </h1>
         </div>
 
-        <div class="flex flex-col items-center mt-40 space-y-2">
+        <div class="flex flex-col items-center mt-32 space-y-2">
           <announcement-icon class="text-white" :size="120" />
           <p class="dark:text-white text-db-pry-dark text-2xl md:text-4xl font-bold">No updates yet</p>
-          <p class="dark:text-white text-db-pry-dark text-lg md:text-lg font-light text-center w-1/2">Updates allows you to share accurate and timely updates, assignments, tests, and course information with their coursemates</p>
+          <p class="dark:text-white text-db-pry-dark text-base md:text-lg font-light text-center w-[80%] md:w-1/2">Updates allows you to share accurate and timely updates, assignments, tests, and course information with their coursemates</p>
           <v-button type="sec" @click="openCreateNewUpdateModal">Create Your First Update</v-button>
         </div>
       </div>

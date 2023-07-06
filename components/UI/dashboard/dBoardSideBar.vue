@@ -61,10 +61,9 @@ let store = useUserStore()
 
 </script>
 
-<style scoped lang="postcss">
+<style scoped>
 nav a.router-link-exact-active {
-  @apply bg-sec
-    
+  @apply bg-sec 
 }
 nav a {
   @apply dark:hover:bg-db-pry hover:bg-db-white-dark
