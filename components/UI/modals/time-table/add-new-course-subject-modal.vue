@@ -488,7 +488,7 @@ let { submitForm, loading, data } = useFormRequest(
     }
   },
   (error: { getData: () => any; getMsg: () => any }) => {
-    useAlert().openAlert({ type: 'ERROR', msg: error.getMsg() })
+    useAlert().openAlert({ type: 'ERROR', msg: error.getMsg() || `Oops, Something went wrong 🤭` })
     let errObj = error.getData();
   }
 );

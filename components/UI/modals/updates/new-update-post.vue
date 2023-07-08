@@ -26,8 +26,8 @@
           </option>
         </select>
         <select-update-course-list class="mt-4 mb-6" @course-chosen="handleCourseChosen"
-          v-if="formReactive.updateType.value !== 'general'" :course-suggestion="computedCourses" :loading="false"
-          :dark-mode="darkMode">
+          v-if="formReactive.updateType.value !== 'general'" :course-suggestion="computedCourses"
+          :loading="loadingCourses" :dark-mode="darkMode">
         </select-update-course-list>
         <ul
           class="dark:bg-db-pry flex flex-col mt-4 gap-4 py-4 relative rounded-lg min-h-[250px] max-h-[400px] overflow-y-auto list-disc"
@@ -47,14 +47,15 @@
         <div class="flex flex-col w-full">
           <label class="dark:text-white text-db-pry-dark text-base mb-2">Update Title</label>
           <v-input type="text" placeholder="E.g Course Form submission" full styleType="modal-input" autofocus
-            class="text-white rounded-lg" size="medium" :value="formReactive.courseTitle">
+            class="text-white rounded-lg" size="medium" :value="formReactive.updateTitle">
           </v-input>
         </div>
         <div class="flex flex-col w-full">
           <label class="dark:text-white text-db-pry-dark text-md mb-2">Update Desciption</label>
           <div id="editor-con" class="border border-gray-400 rounded-md max-h-[300px] overflow-y-auto">
-            <QuillEditor :toolbar="['bold', 'italic', 'underline', 'link', { 'list': 'ordered' }, { 'list': 'bullet' }]" placeholder="Start an announcement..."
-              theme="snow" :modules="modules" style="border: 0" v-model:content="formReactive.updateContent.value" content-type="html">
+            <QuillEditor :toolbar="['bold', 'italic', 'underline', 'link', { 'list': 'ordered' }, { 'list': 'bullet' }]"
+              placeholder="Start an announcement..." theme="snow" :modules="modules" style="border: 0"
+              v-model:content="formReactive.updateContent.value" content-type="html">
             </QuillEditor>
           </div>
         </div>
@@ -62,8 +63,8 @@
 
       <div class="flex justify-between py-6">
         <v-button type="sec" class="text-right" v-if="formStep === 2" @click="formStep = 1">Back</v-button>
-        <v-button type="pry" :loading="loadingSubmitData" class="ml-auto" @click="handleNextStepOrSubmit">{{ formStep == 1
-          ? "Next" : "Done" }}</v-button>
+        <v-button type="pry" v-if="formStep == 1" class="ml-auto" @click="handleNextStepOrSubmit">Next</v-button>
+        <v-button type="pry" v-else :loading="loadingSubmitCreateUpdate" class="ml-auto" @click="handleCreateNewUpdate">Done</v-button>
       </div>
     </form>
   </aside>
@@ -82,56 +83,21 @@ import {
   updateTypes,
   useUpdates,
   formReactive,
+  loadingCourses,
+  computedCourses
 } from "~~/composables/updates/useUpdates";
 import { useVueQuill } from "~~/composables/core/useVueQuill"
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import MagicUrl from "quill-magic-url";
+import { useAlert } from "~~/composables/core/useToast";
 
 
 let store = useUserStore();
 const darkMode = computed(() => store.darkMode);
-// if (!process.server) {
-//   const { QuillEditor } = await import("@vueup/vue-quill");
-//   const { vueApp } = useNuxtApp();
-//   vueApp.component("QuillEditor", QuillEditor);
-//   Quill.register('modules/magicUrl', MagicUrl)
-// }
-
-const { handleNextStepOrSubmit } = useUpdates();
+let emit = defineEmits(["close"]);
+const { handleNextStepOrSubmit, handleFetchCoursesForUpdates, handleCourseChosen, validateCreateUpdateForm} = useUpdates();
 const { handleTextChange } = useVueQuill()
 
-let defaultCourses = ref([
-  {
-    id: 1,
-    code: "CSC 101",
-    title: "Introduction to Computer Science",
-    description:
-      "This is a course that introduces students to the world of computer science",
-    color: "#000",
-    course_origin: {
-      department: {
-        faculty_id: 1,
-        id: 1,
-        name: "Computer Science",
-      },
-      parent_department: {
-        id: 1,
-        name: "Science and Technology",
-      },
-      faculty: {
-        id: 1,
-        name: "Science and Technology",
-      },
-    },
-    department_id: 1,
-    level_id: 1,
-    unit: 3,
-    optional_code: "CSC 101",
-    school_id: 1,
-    updatedAt: "2021-08-12T12:00:00.000Z",
-    createdAt: "2021-08-12T12:00:00.000Z",
-  },
-]);
 
 const vueQuillOptions = {
   debug: "info",
@@ -150,14 +116,38 @@ const modules = [
   }
 ]
 
-const computedCourses = computed(() => {
-  return defaultCourses.value.map((course) => {
-    return {
-      ...course,
-      active: false,
-    };
-  });
+watch(formReactive.updateType, (value) => {
+  if (value.value !== "general" && computedCourses.value.length === 0) {
+    handleFetchCoursesForUpdates();
+  }
+  else{
+  formReactive.chosenCourse.value = null;
+
+  }
 });
+let { submitForm, loading: loadingSubmitCreateUpdate, data } = useFormRequest(
+        "CourseUpdate/createCourseUpdate",
+        formReactive,
+        null,
+        (data: any) => {
+            if (data) {
+                emit("close");
+            }
+        },
+        (error: { getData: () => any; getMsg: () => any }) => {
+            useAlert().openAlert({ type: 'ERROR', msg: error.getMsg() || `Oops, Something went wrong 🤭` })
+            let errObj = error.getData();
+            Object.keys(errObj).forEach((key) => {
+                formReactive[key as keyof typeof formReactive].error = errObj[key][0]
+            }
+            );
+        }
+    );
+    async function handleCreateNewUpdate() {
+        if (!validateCreateUpdateForm()) return
+        submitForm()
+    }
+
 </script>
 
 <style scoped></style>
