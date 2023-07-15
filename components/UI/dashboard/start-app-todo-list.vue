@@ -4,7 +4,7 @@
       :description="startAppTodo.description" :icon="startAppTodo.icon" :link="startAppTodo.link"
       v-for="startAppTodo in computedTodoArray" :completed="startAppTodo.completed" :key="startAppTodo.id" @click="
         handleTodoClick(startAppTodo, startAppTodo.modal, startAppTodo.link)
-      " :loading="startAppTodo.id === 1 ? loadingModal : false">
+        " :loading="startAppTodo.id === 1 ? loadingModal : false">
     </start-app-todo>
   </div>
 </template>
@@ -117,18 +117,19 @@ let startAppTodoLevelNum = computed(() => {
 });
 console.log(startAppTodoLevelNum.value);
 let computedTodoArray = computed(() => {
+  let tempTodoArray = startTodoArray;
   if (store.user?.role !== "course-rep") {
-    return startTodoArray.filter(todo => todo.courseRepOnly === false)
+    tempTodoArray = tempTodoArray.filter(todo => todo.courseRepOnly === false)
   }
   if (startAppTodoLevel.value) {
     console.log("from computedTodoArray", startAppTodoLevel.value);
-    startTodoArray.forEach((todo) => {
+    tempTodoArray.forEach((todo) => {
       if (startAppTodoLevelNum.value && todo.id < startAppTodoLevelNum.value) {
         todo.completed = true;
       }
     });
-    return startTodoArray;
   }
+  return tempTodoArray;
 });
 let faculties = ref(null);
 async function getFaculties() {
