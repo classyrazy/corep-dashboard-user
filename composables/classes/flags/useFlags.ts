@@ -45,7 +45,7 @@ export const useFlags = () => {
     );
     submitData();
   }
-  async function getAllFlags(courseId: string) {
+  async function getAllFlags(courseId: number) {
     let req = new Graph()
       .service("CourseFlag/getAllFlagMessage")
       .fetch(
@@ -74,9 +74,13 @@ export const useFlags = () => {
         )
         .params({ courseId: getCurrentViewingParamId.value.courseId })
         .watch();
+      watcher.onOpened(() => {
+        getAllFlags(getCurrentViewingParamId.value.courseId)
+      });
       watcher.listen((res: any) => {
-        console.log(res.getData());
-        flags.value = res.getData();
+        let resData = res.getData();
+        flags.value.push(resData);
+
       });
     } catch (error) {
       useAlert().openAlert({
