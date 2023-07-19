@@ -3,7 +3,7 @@
         <schedule-gradient-view class="first" :course-details="coursePreamble" :duration="timeDiff"></schedule-gradient-view>
 
         <Tabs :tabs="tabItems" class="flex w-full border-b mt-8 border-db-white-darker overflow-x-auto"
-            tb-header-item-style="dark:text-white min-w-[120px] md:min-w-[200px] py-2 text-center ml-4 md:ml-8 md:first:ml-20 text-lg cursor-pointer rounded-tl-md rounded-tr-md"
+            tb-header-item-style="dark:text-white min-w-[120px] md:min-w-[200px] p-2 text-center ml-4 md:ml-8 md:first:ml-20 md:text-lg cursor-pointer rounded-tl-md rounded-tr-md"
             @changed="handleTabChange" />
         <keep-alive>
             <component :is="tabs[tab]" class=""></component>

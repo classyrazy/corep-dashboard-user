@@ -52,7 +52,8 @@ let base = 'rounded-xl'
 let sizes = {
     small: 'py-2 px-4 ',
     medium: 'py-3 px-6',
-    big: 'py-4 px-8 txt-s-4'
+    big: 'py-4 px-8 txt-s-4',
+    'x-small': 'py-1 px-2 txt-s-2'
 }
 let types = {
     white: {

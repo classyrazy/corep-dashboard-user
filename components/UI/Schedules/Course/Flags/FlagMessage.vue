@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="max-w-[700px]">
         <div class="dark:bg-db-pry-dark border border-gray-300 p-4 rounded-lg">
             <div class="upper-det flex justify-between">
                 <div class="img-name flex text-db-pry-dark dark:text-white gap-4 items-center">

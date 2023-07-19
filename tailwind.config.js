@@ -56,6 +56,10 @@ module.exports = {
         sec: "#F9B700",
         "yellow": "#F9B700"
       },
+      backgroundImage: {
+        'bottom-textarea-grad-dark': "linear-gradient(180deg, rgba(33, 41, 57, 0.63) 0%, rgba(33, 41, 57, 0.00) 100%)",
+        'bottom-textarea-grad-light': "url('/img/hero-pattern-light.svg')",
+      },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
       },
