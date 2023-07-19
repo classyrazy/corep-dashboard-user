@@ -13,6 +13,8 @@ export interface flagCommentType {
     avatar?: string;
   };
 }
+export const loadingFlags = ref(false);
+
 export const useFlags = () => {
   const flags = ref<flagCommentType[]>([]);
   const getCurrentViewingParamId = computed(() => {
@@ -25,42 +27,63 @@ export const useFlags = () => {
       courseId: courseIdParam
     };
   });
-  function createFlagMessage(message: string, courseId: number) {
-    let { submitData, loading, data } = useFormRequest(
-      "CourseFlag/createNewFlagMessage",
-      null,
-      {
-        message,
-        courseId,
-      },
-      (data: any) => {
+  let message = ref("");
+  let courseId = ref(0);
+  let { submitData, loading: loadingCreateNewMessage, data } = useFormRequest(
+    "CourseFlag/createNewFlagMessage",
+    null,
+    {
+      message: message,
+      courseId: courseId,
+    },
+    (data: any) => {
+      console.log(data);
+      if (data) {
         console.log(data);
-        if (data) {
-          console.log(data);
-        }
-      },
-      (error: any) => {
-        console.log(error);
       }
-    );
-    submitData();
+    },
+    (error: any) => {
+      useAlert().openAlert({
+        type: "ERROR",
+        msg: `${error.getMsg() || 'Sorry an error occured😣, \n Try again'} `,
+      });
+    }
+  );
+  function createFlagMessage(messageInner: string, courseIdInner: number) {
+    message.value = messageInner;
+    courseId.value = courseIdInner;
+    if (message.value.trim() && courseId.value) {
+      submitData();
+
+    }
   }
+
   async function getAllFlags(courseId: number) {
-    let req = new Graph()
-      .service("CourseFlag/getAllFlagMessage")
-      .fetch(
-        "*",
-        new Graph()
-          .service("User/getUserFromParent")
-          .select("id", "username")
-          .as("user")
-      )
-      .params({ courseId })
-      .get();
-    let reqData = (await req).getData();
-    flags.value = reqData;
+    loadingFlags.value = true;
+    try {
+      let req = new Graph()
+        .service("CourseFlag/getAllFlagMessage")
+        .fetch(
+          "*",
+          new Graph()
+            .service("User/getUserFromParent")
+            .select("id", "username")
+            .as("user")
+        )
+        .params({ courseId })
+        .get();
+      let reqData = (await req).getData();
+      loadingFlags.value = false;
+      flags.value = reqData;
+    } catch (error: any) {
+      useAlert().openAlert({
+        type: "ERROR",
+        msg: `${error.getMsg() || 'Sorry an error occured😣, \n Try refreshing the page'} `,
+      });
+    } finally {
+      loadingFlags.value = false;
+    }
   }
-  const loading = ref(false);
   function watchCourseFlags() {
     try {
       let watcher = new Graph()
@@ -88,7 +111,6 @@ export const useFlags = () => {
         msg: "Sorry an error occured😣, \n Try refreshing the page",
       });
     } finally {
-      loading.value = false;
     }
   }
   return {
@@ -97,6 +119,6 @@ export const useFlags = () => {
     getAllFlags,
     flags,
     watchCourseFlags,
-    loading,
+    loadingCreateNewMessage
   };
 };

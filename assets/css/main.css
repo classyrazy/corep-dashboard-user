@@ -100,6 +100,3 @@
 .ql-snow .ql-tooltip::before{
   @apply dark:!text-white text-black
 }
-.dark-grad{
-    background: linear-gradient(180deg,rgba(33,41,52,0),#3B3F4D 58.85%);
-}
